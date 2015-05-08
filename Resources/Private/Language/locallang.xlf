@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0" xmlns:t3="http://typo3.org/schemas/xliff">
+	<file source-language="en" datatype="plaintext" original="messages" product-name="news_importicsxml">
+		<header/>
+		<body>
+			<trans-unit id="task.name" xml:space="preserve">
+				<source>Import News</source>
+			</trans-unit>
+			<trans-unit id="testTask.description" xml:space="preserve">
+				<source>Import of ics and xml.</source>
+			</trans-unit>
+			<trans-unit id="error.noValidPath" xml:space="preserve">
+				<source>No valid path</source>
+			</trans-unit>
+			<trans-unit id="error.noFormat" xml:space="preserve">
+				<source>Please provide a valid format</source>
+			</trans-unit>
+			<trans-unit id="path" xml:space="preserve">
+				<source>Path (relative or remote)</source>
+			</trans-unit>
+			<trans-unit id="email" xml:space="preserve">
+				<source>Email for notifications</source>
+			</trans-unit>
+			<trans-unit id="format" xml:space="preserve">
+				<source>Format</source>
+			</trans-unit>
+			<trans-unit id="format.xml" xml:space="preserve">
+				<source>XML</source>
+			</trans-unit>
+			<trans-unit id="format.ics" xml:space="preserve">
+				<source>ICS</source>
+			</trans-unit>
+			<trans-unit id="mapping" xml:space="preserve">
+				<source>Mapping</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
