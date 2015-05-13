@@ -73,7 +73,9 @@ class ImportJob {
 	 * @param array $data
 	 * @return void
 	 */
-	protected function import(array $data) {
+	protected function import(array $data = NULL) {
+		$this->logger->info(sprintf('Starting import of %s records', count($data)));
+
 		/** @var \GeorgRinger\News\Domain\Service\NewsImportService $newsImportService */
 		$newsImportService = $this->objectManager->get('GeorgRinger\\News\\Domain\\Service\\NewsImportService');
 		$newsImportService->import($data);

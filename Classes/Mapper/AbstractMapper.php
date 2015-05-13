@@ -15,21 +15,15 @@ namespace Cyberhouse\NewsImporticsxml\Mapper;
  */
 
 
-use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-interface MapperInterface {
+class AbstractMapper {
 
-	/**
-	 * @param TaskConfiguration $configuration
-	 * @return array
-	 */
-	public function map(TaskConfiguration $configuration);
+	/** @var $logger \TYPO3\CMS\Core\Log\Logger */
+	protected $logger;
 
-	/**
-	 * Get the import source identifier
-	 *
-	 * @return string
-	 */
-	public function getImportSource();
+	public function __construct() {
+		$this->logger = GeneralUtility::makeInstance('TYPO3\CMS\Core\Log\LogManager')->getLogger(__CLASS__);
+	}
 
 }

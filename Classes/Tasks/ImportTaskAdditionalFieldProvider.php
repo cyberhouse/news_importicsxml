@@ -31,10 +31,11 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
 	public function getAdditionalFields(array &$taskInfo, $task, SchedulerModuleController $parentObject) {
 		$additionalFields = array();
 		$fields = array(
-			'email' => array('type' => 'input'),
-			'path' => array('type' => 'input'),
 			'format' => array('type' => 'select', 'options' => array('xml', 'ics')),
-			'mapping' => array('type' => 'textarea')
+			'path' => array('type' => 'input'),
+			'pid' => array('type' => 'input'),
+			'mapping' => array('type' => 'textarea'),
+			'email' => array('type' => 'input'),
 		);
 
 		foreach ($fields as $field => $configuration) {
@@ -100,6 +101,10 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
 			$parentObject->addMessage($this->getLanguageService()->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:error.noFormat'), FlashMessage::ERROR);
 			$result = FALSE;
 		}
+		if ((int)($submittedData['pid']) === 0) {
+			$parentObject->addMessage($this->getLanguageService()->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:error.pid'), FlashMessage::ERROR);
+			$result = FALSE;
+		}
 
 		return $result;
 	}
@@ -113,6 +118,7 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
 		$task->path = $submittedData['path'];
 		$task->mapping = $submittedData['mapping'];
 		$task->format = $submittedData['format'];
+		$task->pid = $submittedData['pid'];
 	}
 
 	/**

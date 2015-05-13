@@ -28,6 +28,9 @@ class TaskConfiguration {
 	/** @var string */
 	protected $format;
 
+	/** @var string */
+	protected $pid;
+
 	/**
 	 * @return string
 	 */
@@ -82,6 +85,20 @@ class TaskConfiguration {
 	 */
 	public function setFormat($format) {
 		$this->format = $format;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPid() {
+		return $this->pid;
+	}
+
+	/**
+	 * @param string $pid
+	 */
+	public function setPid($pid) {
+		$this->pid = $pid;
 	}
 
 }

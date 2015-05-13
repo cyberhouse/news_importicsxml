@@ -16,17 +16,62 @@ namespace Cyberhouse\NewsImporticsxml\Mapper;
 
 
 use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use PicoFeed\Reader\Reader;
 
-class XmlMapper implements MapperInterface {
+class XmlMapper extends AbstractMapper implements MapperInterface {
 
 	/**
 	 * @param TaskConfiguration $configuration
 	 * @return array
 	 */
 	public function map(TaskConfiguration $configuration) {
-		// TODO: Implement map() method.
+		$data = array();
 
-		return array();
+		$reader = new Reader();
+		$resource = $reader->discover($configuration->getPath());
+
+		$parser = $reader->getParser(
+			$resource->getUrl(),
+			$resource->getContent(),
+			$resource->getEncoding()
+		);
+
+		$items = $parser->execute()->getItems();
+
+		foreach ($items as $item) {
+			/** @var \PicoFeed\Parser\Item $item */
+			$data[] = array(
+				'import_source' => $this->getImportSource(),
+				'import_id' => $item->getId(),
+				'crdate' => $GLOBALS['EXEC_TIME'],
+				'cruser_id' => $GLOBALS['BE_USER']->user['uid'],
+				'pid' => $configuration->getPid(),
+				'title' => $item->getTitle(),
+				'bodytext' => $this->cleanup($item->getContent()),
+				'author' => $item->getAuthor(),
+				'datetime' => $item->getDate()->getTimestamp()
+			);
+		}
+
+		return $data;
+	}
+
+	/**
+	 * @param string $content
+	 * @return string
+	 */
+	protected function cleanup($content) {
+		$search = array('<br />', '<br>', '<br/>', LF . LF);
+		$replace = array(LF, LF, LF, LF);
+		$out = str_replace($search, $replace, $content);
+		return $out;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getImportSource() {
+		return 'newsimporticsxml_xml';
 	}
 
 }

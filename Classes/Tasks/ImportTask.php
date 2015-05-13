@@ -37,6 +37,9 @@ class ImportTask extends AbstractTask {
 	/** @var string */
 	public $format;
 
+	/** @var int */
+	public $pid;
+
 	public function execute() {
 		$success = TRUE;
 		/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
@@ -55,9 +58,10 @@ class ImportTask extends AbstractTask {
 	 * @return string Information to display
 	 */
 	public function getAdditionalInformation() {
-		return sprintf('%s: %s, %s: %s',
-			$this->getLanguageService()->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:path'), $this->path,
-			$this->getLanguageService()->sL('LLL:EXT:scheduler/mod1/locallang.xlf:label.email'), $this->email);
+		return sprintf('%s: %s, %s: %s, %s: %s',
+			$this->translate('format'), strtoupper($this->format),
+			$this->translate('path'), $this->path,
+			$this->translate('pid'), $this->pid);
 	}
 
 	/**
@@ -69,8 +73,17 @@ class ImportTask extends AbstractTask {
 		$configuration->setPath($this->path);
 		$configuration->setMapping($this->mapping);
 		$configuration->setFormat($this->format);
+		$configuration->setPid($this->pid);
 
 		return $configuration;
+	}
+
+	/**
+	 * @param string $key
+	 * @return string
+	 */
+	protected function translate($key) {
+		return $this->getLanguageService()->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:' . $key);
 	}
 
 	/**

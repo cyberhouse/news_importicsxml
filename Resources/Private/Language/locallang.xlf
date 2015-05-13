@@ -13,7 +13,10 @@
 				<source>No valid path</source>
 			</trans-unit>
 			<trans-unit id="error.noFormat" xml:space="preserve">
-				<source>Please provide a valid format</source>
+				<source>Please provide a valid format!</source>
+			</trans-unit>
+			<trans-unit id="error.pid" xml:space="preserve">
+				<source>Please provide a valid page id!</source>
 			</trans-unit>
 			<trans-unit id="path" xml:space="preserve">
 				<source>Path (relative or remote)</source>
@@ -32,6 +35,9 @@
 			</trans-unit>
 			<trans-unit id="mapping" xml:space="preserve">
 				<source>Mapping</source>
+			</trans-unit>
+			<trans-unit id="pid" xml:space="preserve">
+				<source>Page ID</source>
 			</trans-unit>
 		</body>
 	</file>
