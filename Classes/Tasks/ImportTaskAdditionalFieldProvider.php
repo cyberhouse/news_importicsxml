@@ -35,15 +35,13 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
 			'path' => array('type' => 'input'),
 			'pid' => array('type' => 'input'),
 			'mapping' => array('type' => 'textarea'),
-			'email' => array('type' => 'input'),
+			'email' => array('type' => 'input', 'default' => $GLOBALS['BE_USER']->user['email']),
 		);
 
 		foreach ($fields as $field => $configuration) {
-			// Initialize extra field value
 			if (empty($taskInfo[$field])) {
-				if ($parentObject->CMD === 'add') {
-					// In case of new task and if field is empty, set default email address
-					$taskInfo[$field] = $GLOBALS['BE_USER']->user['email'];
+				if ($parentObject->CMD === 'add' && isset($configuration['default'])) {
+					$taskInfo[$field] = $configuration['default'];
 				} elseif ($parentObject->CMD === 'edit') {
 					$taskInfo[$field] = $task->$field;
 				} else {
@@ -67,7 +65,7 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
 							'<option %s value="%s">%s</option>',
 							($taskInfo[$field] === $item) ? 'selected="selected"' : '',
 							$item,
-							$this->getLanguageService()->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:' . $field . '.' . $item, TRUE)
+							$this->translate($field . '.' . $item)
 						);
 					}
 					$html = '<select name="tx_scheduler[' . $field . ']" id="' . $field . '">' . implode(LF, $options) . '</select>';
@@ -75,7 +73,7 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
 			}
 			$additionalFields[$field] = array(
 				'code' => $html,
-				'label' => 'LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:' . $field
+				'label' => $this->translate($field)
 			);
 		}
 		return $additionalFields;
@@ -87,26 +85,7 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
 	 * @return bool
 	 */
 	public function validateAdditionalFields(array &$submittedData, SchedulerModuleController $parentObject) {
-		$result = TRUE;
-		$submittedData['email'] = trim($submittedData['email']);
-		if (!empty($submittedData['email']) && !GeneralUtility::validEmail($submittedData['email'])) {
-			$parentObject->addMessage($this->translate('msg.noEmail'), FlashMessage::ERROR);
-			$result = FALSE;
-		}
-		if (empty($submittedData['path'])) {
-			$parentObject->addMessage($this->translate('error.noValidPath'), FlashMessage::ERROR);
-			$result = FALSE;
-		}
-		if (empty($submittedData['format'])) {
-			$parentObject->addMessage($this->translate('error.noFormat'), FlashMessage::ERROR);
-			$result = FALSE;
-		}
-		if ((int)($submittedData['pid']) === 0) {
-			$parentObject->addMessage($this->translate('error.pid'), FlashMessage::ERROR);
-			$result = FALSE;
-		}
-
-		return $result;
+		return $this->validate($submittedData, $parentObject);
 	}
 
 	/**
@@ -129,16 +108,35 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
 	 * @return string
 	 */
 	protected function translate($key) {
-		return $this->getLanguageService()->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:error.' . $key);
+		/** @var \TYPO3\CMS\Lang\LanguageService $languageService */
+		$languageService = $GLOBALS['LANG'];
+		return $languageService->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:' . $key);
 	}
 
 	/**
-	 * Returns LanguageService
-	 *
-	 * @return \TYPO3\CMS\Lang\LanguageService
+	 * @param array $data
+	 * @param SchedulerModuleController $parentObject
+	 * @return array
 	 */
-	protected function getLanguageService() {
-		return $GLOBALS['LANG'];
+	protected function validate(array $data, SchedulerModuleController $parentObject) {
+		$result = TRUE;
+		if (!empty($data['email']) && !GeneralUtility::validEmail($data['email'])) {
+			$parentObject->addMessage($this->translate('msg.noEmail'), FlashMessage::ERROR);
+			$result = FALSE;
+		}
+		if (empty($data['path'])) {
+			$parentObject->addMessage($this->translate('error.noValidPath'), FlashMessage::ERROR);
+			$result = FALSE;
+		}
+		if (empty($data['format'])) {
+			$parentObject->addMessage($this->translate('error.noFormat'), FlashMessage::ERROR);
+			$result = FALSE;
+		}
+		if ((int)($data['pid']) === 0) {
+			$parentObject->addMessage($this->translate('error.pid'), FlashMessage::ERROR);
+			$result = FALSE;
+		}
+		return $result;
 	}
 
 }

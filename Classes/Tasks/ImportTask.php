@@ -83,16 +83,9 @@ class ImportTask extends AbstractTask {
 	 * @return string
 	 */
 	protected function translate($key) {
-		return $this->getLanguageService()->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:' . $key);
-	}
-
-	/**
-	 * Returns LanguageService
-	 *
-	 * @return \TYPO3\CMS\Lang\LanguageService
-	 */
-	protected function getLanguageService() {
-		return $GLOBALS['LANG'];
+		/** @var \TYPO3\CMS\Lang\LanguageService $languageService */
+		$languageService = $GLOBALS['LANG'];
+		return $languageService->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:' . $key);
 	}
 
 }

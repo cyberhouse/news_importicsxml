@@ -28,7 +28,7 @@ class ImportTaskTest extends UnitTestCase {
 			'email' => 'fo@bar.com',
 			'pid' => '123',
 			'path' => 'fileadmin/fo.xml',
-			'mapping' => 'map:mapp',
+			'mapping' => 'map:mapper',
 			'format' => 'xml'
 		);
 		$task = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Tasks\ImportTask', array('dummy'), array(), '', FALSE);
