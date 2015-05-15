@@ -90,19 +90,19 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
 		$result = TRUE;
 		$submittedData['email'] = trim($submittedData['email']);
 		if (!empty($submittedData['email']) && !GeneralUtility::validEmail($submittedData['email'])) {
-			$parentObject->addMessage($this->getLanguageService()->sL('LLL:EXT:scheduler/mod1/locallang.xlf:msg.noEmail'), FlashMessage::ERROR);
+			$parentObject->addMessage($this->translate('msg.noEmail'), FlashMessage::ERROR);
 			$result = FALSE;
 		}
 		if (empty($submittedData['path'])) {
-			$parentObject->addMessage($this->getLanguageService()->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:error.noValidPath'), FlashMessage::ERROR);
+			$parentObject->addMessage($this->translate('error.noValidPath'), FlashMessage::ERROR);
 			$result = FALSE;
 		}
 		if (empty($submittedData['format'])) {
-			$parentObject->addMessage($this->getLanguageService()->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:error.noFormat'), FlashMessage::ERROR);
+			$parentObject->addMessage($this->translate('error.noFormat'), FlashMessage::ERROR);
 			$result = FALSE;
 		}
 		if ((int)($submittedData['pid']) === 0) {
-			$parentObject->addMessage($this->getLanguageService()->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:error.pid'), FlashMessage::ERROR);
+			$parentObject->addMessage($this->translate('error.pid'), FlashMessage::ERROR);
 			$result = FALSE;
 		}
 
@@ -114,11 +114,22 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
 	 * @param AbstractTask $task
 	 */
 	public function saveAdditionalFields(array $submittedData, AbstractTask $task) {
+		/** @var \Cyberhouse\NewsImporticsxml\Tasks\ImportTask $task */
 		$task->email = $submittedData['email'];
 		$task->path = $submittedData['path'];
 		$task->mapping = $submittedData['mapping'];
 		$task->format = $submittedData['format'];
 		$task->pid = $submittedData['pid'];
+	}
+
+	/**
+	 * Helper method for translations
+	 *
+	 * @param string $key
+	 * @return string
+	 */
+	protected function translate($key) {
+		return $this->getLanguageService()->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:error.' . $key);
 	}
 
 	/**

@@ -14,7 +14,6 @@ namespace Cyberhouse\NewsImporticsxml\Mapper;
  * The TYPO3 project - inspiring people to share!
  */
 
-
 use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -57,7 +56,6 @@ class IcsMapper extends AbstractMapper implements MapperInterface {
 		if ($configuration->getPath() !== $path) {
 			unlink($path);
 		}
-
 
 		return $data;
 	}

@@ -20,16 +20,38 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class ImportJob {
 
 	/**
+	 * @var TaskConfiguration
+	 */
+	protected $configuration;
+
+	/**
+	 * @var \TYPO3\CMS\Core\Log\Logger
+	 */
+	protected $logger;
+
+	/**
 	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 * @inject
 	 */
 	protected $objectManager;
 
-	/** @var TaskConfiguration */
-	protected $configuration;
+	/**
+	 * @var \Cyberhouse\NewsImporticsxml\Mapper\XmlMapper
+	 * @inject
+	 */
+	protected $xmlMapper;
 
-	/** @var $logger \TYPO3\CMS\Core\Log\Logger */
-	protected $logger;
+	/**
+	 * @var \Cyberhouse\NewsImporticsxml\Mapper\IcsMapper
+	 * @inject
+	 */
+	protected $icsMapper;
+
+	/**
+	 * @var \GeorgRinger\News\Domain\Service\NewsImportService
+	 * @inject
+	 */
+	protected $newsImportService;
 
 	/**
 	 * @param TaskConfiguration $configuration
@@ -49,16 +71,12 @@ class ImportJob {
 			strtoupper($this->configuration->getFormat()),
 			$this->configuration->getEmail()));
 
-		switch ($this->configuration->getFormat()) {
+		switch (strtolower($this->configuration->getFormat())) {
 			case 'xml':
-				/** @var \Cyberhouse\NewsImporticsxml\Mapper\XmlMapper $xmlMapper */
-				$xmlMapper = $this->objectManager->get('Cyberhouse\\NewsImporticsxml\\Mapper\\XmlMapper');
-				$data = $xmlMapper->map($this->configuration);
+				$data = $this->xmlMapper->map($this->configuration);
 				break;
 			case 'ics':
-				/** @var \Cyberhouse\NewsImporticsxml\Mapper\IcsMapper $icsMapper */
-				$icsMapper = $this->objectManager->get('Cyberhouse\\NewsImporticsxml\\Mapper\\IcsMapper');
-				$data = $icsMapper->map($this->configuration);
+				$data = $this->icsMapper->map($this->configuration);
 				break;
 			default:
 				$message = sprintf('Format "%s" is not supported!', $this->configuration->getFormat());
@@ -76,8 +94,6 @@ class ImportJob {
 	protected function import(array $data = NULL) {
 		$this->logger->info(sprintf('Starting import of %s records', count($data)));
 
-		/** @var \GeorgRinger\News\Domain\Service\NewsImportService $newsImportService */
-		$newsImportService = $this->objectManager->get('GeorgRinger\\News\\Domain\\Service\\NewsImportService');
-		$newsImportService->import($data);
+		$this->newsImportService->import($data);
 	}
 }
