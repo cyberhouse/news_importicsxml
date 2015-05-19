@@ -34,22 +34,26 @@ class IcsMapper extends AbstractMapper implements MapperInterface {
 		$events = $iCalService->events();
 
 		foreach ($events as $event) {
-//			echo 'SUMMARY: ' . $event['SUMMARY'] . '<br/>';
-//			echo 'DTEND: ' . $event['DTEND'] . '<br/>';
-//			echo 'DTSTAMP: ' . $event['DTSTAMP'] . '<br/>';
-//			echo 'LOCATION: ' . $event['LOCATION'] . '<br/>';
-//			echo 'SEQUENCE: ' . $event['SEQUENCE'] . '<br/>';
-//			echo 'STATUS: ' . $event['STATUS'] . '<br/>';
-//			echo 'TRANSP: ' . $event['TRANSP'] . '<br/>';
 			$data[] = array(
 				'import_source' => $this->getImportSource(),
-				'import_id' => $event['UID'],
+				'import_id' => md5($event['UID']),
 				'crdate' => $GLOBALS['EXEC_TIME'],
 				'cruser_id' => $GLOBALS['BE_USER']->user['uid'],
 				'pid' => $configuration->getPid(),
 				'title' => $this->cleanup($event['SUMMARY']),
 				'bodytext' => $this->cleanup($event['DESCRIPTION']),
-				'datetime' => $iCalService->iCalDateToUnixTimestamp($event['DTSTART'])
+				'datetime' => $iCalService->iCalDateToUnixTimestamp($event['DTSTART']),
+				'_dynamicData' => array(
+					'location' => $event['LOCATION'],
+					'datetime_end' => $iCalService->iCalDateToUnixTimestamp($event['DTEND']),
+					'news_importicsxml' => array(
+						'LOCATION' => $event['LOCATION'],
+						'DTEND' => $event['DTEND'],
+						'SEQUENCE' => $event['SEQUENCE'],
+						'STATUS' => $event['STATUS'],
+						'TRANSP' => $event['TRANSP'],
+					)
+				),
 			);
 		}
 

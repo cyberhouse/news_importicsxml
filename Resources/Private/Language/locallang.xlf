@@ -3,6 +3,9 @@
 	<file source-language="en" datatype="plaintext" original="messages" product-name="news_importicsxml">
 		<header/>
 		<body>
+			<trans-unit id="tx_news_domain_model_news.news_import_data" xml:space="preserve">
+				<source>Metadata</source>
+			</trans-unit>
 			<trans-unit id="task.name" xml:space="preserve">
 				<source>Import News</source>
 			</trans-unit>
