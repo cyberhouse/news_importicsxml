@@ -52,6 +52,7 @@ class XmlMapper extends AbstractMapper implements MapperInterface {
 				'datetime' => $item->getDate()->getTimestamp(),
 				'_dynamicData' => array(
 					'news_importicsxml' => array(
+						'importDate' => date('d.m.Y h:i:s', $GLOBALS['EXEC_TIME']),
 						'url' => $item->getUrl(),
 						'guid' => $item->getTag('guid'),
 					)

@@ -37,7 +37,10 @@ class IcsMapper extends AbstractMapper implements MapperInterface {
 		$events = $iCalService->events();
 
 		foreach ($events as $event) {
-			$datefieldValue = $event['DTSTART'] ? $event['DTSTART'] : $event['DTSTAMP'];
+			$datetime = $iCalService->iCalDateToUnixTimestamp($event['DTSTART']);
+			if ($datetime === FALSE) {
+				$datetime = $iCalService->iCalDateToUnixTimestamp($event['DTSTAMP']);
+			}
 
 			$data[] = array(
 				'import_source' => $this->getImportSource(),
@@ -47,12 +50,15 @@ class IcsMapper extends AbstractMapper implements MapperInterface {
 				'pid' => $configuration->getPid(),
 				'title' => $this->cleanup($event['SUMMARY']),
 				'bodytext' => $this->cleanup($event['DESCRIPTION']),
-				'datetime' => $iCalService->iCalDateToUnixTimestamp($datefieldValue),
+				'datetime' => $datetime,
 				'_dynamicData' => array(
 					'location' => $event['LOCATION'],
 					'datetime_end' => $iCalService->iCalDateToUnixTimestamp($event['DTEND']),
 					'news_importicsxml' => array(
+						'importDate' => date('d.m.Y h:i:s', $GLOBALS['EXEC_TIME']),
 						'LOCATION' => $event['LOCATION'],
+						'DTSTART' => $event['DTSTART'],
+						'DTSTAMP' => $event['DTSTAMP'],
 						'DTEND' => $event['DTEND'],
 						'PRIORITY' => $event['PRIORITY'],
 						'SEQUENCE' => $event['SEQUENCE'],
