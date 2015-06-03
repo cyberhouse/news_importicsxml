@@ -27,7 +27,7 @@ After installing the extension, switch to the module **scheduler** and create a 
 - **Format**: Select *XML* or *ICS*
 - **Path**: Define a local path like ``fileadmin/data.xml`` or any URL like ``http://typo3.org/xml-feeds/rss.xml``
 - **Page ID**: Define a page id where the new records will be saved
-- **Mapping**: TBD
+- **Mapping**: TODO
 - **Email notification**: Add an email address which will get notified after each run
 
 About XML import

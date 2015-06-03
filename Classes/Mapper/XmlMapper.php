@@ -49,7 +49,13 @@ class XmlMapper extends AbstractMapper implements MapperInterface {
 				'title' => $item->getTitle(),
 				'bodytext' => $this->cleanup($item->getContent()),
 				'author' => $item->getAuthor(),
-				'datetime' => $item->getDate()->getTimestamp()
+				'datetime' => $item->getDate()->getTimestamp(),
+				'_dynamicData' => array(
+					'news_importicsxml' => array(
+						'url' => $item->getUrl(),
+						'guid' => $item->getTag('guid'),
+					)
+				),
 			);
 		}
 

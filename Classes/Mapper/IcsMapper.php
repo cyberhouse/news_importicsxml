@@ -21,6 +21,9 @@ use TYPO3\CMS\Core\Http\HttpRequest;
 
 class IcsMapper extends AbstractMapper implements MapperInterface {
 
+	/** @var bool */
+	protected $pathIsModified = FALSE;
+
 	/**
 	 * @param TaskConfiguration $configuration
 	 * @return array
@@ -34,6 +37,8 @@ class IcsMapper extends AbstractMapper implements MapperInterface {
 		$events = $iCalService->events();
 
 		foreach ($events as $event) {
+			$datefieldValue = $event['DTSTART'] ? $event['DTSTART'] : $event['DTSTAMP'];
+
 			$data[] = array(
 				'import_source' => $this->getImportSource(),
 				'import_id' => md5($event['UID']),
@@ -42,13 +47,14 @@ class IcsMapper extends AbstractMapper implements MapperInterface {
 				'pid' => $configuration->getPid(),
 				'title' => $this->cleanup($event['SUMMARY']),
 				'bodytext' => $this->cleanup($event['DESCRIPTION']),
-				'datetime' => $iCalService->iCalDateToUnixTimestamp($event['DTSTART']),
+				'datetime' => $iCalService->iCalDateToUnixTimestamp($datefieldValue),
 				'_dynamicData' => array(
 					'location' => $event['LOCATION'],
 					'datetime_end' => $iCalService->iCalDateToUnixTimestamp($event['DTEND']),
 					'news_importicsxml' => array(
 						'LOCATION' => $event['LOCATION'],
 						'DTEND' => $event['DTEND'],
+						'PRIORITY' => $event['PRIORITY'],
 						'SEQUENCE' => $event['SEQUENCE'],
 						'STATUS' => $event['STATUS'],
 						'TRANSP' => $event['TRANSP'],
@@ -57,7 +63,7 @@ class IcsMapper extends AbstractMapper implements MapperInterface {
 			);
 		}
 
-		if ($configuration->getPath() !== $path) {
+		if ($this->pathIsModified) {
 			unlink($path);
 		}
 
@@ -80,14 +86,21 @@ class IcsMapper extends AbstractMapper implements MapperInterface {
 	 * @return array
 	 */
 	protected function getFileContent(TaskConfiguration $configuration) {
-		$temporaryCopyPath = '';
 		$path = $configuration->getPath();
 		if (GeneralUtility::isFirstPartOfStr($path, 'http://') || GeneralUtility::isFirstPartOfStr($path, 'https://')) {
 			$content = $this->apiCall($path);
 
 			$temporaryCopyPath = PATH_site . 'typo3temp/' . md5($path . $GLOBALS['EXEC_TIME']);
 			GeneralUtility::writeFileToTypo3tempDir($temporaryCopyPath, $content);
+			$this->pathIsModified = TRUE;
+		} else {
+			$temporaryCopyPath = PATH_site . $configuration->getPath();
 		}
+
+		if (!is_file($temporaryCopyPath)) {
+			throw new \RuntimeException(sprintf('The path "%s" does not contain a valid file', $temporaryCopyPath));
+		}
+
 		return $temporaryCopyPath;
 	}
 
