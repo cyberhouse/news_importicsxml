@@ -20,7 +20,7 @@ Screenshots
 **Screenshot #2:** Metadata of an imported ICS item
 
 
-.. figure:: Resources/Public/Documentation/screenshot-task.png
+.. figure:: Resources/Public/Documentation/screenshot-import_ics.png
 		:alt: Metadata of an imported ICS item
 
 Installation
