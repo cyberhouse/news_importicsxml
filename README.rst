@@ -8,6 +8,11 @@ The import is done by the scheduler.
 - TYPO3 CMS 6.2 LTS
 - EXT:news 3.2.0+
 
+**Sponsors**
+
+- TUM (Technical University of Munich) http://tum.de/
+- Hochschule Darmstadt - University of Applied Sciences https://www.h-da.de/
+
 Screenshots
 ^^^^^^^^^^^
 
