@@ -11,7 +11,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'createDirs' => '',
 	'clearCacheOnLoad' => 1,
 	'author_company' => 'Cyberhouse GmbH',
-	'version' => '1.0.0',
+	'version' => '1.0.1',
 	'constraints' =>
 		array(
 			'depends' => array(
