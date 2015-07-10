@@ -14,6 +14,8 @@ namespace Cyberhouse\NewsImporticsxml\Domain\Model\Dto;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 class TaskConfiguration {
 
 	/** @var string */
@@ -99,6 +101,24 @@ class TaskConfiguration {
 	 */
 	public function setPid($pid) {
 		$this->pid = $pid;
+	}
+
+	/**
+	 * Split the configuration from multiline to array
+	 * 123:This is a category title
+	 * 345:And another one
+	 *
+	 * @return array
+	 */
+	public function getMappingConfigured() {
+		$out = array();
+		$lines = GeneralUtility::trimExplode(LF, $this->mapping, TRUE);
+		foreach ($lines as $line) {
+			$split = GeneralUtility::trimExplode(':', $line, TRUE, 2);
+			$out[$split[1]] = $split[0];
+		}
+
+		return $out;
 	}
 
 }

@@ -58,9 +58,9 @@ class ImportTask extends AbstractTask {
 	 * @return string Information to display
 	 */
 	public function getAdditionalInformation() {
-		return sprintf('%s: %s, %s: %s, %s: %s',
+		return sprintf('%s: %s,' . LF . ' %s: %s ' . LF . '%s: %s',
 			$this->translate('format'), strtoupper($this->format),
-			$this->translate('path'), $this->path,
+			$this->translate('path'), GeneralUtility::fixed_lgd_cs($this->path, 200),
 			$this->translate('pid'), $this->pid);
 	}
 

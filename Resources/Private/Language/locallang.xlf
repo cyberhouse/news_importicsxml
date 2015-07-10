@@ -9,7 +9,7 @@
 			<trans-unit id="task.name" xml:space="preserve">
 				<source>Import News</source>
 			</trans-unit>
-			<trans-unit id="testTask.description" xml:space="preserve">
+			<trans-unit id="task.description" xml:space="preserve">
 				<source>Import of ics and xml.</source>
 			</trans-unit>
 			<trans-unit id="error.noValidPath" xml:space="preserve">
@@ -37,7 +37,7 @@
 				<source>ICS</source>
 			</trans-unit>
 			<trans-unit id="mapping" xml:space="preserve">
-				<source>Mapping</source>
+				<source>Category Mapping</source>
 			</trans-unit>
 			<trans-unit id="pid" xml:space="preserve">
 				<source>Page ID</source>

@@ -56,6 +56,7 @@ class IcsMapper extends AbstractMapper implements MapperInterface {
 					'datetime_end' => $iCalService->iCalDateToUnixTimestamp($event['DTEND']),
 					'news_importicsxml' => array(
 						'importDate' => date('d.m.Y h:i:s', $GLOBALS['EXEC_TIME']),
+						'feed' => $configuration->getPath(),
 						'LOCATION' => $event['LOCATION'],
 						'DTSTART' => $event['DTSTART'],
 						'DTSTAMP' => $event['DTSTAMP'],

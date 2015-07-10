@@ -40,6 +40,7 @@ class XmlMapper extends AbstractMapper implements MapperInterface {
 
 		foreach ($items as $item) {
 			/** @var \PicoFeed\Parser\Item $item */
+
 			$data[] = array(
 				'import_source' => $this->getImportSource(),
 				'import_id' => $item->getId(),
@@ -50,9 +51,11 @@ class XmlMapper extends AbstractMapper implements MapperInterface {
 				'bodytext' => $this->cleanup($item->getContent()),
 				'author' => $item->getAuthor(),
 				'datetime' => $item->getDate()->getTimestamp(),
+				'categories' => $this->getCategories($item->xml, $configuration),
 				'_dynamicData' => array(
 					'news_importicsxml' => array(
 						'importDate' => date('d.m.Y h:i:s', $GLOBALS['EXEC_TIME']),
+						'feed' => $configuration->getPath(),
 						'url' => $item->getUrl(),
 						'guid' => $item->getTag('guid'),
 					)
@@ -61,6 +64,38 @@ class XmlMapper extends AbstractMapper implements MapperInterface {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * @param \SimpleXMLElement $xml
+	 * @param TaskConfiguration $configuration
+	 * @return array
+	 */
+	protected function getCategories(\SimpleXMLElement $xml, TaskConfiguration $configuration) {
+		$categoryIds = $categoryTitles = array();
+		$categories = $xml->category;
+		if ($categories) {
+			foreach ($categories as $cat) {
+				$categoryTitles[] = (string)$cat;
+			}
+		}
+		if (!empty($categoryTitles)) {
+			if (!$configuration->getMapping()) {
+				$this->logger->info('Categories found during import but no mapping assigned in the task!');
+			} else {
+				$categoryMapping = $configuration->getMappingConfigured();
+				foreach ($categoryTitles as $title) {
+					if (!isset($categoryMapping[$title])) {
+						$this->logger->warning(sprintf('Category mapping is missing for category "%s"', $title));
+					} else {
+						$categoryIds[] = $categoryMapping[$title];
+					}
+
+				}
+			}
+		}
+
+		return $categoryIds;
 	}
 
 	/**

@@ -6,8 +6,8 @@ if (!defined('TYPO3_MODE')) {
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Cyberhouse\\NewsImporticsxml\\Tasks\\ImportTask'] = array(
 	'extension' => $_EXTKEY,
 	'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xlf:task.name',
-	'description' => 'LLL:EXT:' . $_EXTKEY . '/locallang.xlf:task.description',
-	'additionalFields' => 'Cyberhouse\\NewsImporticsxml\\Tasks\\ImportTaskAdditionalFieldProvider'
+	'description' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xlf:task.description',
+	'additionalFields' => \Cyberhouse\NewsImporticsxml\Tasks\ImportTaskAdditionalFieldProvider::class
 );
 
 \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\SignalSlot\\Dispatcher')->connect(
