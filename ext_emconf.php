@@ -6,10 +6,10 @@ $EM_CONF[$_EXTKEY] = array(
 	'category' => 'backend',
 	'author' => 'Georg Ringer',
 	'author_email' => 'georg.ringer@cyberhouse.at',
-	'state' => 'stable',
+	'state' => 'beta',
 	'uploadfolder' => 0,
 	'createDirs' => '',
-	'clearCacheOnLoad' => 0,
+	'clearCacheOnLoad' => 1,
 	'author_company' => 'Cyberhouse GmbH',
 	'version' => '1.0.0',
 	'constraints' =>
@@ -20,7 +20,6 @@ $EM_CONF[$_EXTKEY] = array(
 			),
 			'conflicts' => array(),
 			'suggests' => array(),
-		),
-	'_md5_values_when_last_written' => '',
+		)
 );
 
