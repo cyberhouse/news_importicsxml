@@ -7,7 +7,6 @@ The import is done by the scheduler.
 
 - TYPO3 CMS 6.2 LTS
 - EXT:news 3.2.0+
-- Installation with composer
 
 Screenshots
 ^^^^^^^^^^^
@@ -19,16 +18,8 @@ Screenshots
 
 **Screenshot #2:** Metadata of an imported ICS item
 
-
 .. figure:: Resources/Public/Documentation/screenshot-import_ics.png
 		:alt: Metadata of an imported ICS item
-
-Installation
-^^^^^^^^^^^^
-Currently the extension can only be installed by using composer. Add **also** the following dependency to your ``composer.json``: ::
-
-	"typo3-ter/news-importicsxml": "*",
-    "fguillot/picofeed": "0.1.*",
 
 Configuration
 -------------
