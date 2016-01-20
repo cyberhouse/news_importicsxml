@@ -3,8 +3,10 @@
   "type": "typo3-cms-extension",
   "description": "Versatile news import from ICS + XML",
   "homepage": "http://typo3.org",
-  "license": ["GPL-2.0+"],
-  "version": "1.0.1",
+  "license": [
+    "GPL-2.0+"
+  ],
+  "version": "1.0.2",
   "require": {
     "typo3/cms-core": ">=6.2.0,<8.0"
   },

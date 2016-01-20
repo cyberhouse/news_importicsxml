@@ -17,27 +17,30 @@ namespace Cyberhouse\NewsImporticsxml\Tests\Unit\Tasks;
 use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 
-class ImportTaskTest extends UnitTestCase {
+class ImportTaskTest extends UnitTestCase
+{
 
-	/**
-	 * @test
-	 */
-	public function configurationIsCreatedByProperties() {
-		$expectedConfiguration = new TaskConfiguration();
-		$props = array(
-			'email' => 'fo@bar.com',
-			'pid' => '123',
-			'path' => 'fileadmin/fo.xml',
-			'mapping' => 'map:mapper',
-			'format' => 'xml'
-		);
-		$task = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Tasks\ImportTask', array('dummy'), array(), '', FALSE);
-		foreach ($props as $key => $value) {
-			$setter = 'set' . ucfirst($key);
-			$expectedConfiguration->$setter($value);
-			$task->_set($key, $value);
-		}
+    /**
+     * @test
+     */
+    public function configurationIsCreatedByProperties()
+    {
+        $expectedConfiguration = new TaskConfiguration();
+        $props = array(
+            'email' => 'fo@bar.com',
+            'pid' => '123',
+            'path' => 'fileadmin/fo.xml',
+            'mapping' => 'map:mapper',
+            'format' => 'xml'
+        );
+        $task = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Tasks\ImportTask', array('dummy'), array(), '',
+            false);
+        foreach ($props as $key => $value) {
+            $setter = 'set' . ucfirst($key);
+            $expectedConfiguration->$setter($value);
+            $task->_set($key, $value);
+        }
 
-		$this->assertEquals($expectedConfiguration, $task->_call('createConfiguration'));
-	}
+        $this->assertEquals($expectedConfiguration, $task->_call('createConfiguration'));
+    }
 }

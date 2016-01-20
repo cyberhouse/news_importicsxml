@@ -16,19 +16,20 @@ namespace Cyberhouse\NewsImporticsxml\Mapper;
 
 use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 
-interface MapperInterface {
+interface MapperInterface
+{
 
-	/**
-	 * @param TaskConfiguration $configuration
-	 * @return array
-	 */
-	public function map(TaskConfiguration $configuration);
+    /**
+     * @param TaskConfiguration $configuration
+     * @return array
+     */
+    public function map(TaskConfiguration $configuration);
 
-	/**
-	 * Get the import source identifier
-	 *
-	 * @return string
-	 */
-	public function getImportSource();
+    /**
+     * Get the import source identifier
+     *
+     * @return string
+     */
+    public function getImportSource();
 
 }

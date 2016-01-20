@@ -23,69 +23,74 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
  *
  * @author Markus Friedrich <markus.friedrich@dkd.de>
  */
-class ImportTask extends AbstractTask {
+class ImportTask extends AbstractTask
+{
 
-	/** @var string */
-	public $email;
+    /** @var string */
+    public $email;
 
-	/** @var string */
-	public $path;
+    /** @var string */
+    public $path;
 
-	/** @var string */
-	public $mapping;
+    /** @var string */
+    public $mapping;
 
-	/** @var string */
-	public $format;
+    /** @var string */
+    public $format;
 
-	/** @var int */
-	public $pid;
+    /** @var int */
+    public $pid;
 
-	public function execute() {
-		$success = TRUE;
-		/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
-		$objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+    public function execute()
+    {
+        $success = true;
+        /** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
+        $objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
-		/** @var \Cyberhouse\NewsImporticsxml\Jobs\ImportJob $importJob */
-		$importJob = $objectManager->get('Cyberhouse\\NewsImporticsxml\\Jobs\\ImportJob', $this->createConfiguration());
-		$importJob->run();
+        /** @var \Cyberhouse\NewsImporticsxml\Jobs\ImportJob $importJob */
+        $importJob = $objectManager->get('Cyberhouse\\NewsImporticsxml\\Jobs\\ImportJob', $this->createConfiguration());
+        $importJob->run();
 
-		return $success;
-	}
+        return $success;
+    }
 
-	/**
-	 * This method returns additional information about the specific task
-	 *
-	 * @return string Information to display
-	 */
-	public function getAdditionalInformation() {
-		return sprintf('%s: %s,' . LF . ' %s: %s ' . LF . '%s: %s',
-			$this->translate('format'), strtoupper($this->format),
-			$this->translate('path'), GeneralUtility::fixed_lgd_cs($this->path, 200),
-			$this->translate('pid'), $this->pid);
-	}
+    /**
+     * This method returns additional information about the specific task
+     *
+     * @return string Information to display
+     */
+    public function getAdditionalInformation()
+    {
+        return sprintf('%s: %s,' . LF . ' %s: %s ' . LF . '%s: %s',
+            $this->translate('format'), strtoupper($this->format),
+            $this->translate('path'), GeneralUtility::fixed_lgd_cs($this->path, 200),
+            $this->translate('pid'), $this->pid);
+    }
 
-	/**
-	 * @return TaskConfiguration
-	 */
-	protected function createConfiguration() {
-		$configuration = new TaskConfiguration();
-		$configuration->setEmail($this->email);
-		$configuration->setPath($this->path);
-		$configuration->setMapping($this->mapping);
-		$configuration->setFormat($this->format);
-		$configuration->setPid($this->pid);
+    /**
+     * @return TaskConfiguration
+     */
+    protected function createConfiguration()
+    {
+        $configuration = new TaskConfiguration();
+        $configuration->setEmail($this->email);
+        $configuration->setPath($this->path);
+        $configuration->setMapping($this->mapping);
+        $configuration->setFormat($this->format);
+        $configuration->setPid($this->pid);
 
-		return $configuration;
-	}
+        return $configuration;
+    }
 
-	/**
-	 * @param string $key
-	 * @return string
-	 */
-	protected function translate($key) {
-		/** @var \TYPO3\CMS\Lang\LanguageService $languageService */
-		$languageService = $GLOBALS['LANG'];
-		return $languageService->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:' . $key);
-	}
+    /**
+     * @param string $key
+     * @return string
+     */
+    protected function translate($key)
+    {
+        /** @var \TYPO3\CMS\Lang\LanguageService $languageService */
+        $languageService = $GLOBALS['LANG'];
+        return $languageService->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:' . $key);
+    }
 
 }

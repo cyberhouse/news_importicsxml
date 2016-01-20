@@ -17,75 +17,80 @@ namespace Cyberhouse\NewsImporticsxml\Tests\Unit\Tasks;
 use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 
-class ImportTaskAdditionalFieldProviderTest extends UnitTestCase {
+class ImportTaskAdditionalFieldProviderTest extends UnitTestCase
+{
 
-	/**
-	 * @test
-	 * @dataProvider propertyValidationDataProvider
-	 */
-	public function propertyValidation($data, $result) {
-		$mockedSchedulerController = $this->getAccessibleMock('TYPO3\\CMS\\Scheduler\\Controller\\SchedulerModuleController', array('dummy'), array(), '', FALSE);
+    /**
+     * @test
+     * @dataProvider propertyValidationDataProvider
+     */
+    public function propertyValidation($data, $result)
+    {
+        $mockedSchedulerController = $this->getAccessibleMock('TYPO3\\CMS\\Scheduler\\Controller\\SchedulerModuleController',
+            array('dummy'), array(), '', false);
 
-		$fieldProvider = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Tasks\\ImportTaskAdditionalFieldProvider', array('translate'), array(), '', FALSE);
-		$this->assertEquals($result, $fieldProvider->_call('validate', $data, $mockedSchedulerController));
-	}
+        $fieldProvider = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Tasks\\ImportTaskAdditionalFieldProvider',
+            array('translate'), array(), '', false);
+        $this->assertEquals($result, $fieldProvider->_call('validate', $data, $mockedSchedulerController));
+    }
 
-	public function propertyValidationDataProvider() {
-		return array(
-			'works' => array(
-				array(
-					'email' => 'fo@bar.com',
-					'path' => 'fileadmin/xy.xml',
-					'pid' => '123',
-					'format' => 'xml',
-				),
-				TRUE
-			),
-			'wrongEmail' => array(
-				array(
-					'email' => 'lorem ipsum',
-					'path' => 'fileadmin/xy.xml',
-					'pid' => '123',
-					'format' => 'xml',
-				),
-				FALSE
-			),
-			'optionalEmailIsOk' => array(
-				array(
-					'email' => '',
-					'path' => 'fileadmin/xy.xml',
-					'pid' => '123',
-					'format' => 'xml',
-				),
-				TRUE
-			),
-			'wrongPid' => array(
-				array(
-					'email' => '',
-					'path' => 'fileadmin/xy.xml',
-					'pid' => 'text',
-					'format' => 'xml',
-				),
-				FALSE
-			),
-			'noFormat' => array(
-				array(
-					'email' => '',
-					'path' => 'fileadmin/xy.xml',
-					'pid' => 'text',
-					'format' => '',
-				),
-				FALSE
-			),
-			'noPath' => array(
-				array(
-					'email' => '',
-					'path' => '',
-					'pid' => 'text',
-					'format' => 'xml',
-				),
-				FALSE
-			)
-		);
-	}
+    public function propertyValidationDataProvider()
+    {
+        return array(
+            'works' => array(
+                array(
+                    'email' => 'fo@bar.com',
+                    'path' => 'fileadmin/xy.xml',
+                    'pid' => '123',
+                    'format' => 'xml',
+                ),
+                true
+            ),
+            'wrongEmail' => array(
+                array(
+                    'email' => 'lorem ipsum',
+                    'path' => 'fileadmin/xy.xml',
+                    'pid' => '123',
+                    'format' => 'xml',
+                ),
+                false
+            ),
+            'optionalEmailIsOk' => array(
+                array(
+                    'email' => '',
+                    'path' => 'fileadmin/xy.xml',
+                    'pid' => '123',
+                    'format' => 'xml',
+                ),
+                true
+            ),
+            'wrongPid' => array(
+                array(
+                    'email' => '',
+                    'path' => 'fileadmin/xy.xml',
+                    'pid' => 'text',
+                    'format' => 'xml',
+                ),
+                false
+            ),
+            'noFormat' => array(
+                array(
+                    'email' => '',
+                    'path' => 'fileadmin/xy.xml',
+                    'pid' => 'text',
+                    'format' => '',
+                ),
+                false
+            ),
+            'noPath' => array(
+                array(
+                    'email' => '',
+                    'path' => '',
+                    'pid' => 'text',
+                    'format' => 'xml',
+                ),
+                false
+            )
+        );
+    }
 }

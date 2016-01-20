@@ -17,83 +17,87 @@ namespace Cyberhouse\NewsImporticsxml\Jobs;
 use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class ImportJob {
+class ImportJob
+{
 
-	/**
-	 * @var TaskConfiguration
-	 */
-	protected $configuration;
+    /**
+     * @var TaskConfiguration
+     */
+    protected $configuration;
 
-	/**
-	 * @var \TYPO3\CMS\Core\Log\Logger
-	 */
-	protected $logger;
+    /**
+     * @var \TYPO3\CMS\Core\Log\Logger
+     */
+    protected $logger;
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-	 * @inject
-	 */
-	protected $objectManager;
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     * @inject
+     */
+    protected $objectManager;
 
-	/**
-	 * @var \Cyberhouse\NewsImporticsxml\Mapper\XmlMapper
-	 * @inject
-	 */
-	protected $xmlMapper;
+    /**
+     * @var \Cyberhouse\NewsImporticsxml\Mapper\XmlMapper
+     * @inject
+     */
+    protected $xmlMapper;
 
-	/**
-	 * @var \Cyberhouse\NewsImporticsxml\Mapper\IcsMapper
-	 * @inject
-	 */
-	protected $icsMapper;
+    /**
+     * @var \Cyberhouse\NewsImporticsxml\Mapper\IcsMapper
+     * @inject
+     */
+    protected $icsMapper;
 
-	/**
-	 * @var \GeorgRinger\News\Domain\Service\NewsImportService
-	 * @inject
-	 */
-	protected $newsImportService;
+    /**
+     * @var \GeorgRinger\News\Domain\Service\NewsImportService
+     * @inject
+     */
+    protected $newsImportService;
 
-	/**
-	 * @param TaskConfiguration $configuration
-	 */
-	public function __construct(TaskConfiguration $configuration) {
-		$this->logger = GeneralUtility::makeInstance('TYPO3\CMS\Core\Log\LogManager')->getLogger(__CLASS__);
-		$this->configuration = $configuration;
-	}
+    /**
+     * @param TaskConfiguration $configuration
+     */
+    public function __construct(TaskConfiguration $configuration)
+    {
+        $this->logger = GeneralUtility::makeInstance('TYPO3\CMS\Core\Log\LogManager')->getLogger(__CLASS__);
+        $this->configuration = $configuration;
+    }
 
-	/**
-	 * @return void
-	 */
-	public function run() {
-		$this->logger->info(sprintf(
-			'Starting import of "%s" (%s), reporting to "%s"',
-			$this->configuration->getPath(),
-			strtoupper($this->configuration->getFormat()),
-			$this->configuration->getEmail()));
+    /**
+     * @return void
+     */
+    public function run()
+    {
+        $this->logger->info(sprintf(
+            'Starting import of "%s" (%s), reporting to "%s"',
+            $this->configuration->getPath(),
+            strtoupper($this->configuration->getFormat()),
+            $this->configuration->getEmail()));
 
-		switch (strtolower($this->configuration->getFormat())) {
-			case 'xml':
-				$data = $this->xmlMapper->map($this->configuration);
-				break;
-			case 'ics':
-				$data = $this->icsMapper->map($this->configuration);
-				break;
-			default:
-				$message = sprintf('Format "%s" is not supported!', $this->configuration->getFormat());
-				$this->logger->critical($message);
-				throw new \UnexpectedValueException($message);
-		}
+        switch (strtolower($this->configuration->getFormat())) {
+            case 'xml':
+                $data = $this->xmlMapper->map($this->configuration);
+                break;
+            case 'ics':
+                $data = $this->icsMapper->map($this->configuration);
+                break;
+            default:
+                $message = sprintf('Format "%s" is not supported!', $this->configuration->getFormat());
+                $this->logger->critical($message);
+                throw new \UnexpectedValueException($message);
+        }
 
-		$this->import($data);
-	}
+        $this->import($data);
+    }
 
-	/**
-	 * @param array $data
-	 * @return void
-	 */
-	protected function import(array $data = NULL) {
-		$this->logger->info(sprintf('Starting import of %s records', count($data)));
+    /**
+     * @param array $data
+     * @return void
+     */
+    protected function import(array $data = null)
+    {
+        $this->logger->info(sprintf('Starting import of %s records', count($data)));
 
-		$this->newsImportService->import($data);
-	}
+        $this->newsImportService->import($data);
+    }
 }

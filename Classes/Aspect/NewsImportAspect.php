@@ -15,22 +15,24 @@ namespace Cyberhouse\NewsImporticsxml\Aspect;
  * The TYPO3 project - inspiring people to share!
  */
 
-class NewsImportAspect {
+class NewsImportAspect
+{
 
-	/**
-	 * @param array $importData
-	 * @param \GeorgRinger\News\Domain\Model\News $news
-	 */
-	public function postHydrate(array $importData, $news) {
-		/** @var \Cyberhouse\NewsImporticsxml\Domain\Model\News $news */
-		if (is_array($importData['_dynamicData']) && is_array($importData['_dynamicData']['news_importicsxml'])) {
-			$metaData = array();
-			foreach ($importData['_dynamicData']['news_importicsxml'] as $key => $value) {
-				$metaData[] = $key . ': ' . $value;
-			}
-			$news->setNewsImportData(implode(LF, $metaData));
-		}
+    /**
+     * @param array $importData
+     * @param \GeorgRinger\News\Domain\Model\News $news
+     */
+    public function postHydrate(array $importData, $news)
+    {
+        /** @var \Cyberhouse\NewsImporticsxml\Domain\Model\News $news */
+        if (is_array($importData['_dynamicData']) && is_array($importData['_dynamicData']['news_importicsxml'])) {
+            $metaData = array();
+            foreach ($importData['_dynamicData']['news_importicsxml'] as $key => $value) {
+                $metaData[] = $key . ': ' . $value;
+            }
+            $news->setNewsImportData(implode(LF, $metaData));
+        }
 
-	}
+    }
 
 }

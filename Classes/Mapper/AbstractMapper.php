@@ -16,13 +16,15 @@ namespace Cyberhouse\NewsImporticsxml\Mapper;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class AbstractMapper {
+class AbstractMapper
+{
 
-	/** @var $logger \TYPO3\CMS\Core\Log\Logger */
-	protected $logger;
+    /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+    protected $logger;
 
-	public function __construct() {
-		$this->logger = GeneralUtility::makeInstance('TYPO3\CMS\Core\Log\LogManager')->getLogger(__CLASS__);
-	}
+    public function __construct()
+    {
+        $this->logger = GeneralUtility::makeInstance('TYPO3\CMS\Core\Log\LogManager')->getLogger(__CLASS__);
+    }
 
 }
