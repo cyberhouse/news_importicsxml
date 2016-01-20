@@ -14,7 +14,6 @@ namespace Cyberhouse\NewsImporticsxml\Mapper;
  * The TYPO3 project - inspiring people to share!
  */
 
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class AbstractMapper {

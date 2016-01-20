@@ -33,7 +33,6 @@ class TaskConfigurationTest extends UnitTestCase {
 		$this->instance = new TaskConfiguration();
 	}
 
-
 	/**
 	 * @test
 	 */
@@ -79,6 +78,4 @@ class TaskConfigurationTest extends UnitTestCase {
 		$this->assertEquals($value, $this->instance->getMapping());
 	}
 }
-
-
 

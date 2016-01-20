@@ -15,9 +15,9 @@ namespace Cyberhouse\NewsImporticsxml\Mapper;
  */
 
 use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use TYPO3\CMS\Core\Http\HttpRequest;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Http\HttpRequest;
 
 class IcsMapper extends AbstractMapper implements MapperInterface {
 
@@ -110,7 +110,6 @@ class IcsMapper extends AbstractMapper implements MapperInterface {
 
 		return $temporaryCopyPath;
 	}
-
 
 	protected function apiCall($url) {
 		$config = array(

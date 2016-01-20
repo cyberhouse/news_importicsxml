@@ -14,7 +14,6 @@ namespace Cyberhouse\NewsImporticsxml\Mapper;
  * The TYPO3 project - inspiring people to share!
  */
 
-
 use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use PicoFeed\Reader\Reader;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -42,7 +41,6 @@ class XmlMapper extends AbstractMapper implements MapperInterface {
 
 		foreach ($items as $item) {
 			/** @var \PicoFeed\Parser\Item $item */
-
 			$data[] = array(
 				'import_source' => $this->getImportSource(),
 				'import_id' => $item->getId(),
