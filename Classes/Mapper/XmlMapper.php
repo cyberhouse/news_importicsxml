@@ -29,6 +29,19 @@ class XmlMapper extends AbstractMapper implements MapperInterface
     public function map(TaskConfiguration $configuration)
     {
         $data = array();
+        
+        $config = new Config();
+
+        if ($GLOBALS['TYPO3_CONF_VARS']['HTTP']['proxy_host'] && $GLOBALS['TYPO3_CONF_VARS']['HTTP']['proxy_port']) {
+            $config->setProxyHostname($GLOBALS['TYPO3_CONF_VARS']['HTTP']['proxy_host']);
+            $config->setProxyPort($GLOBALS['TYPO3_CONF_VARS']['HTTP']['proxy_port']);
+            if ($GLOBALS['TYPO3_CONF_VARS']['HTTP']['proxy_user']) {
+                $config->setProxyUsername($GLOBALS['TYPO3_CONF_VARS']['HTTP']['proxy_user']);
+            }
+            if ($GLOBALS['TYPO3_CONF_VARS']['HTTP']['proxy_password']) {
+                $config->setProxyPassword($GLOBALS['TYPO3_CONF_VARS']['HTTP']['proxy_password']);
+            }
+        }
 
         $reader = new Reader();
         $resource = $reader->discover($configuration->getPath());
