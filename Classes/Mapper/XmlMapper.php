@@ -15,6 +15,7 @@ namespace Cyberhouse\NewsImporticsxml\Mapper;
  */
 
 use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use PicoFeed\Config\Config;
 use PicoFeed\Reader\Reader;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -43,7 +44,7 @@ class XmlMapper extends AbstractMapper implements MapperInterface
             }
         }
 
-        $reader = new Reader();
+        $reader = new Reader($config);
         $resource = $reader->discover($configuration->getPath());
 
         $parser = $reader->getParser(
