@@ -15,6 +15,7 @@ namespace Cyberhouse\NewsImporticsxml\Mapper;
  */
 
 use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use PicoFeed\Config\Config;
 use PicoFeed\Reader\Reader;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
