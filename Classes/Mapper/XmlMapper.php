@@ -43,7 +43,7 @@ class XmlMapper extends AbstractMapper implements MapperInterface
             }
         }
 
-        $reader = new Reader();
+        $reader = new Reader($config);
         $resource = $reader->discover($configuration->getPath());
 
         $parser = $reader->getParser(
