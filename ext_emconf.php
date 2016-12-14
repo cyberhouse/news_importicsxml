@@ -7,16 +7,16 @@ $EM_CONF[$_EXTKEY] = array(
     'author' => 'Georg Ringer',
     'author_email' => 'georg.ringer@cyberhouse.at',
     'state' => 'beta',
-    'uploadfolder' => false,
+    'uploadfolder' => true,
     'createDirs' => '',
     'clearCacheOnLoad' => true,
-    'author_company' => 'Cyberhouse GmbH',
-    'version' => '1.0.2',
+    'author_company' => 'ringer.it',
+    'version' => '1.1.0',
     'constraints' =>
         array(
             'depends' => array(
-                'typo3' => '6.2.0-7.6.99',
-                'news' => '3.2.0-4.1.99'
+                'typo3' => '6.2.0-8.5.99',
+                'news' => '3.2.0-5.5.99'
             ),
             'conflicts' => array(),
             'suggests' => array(),

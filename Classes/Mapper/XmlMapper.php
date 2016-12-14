@@ -15,6 +15,7 @@ namespace Cyberhouse\NewsImporticsxml\Mapper;
  */
 
 use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use PicoFeed\Parser\Item;
 use PicoFeed\Reader\Reader;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -42,7 +43,7 @@ class XmlMapper extends AbstractMapper implements MapperInterface
         $items = $parser->execute()->getItems();
 
         foreach ($items as $item) {
-            /** @var \PicoFeed\Parser\Item $item */
+            /** @var Item $item */
             $data[] = array(
                 'import_source' => $this->getImportSource(),
                 'import_id' => $item->getId(),
@@ -52,6 +53,7 @@ class XmlMapper extends AbstractMapper implements MapperInterface
                 'title' => $item->getTitle(),
                 'bodytext' => $this->cleanup($item->getContent()),
                 'author' => $item->getAuthor(),
+                'media' => $this->getRemoteFile($item->getEnclosureUrl(), $item->getEnclosureType(), $item->getId()),
                 'datetime' => $item->getDate()->getTimestamp(),
                 'categories' => $this->getCategories($item->xml, $configuration),
                 '_dynamicData' => array(
@@ -67,6 +69,36 @@ class XmlMapper extends AbstractMapper implements MapperInterface
         }
 
         return $data;
+    }
+
+    protected function getRemoteFile($url, $mimeType, $id)
+    {
+        $extensions = [
+            'image/jpeg' => 'jpg',
+            'image/gif' => 'gif',
+            'image/png' => 'png',
+            'application/pdf' => 'pdf',
+        ];
+
+        $media = [];
+        if (!empty($url) && isset($extensions[$mimeType])) {
+
+            $file = 'uploads/tx_newsimporticsxml/' . $id . '_' . md5($url) . '.' . $extensions[$mimeType];
+            if (is_file(PATH_site . $file)) {
+                $status = true;
+            } else {
+                $content = GeneralUtility::getUrl($url);
+                $status = GeneralUtility::writeFile(PATH_site . $file, $content);
+            }
+
+            if ($status) {
+                $media[] = [
+                    'image' => $file,
+                    'showinpreview' => true
+                ];
+            }
+        }
+        return $media;
     }
 
     /**

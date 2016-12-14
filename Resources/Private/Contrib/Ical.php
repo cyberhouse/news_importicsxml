@@ -580,5 +580,3 @@ class ICal {
 		return $extendedEvents;
 	}
 }
-
-?>
