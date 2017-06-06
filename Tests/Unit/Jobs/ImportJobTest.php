@@ -26,7 +26,7 @@ class ImportJobTest extends UnitTestCase
 
     public function setUp()
     {
-        $logger = $this->getAccessibleMock(Logger::class, array('dummy'), array(), '', false);
+        $logger = $this->getAccessibleMock(Logger::class, ['dummy'], [], '', false);
 
         $this->mockedJob = $this->getAccessibleMock(ImportJob::class, ['import'],
             [], '', false);
@@ -42,7 +42,7 @@ class ImportJobTest extends UnitTestCase
         $configuration->setFormat('xml');
         $this->mockedJob->_set('configuration', $configuration);
 
-        $xmlMapper = $this->getAccessibleMock('GeorgRinger\NewsImporticsxml\Mapper\XmlMapper', array('map'));
+        $xmlMapper = $this->getAccessibleMock('GeorgRinger\NewsImporticsxml\Mapper\XmlMapper', ['map']);
         $this->mockedJob->_set('xmlMapper', $xmlMapper);
 
         $xmlMapper->expects($this->once())->method('map');
@@ -59,7 +59,7 @@ class ImportJobTest extends UnitTestCase
         $configuration->setFormat('ics');
         $this->mockedJob->_set('configuration', $configuration);
 
-        $icsMapper = $this->getAccessibleMock('GeorgRinger\NewsImporticsxml\Mapper\IcsMapper', array('map'));
+        $icsMapper = $this->getAccessibleMock('GeorgRinger\NewsImporticsxml\Mapper\IcsMapper', ['map']);
         $this->mockedJob->_set('icsMapper', $icsMapper);
 
         $icsMapper->expects($this->once())->method('map');
