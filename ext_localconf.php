@@ -3,17 +3,17 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Cyberhouse\\NewsImporticsxml\\Tasks\\ImportTask'] = [
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\GeorgRinger\NewsImporticsxml\Tasks\ImportTask::class] = array(
     'extension' => $_EXTKEY,
     'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xlf:task.name',
     'description' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xlf:task.description',
-    'additionalFields' => \Cyberhouse\NewsImporticsxml\Tasks\ImportTaskAdditionalFieldProvider::class
-];
+    'additionalFields' => \GeorgRinger\NewsImporticsxml\Tasks\ImportTaskAdditionalFieldProvider::class
+);
 
-\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\SignalSlot\\Dispatcher')->connect(
-    'GeorgRinger\\News\\Domain\\Service\\NewsImportService',
+\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class)->connect(
+     \GeorgRinger\News\Domain\Service\NewsImportService::class,
     'postHydrate',
-    'Cyberhouse\\NewsImporticsxml\\Aspect\\NewsImportAspect',
+    \GeorgRinger\NewsImporticsxml\Aspect\NewsImportAspect::class,
     'postHydrate'
 );
 $GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['classes']['Domain/Model/News'][] = $_EXTKEY;

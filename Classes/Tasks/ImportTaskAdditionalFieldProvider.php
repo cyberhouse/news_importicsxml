@@ -1,23 +1,18 @@
 <?php
-namespace Cyberhouse\NewsImporticsxml\Tasks;
+namespace GeorgRinger\NewsImporticsxml\Tasks;
 
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Lang\LanguageService;
 use TYPO3\CMS\Scheduler\AdditionalFieldProviderInterface;
 use TYPO3\CMS\Scheduler\Controller\SchedulerModuleController;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+/**
+ * This file is part of the "news_importicsxml" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
  */
 
 class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterface
@@ -55,10 +50,10 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
             $html = '';
             switch ($configuration['type']) {
                 case 'input':
-                    $html = '<input type="text" name="tx_scheduler[' . $field . ']" id="' . $field . '" value="' . $value . '" size="30" />';
+                    $html = '<input class="form-control" type="text" name="tx_scheduler[' . $field . ']" id="' . $field . '" value="' . $value . '" size="30" />';
                     break;
                 case 'textarea':
-                    $html = '<textarea name="tx_scheduler[' . $field . ']" id="' . $field . '">' . $value . '</textarea>';
+                    $html = '<textarea class="form-control" name="tx_scheduler[' . $field . ']" id="' . $field . '">' . $value . '</textarea>';
                     break;
                 case 'select':
                     $options = [];
@@ -70,7 +65,7 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
                             $this->translate($field . '.' . $item)
                         );
                     }
-                    $html = '<select name="tx_scheduler[' . $field . ']" id="' . $field . '">' . implode(LF,
+                    $html = '<select class="form-control" name="tx_scheduler[' . $field . ']" id="' . $field . '">' . implode(LF,
                             $options) . '</select>';
                     break;
             }
@@ -98,7 +93,7 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
      */
     public function saveAdditionalFields(array $submittedData, AbstractTask $task)
     {
-        /** @var \Cyberhouse\NewsImporticsxml\Tasks\ImportTask $task */
+        /** @var ImportTask $task */
         $task->email = $submittedData['email'];
         $task->path = $submittedData['path'];
         $task->mapping = $submittedData['mapping'];
@@ -114,7 +109,7 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
      */
     protected function translate($key)
     {
-        /** @var \TYPO3\CMS\Lang\LanguageService $languageService */
+        /** @var LanguageService $languageService */
         $languageService = $GLOBALS['LANG'];
         return $languageService->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:' . $key);
     }
@@ -122,7 +117,7 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
     /**
      * @param array $data
      * @param SchedulerModuleController $parentObject
-     * @return array
+     * @return bool
      */
     protected function validate(array $data, SchedulerModuleController $parentObject)
     {

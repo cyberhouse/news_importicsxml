@@ -1,5 +1,5 @@
 <?php
-namespace Cyberhouse\NewsImporticsxml\Tests\Unit\Tasks;
+namespace GeorgRinger\NewsImporticsxml\Tests\Unit\Tasks;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,7 +14,10 @@ namespace Cyberhouse\NewsImporticsxml\Tests\Unit\Tasks;
  * The TYPO3 project - inspiring people to share!
  */
 
+use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use GeorgRinger\NewsImporticsxml\Tasks\ImportTaskAdditionalFieldProvider;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
+use TYPO3\CMS\Scheduler\Controller\SchedulerModuleController;
 
 class ImportTaskAdditionalFieldProviderTest extends UnitTestCase
 {
@@ -25,10 +28,10 @@ class ImportTaskAdditionalFieldProviderTest extends UnitTestCase
      */
     public function propertyValidation($data, $result)
     {
-        $mockedSchedulerController = $this->getAccessibleMock('TYPO3\\CMS\\Scheduler\\Controller\\SchedulerModuleController',
+        $mockedSchedulerController = $this->getAccessibleMock(SchedulerModuleController::class,
             ['dummy'], [], '', false);
 
-        $fieldProvider = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Tasks\\ImportTaskAdditionalFieldProvider',
+        $fieldProvider = $this->getAccessibleMock(ImportTaskAdditionalFieldProvider::class,
             ['translate'], [], '', false);
         $this->assertEquals($result, $fieldProvider->_call('validate', $data, $mockedSchedulerController));
     }

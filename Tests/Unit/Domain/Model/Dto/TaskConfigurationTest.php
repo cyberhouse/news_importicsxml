@@ -1,5 +1,5 @@
 <?php
-namespace Cyberhouse\NewsImporticsxml\Tests\Unit\Domain\Model\Dto;
+namespace GeorgRinger\NewsImporticsxml\Tests\Unit\Domain\Model\Dto;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,7 +14,7 @@ namespace Cyberhouse\NewsImporticsxml\Tests\Unit\Domain\Model\Dto;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 class TaskConfigurationTest extends UnitTestCase

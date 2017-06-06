@@ -1,6 +1,13 @@
 <?php
 
-namespace Cyberhouse\NewsImporticsxml\Domain\Model;
+namespace GeorgRinger\NewsImporticsxml\Domain\Model;
+
+/**
+ * This file is part of the "news_importicsxml" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 class News extends \GeorgRinger\News\Domain\Model\News
 {

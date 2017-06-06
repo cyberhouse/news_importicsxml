@@ -1,5 +1,6 @@
 <?php
-namespace Cyberhouse\NewsImporticsxml\Tests\Unit\Jobs;
+
+namespace GeorgRinger\NewsImporticsxml\Tests\Unit\Jobs;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,7 +15,9 @@ namespace Cyberhouse\NewsImporticsxml\Tests\Unit\Jobs;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use GeorgRinger\NewsImporticsxml\Jobs\ImportJob;
+use TYPO3\CMS\Core\Log\Logger;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 class ImportJobTest extends UnitTestCase
@@ -23,9 +26,9 @@ class ImportJobTest extends UnitTestCase
 
     public function setUp()
     {
-        $logger = $this->getAccessibleMock('TYPO3\\CMS\\Core\\Log\\Logger', ['dummy'], [], '', false);
+        $logger = $this->getAccessibleMock(Logger::class, array('dummy'), array(), '', false);
 
-        $this->mockedJob = $this->getAccessibleMock('Cyberhouse\\NewsImporticsxml\\Jobs\\ImportJob', ['import'],
+        $this->mockedJob = $this->getAccessibleMock(ImportJob::class, ['import'],
             [], '', false);
         $this->mockedJob->_set('logger', $logger);
     }
@@ -39,7 +42,7 @@ class ImportJobTest extends UnitTestCase
         $configuration->setFormat('xml');
         $this->mockedJob->_set('configuration', $configuration);
 
-        $xmlMapper = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Mapper\XmlMapper', ['map']);
+        $xmlMapper = $this->getAccessibleMock('GeorgRinger\NewsImporticsxml\Mapper\XmlMapper', array('map'));
         $this->mockedJob->_set('xmlMapper', $xmlMapper);
 
         $xmlMapper->expects($this->once())->method('map');
@@ -56,7 +59,7 @@ class ImportJobTest extends UnitTestCase
         $configuration->setFormat('ics');
         $this->mockedJob->_set('configuration', $configuration);
 
-        $icsMapper = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Mapper\IcsMapper', ['map']);
+        $icsMapper = $this->getAccessibleMock('GeorgRinger\NewsImporticsxml\Mapper\IcsMapper', array('map'));
         $this->mockedJob->_set('icsMapper', $icsMapper);
 
         $icsMapper->expects($this->once())->method('map');

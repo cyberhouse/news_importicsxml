@@ -10,7 +10,7 @@ $fields = [
         'config' => [
             'type' => 'text',
             'cols' => 60,
-            'rows' => 50,
+            'rows' => 20,
             'readOnly' => true
         ]
     ]

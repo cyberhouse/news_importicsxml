@@ -1,5 +1,5 @@
 <?php
-namespace Cyberhouse\NewsImporticsxml\Tests\Unit\Tasks;
+namespace GeorgRinger\NewsImporticsxml\Tests\Unit\Tasks;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,7 +14,7 @@ namespace Cyberhouse\NewsImporticsxml\Tests\Unit\Tasks;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 class ImportTaskTest extends UnitTestCase
@@ -33,8 +33,7 @@ class ImportTaskTest extends UnitTestCase
             'mapping' => 'map:mapper',
             'format' => 'xml'
         ];
-        $task = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Tasks\ImportTask', ['dummy'], [], '',
-            false);
+        $task = $this->getAccessibleMock('GeorgRinger\NewsImporticsxml\Tasks\ImportTask', ['dummy'], [], '', false);
         foreach ($props as $key => $value) {
             $setter = 'set' . ucfirst($key);
             $expectedConfiguration->$setter($value);

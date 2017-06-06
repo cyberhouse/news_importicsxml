@@ -1,27 +1,22 @@
 <?php
-namespace Cyberhouse\NewsImporticsxml\Tasks;
 
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+namespace GeorgRinger\NewsImporticsxml\Tasks;
+
+/**
+ * This file is part of the "news_importicsxml" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
  */
 
-use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use GeorgRinger\NewsImporticsxml\Jobs\ImportJob;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**
- * Provides testing procedures
- *
- * @author Markus Friedrich <markus.friedrich@dkd.de>
+ * Provides Import task
  */
 class ImportTask extends AbstractTask
 {
@@ -47,11 +42,11 @@ class ImportTask extends AbstractTask
         /** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
         $objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
-        /** @var \Cyberhouse\NewsImporticsxml\Jobs\ImportJob $importJob */
-        $importJob = $objectManager->get('Cyberhouse\\NewsImporticsxml\\Jobs\\ImportJob', $this->createConfiguration());
+        /** @var \GeorgRinger\NewsImporticsxml\Jobs\ImportJob $importJob */
+        $importJob = $objectManager->get(ImportJob::class, $this->createConfiguration());
         $importJob->run();
 
-        return $success;
+        return true;
     }
 
     /**
