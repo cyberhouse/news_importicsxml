@@ -14,7 +14,6 @@ namespace GeorgRinger\NewsImporticsxml\Tests\Unit\Tasks;
  * The TYPO3 project - inspiring people to share!
  */
 
-use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use GeorgRinger\NewsImporticsxml\Tasks\ImportTaskAdditionalFieldProvider;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 use TYPO3\CMS\Scheduler\Controller\SchedulerModuleController;

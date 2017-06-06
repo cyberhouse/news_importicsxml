@@ -7,14 +7,9 @@ namespace GeorgRinger\NewsImporticsxml\Jobs;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
-
-use GeorgRinger\News\Domain\Service\NewsImportService;
 use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
-use GeorgRinger\NewsImporticsxml\Mapper\IcsMapper;
-use GeorgRinger\NewsImporticsxml\Mapper\XmlMapper;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 class ImportJob
 {
