@@ -1,5 +1,20 @@
 {
-	"name": "georgringer/news_importicsxml",
+	"name": "georgringer/news-importicsxml",
+	"keywords": [
+		"TYPO3",
+		"extension",
+		"news",
+		"import",
+		"ics",
+		"xml"
+	],
+	"authors": [
+		{
+			"name": "Georg Ringer",
+			"role": "Developer",
+			"homepage": "http://ringer.it"
+		}
+	],
 	"type": "typo3-cms-extension",
 	"description": "Versatile news import from ICS + XML",
 	"homepage": "http://ringer.it",
@@ -22,6 +37,6 @@
 	},
 	"replace": {
 		"news_importicsxml": "self.version",
-		"typo3-ter/news_importicsxml": "self.version"
+		"typo3-ter/news-importicsxml": "self.version"
 	}
 }
