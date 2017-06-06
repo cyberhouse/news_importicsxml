@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 
 $fields = [
     'news_import_data' => [
-        'exclude' => 1,
+        'exclude' => true,
         'label' => 'LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:tx_news_domain_model_news.news_import_data',
         'config' => [
             'type' => 'text',
