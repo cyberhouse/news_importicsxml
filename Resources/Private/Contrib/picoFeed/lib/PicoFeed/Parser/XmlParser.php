@@ -13,7 +13,6 @@ use SimpleXmlElement;
  * Checks for XML eXternal Entity (XXE) and XML Entity Expansion (XEE) attacks on XML documents
  *
  * @author  Frederic Guillot
- * @package Parser
  */
 class XmlParser
 {
@@ -30,7 +29,6 @@ class XmlParser
         $dom = self::getDomDocument($input);
 
         if ($dom !== false) {
-
             $simplexml = simplexml_import_dom($dom);
 
             if (! $simplexml instanceof SimpleXmlElement) {
@@ -64,8 +62,7 @@ class XmlParser
             if (strpos($input, '<!ENTITY') !== false) {
                 return false;
             }
-        }
-        else {
+        } else {
             $entityLoaderDisabled = libxml_disable_entity_loader(true);
         }
 
@@ -137,8 +134,7 @@ class XmlParser
                 $dom->loadHTML($in, LIBXML_NONET);
                 return $dom;
             };
-        }
-        else {
+        } else {
             $callback = function ($in) {
                 $dom = new DomDocument;
                 $dom->loadHTML($in);
@@ -159,7 +155,7 @@ class XmlParser
      */
     public static function HtmlToXml($html)
     {
-        $dom = self::getHtmlDocument('<?xml version="1.0" encoding="UTF-8">'.$html);
+        $dom = self::getHtmlDocument('<?xml version="1.0" encoding="UTF-8">' . $html);
         return $dom->saveXML($dom->getElementsByTagName('body')->item(0));
     }
 
@@ -172,10 +168,9 @@ class XmlParser
      */
     public static function getErrors()
     {
-        $errors = array();
+        $errors = [];
 
-        foreach(libxml_get_errors() as $error) {
-
+        foreach (libxml_get_errors() as $error) {
             $errors[] = sprintf('XML error: %s (Line: %d - Column: %d - Code: %d)',
                 $error->message,
                 $error->line,
@@ -200,7 +195,6 @@ class XmlParser
         $encoding = '';
 
         if (strpos($data, '<?xml') !== false) {
-
             $data = substr($data, 0, strrpos($data, '?>'));
             $data = str_replace("'", '"', $data);
 
@@ -272,9 +266,7 @@ class XmlParser
             $namespace = $xml->children($namespaces[$name]);
 
             if (isset($namespace->$property) && $namespace->$property->count() > 0) {
-
                 if ($attribute) {
-
                     foreach ($namespace->$property->attributes() as $xml_attribute => $xml_value) {
                         if ($xml_attribute === $attribute && $xml_value) {
                             return (string) $xml_value;

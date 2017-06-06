@@ -103,7 +103,7 @@ class ReaderTest extends PHPUnit_Framework_TestCase
                 </head><body><p>boo</p></body></html>';
 
         $feeds = $reader->find('http://miniflux.net/', $html);
-        $this->assertEquals(array('http://miniflux.net/feed'), $feeds);
+        $this->assertEquals(['http://miniflux.net/feed'], $feeds);
     }
 
     public function testFind_atomFeed()
@@ -115,7 +115,7 @@ class ReaderTest extends PHPUnit_Framework_TestCase
                 </head><body><p>boo</p></body></html>';
 
         $feeds = $reader->find('http://miniflux.net/', $html);
-        $this->assertEquals(array('http://miniflux.net/feed'), $feeds);
+        $this->assertEquals(['http://miniflux.net/feed'], $feeds);
     }
 
     public function testFind_feedNotInHead()
@@ -128,7 +128,7 @@ class ReaderTest extends PHPUnit_Framework_TestCase
                 <p>boo</p></body></html>';
 
         $feeds = $reader->find('http://miniflux.net/', $html);
-        $this->assertEquals(array('http://miniflux.net/feed'), $feeds);
+        $this->assertEquals(['http://miniflux.net/feed'], $feeds);
     }
 
     public function testFind_noFeedPresent()
@@ -139,7 +139,7 @@ class ReaderTest extends PHPUnit_Framework_TestCase
                 </head><body><p>boo</p></body></html>';
 
         $feeds = $reader->find('http://miniflux.net/', $html);
-        $this->assertEquals(array(), $feeds);
+        $this->assertEquals([], $feeds);
     }
 
     public function testFind_ignoreUnknownType()
@@ -151,7 +151,7 @@ class ReaderTest extends PHPUnit_Framework_TestCase
                 </head><body><p>boo</p></body></html>';
 
         $feeds = $reader->find('http://miniflux.net/', $html);
-        $this->assertEquals(array(), $feeds);
+        $this->assertEquals([], $feeds);
     }
 
     public function testFind_ignoreTypeInOtherAttribute()
@@ -163,7 +163,7 @@ class ReaderTest extends PHPUnit_Framework_TestCase
                 </head><body><p>boo</p></body></html>';
 
         $feeds = $reader->find('http://miniflux.net/', $html);
-        $this->assertEquals(array(), $feeds);
+        $this->assertEquals([], $feeds);
     }
 
     public function testFind_withOtherAttributesPresent()
@@ -175,7 +175,7 @@ class ReaderTest extends PHPUnit_Framework_TestCase
                 </head><body><p>boo</p></body></html>';
 
         $feeds = $reader->find('http://miniflux.net/', $html);
-        $this->assertEquals(array('http://miniflux.net/feed'), $feeds);
+        $this->assertEquals(['http://miniflux.net/feed'], $feeds);
     }
 
     public function testFind_multipleFeeds()
@@ -190,11 +190,11 @@ class ReaderTest extends PHPUnit_Framework_TestCase
 
         $feeds = $reader->find('http://www.cnn.com/services/rss/', $html);
         $this->assertEquals(
-                array(
+                [
                     'http://rss.cnn.com/rss/edition.rss',
                     'http://rss.cnn.com/rss/edition_connecttheworld.rss',
                     'http://rss.cnn.com/rss/edition_worldsportblog.rss'
-                ),
+                ],
                 $feeds
         );
     }
@@ -208,7 +208,7 @@ class ReaderTest extends PHPUnit_Framework_TestCase
                 /head body /p boo /p body /html';
 
         $feeds = $reader->find('http://miniflux.net/', '');
-        $this->assertEquals(array(), $feeds);
+        $this->assertEquals([], $feeds);
     }
 
     public function testFind_withHtmlParamEmptyString()
@@ -216,7 +216,7 @@ class ReaderTest extends PHPUnit_Framework_TestCase
         $reader = new Reader;
 
         $feeds = $reader->find('http://miniflux.net/', '');
-        $this->assertEquals(array(), $feeds);
+        $this->assertEquals([], $feeds);
     }
 
     /**

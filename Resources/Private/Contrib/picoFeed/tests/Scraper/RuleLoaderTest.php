@@ -44,33 +44,33 @@ class RuleLoaderTest extends PHPUnit_Framework_TestCase
         $loader = new RuleLoader(new Config);
         $dirs = $loader->getRulesFolders();
 
-        $this->assertEmpty($loader->loadRuleFile($dirs[0], array('test')));
-        $this->assertNotEmpty($loader->loadRuleFile($dirs[0], array('test', 'xkcd.com')));
+        $this->assertEmpty($loader->loadRuleFile($dirs[0], ['test']));
+        $this->assertNotEmpty($loader->loadRuleFile($dirs[0], ['test', 'xkcd.com']));
     }
 
     public function testGetRulesFileList()
     {
         $loader = new RuleLoader(new Config);
         $this->assertEquals(
-            array('www.google.ca', 'google.ca', '.google.ca', 'www'),
+            ['www.google.ca', 'google.ca', '.google.ca', 'www'],
             $loader->getRulesFileList('www.google.ca')
         );
 
         $loader = new RuleLoader(new Config);
         $this->assertEquals(
-            array('google.ca', '.google.ca', 'google'),
+            ['google.ca', '.google.ca', 'google'],
             $loader->getRulesFileList('google.ca')
         );
 
         $loader = new RuleLoader(new Config);
         $this->assertEquals(
-            array('a.b.c.d', 'b.c.d', '.b.c.d', 'a'),
+            ['a.b.c.d', 'b.c.d', '.b.c.d', 'a'],
             $loader->getRulesFileList('a.b.c.d')
         );
 
         $loader = new RuleLoader(new Config);
         $this->assertEquals(
-            array('localhost'),
+            ['localhost'],
             $loader->getRulesFileList('localhost')
         );
     }

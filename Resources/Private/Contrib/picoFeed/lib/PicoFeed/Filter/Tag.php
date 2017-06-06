@@ -9,7 +9,6 @@ use PicoFeed\Parser\XmlParser;
  * Tag Filter class
  *
  * @author  Frederic Guillot
- * @package Filter
  */
 class Tag
 {
@@ -19,10 +18,10 @@ class Tag
      * @access private
      * @var array
      */
-    private $tag_blacklist = array(
+    private $tag_blacklist = [
         '//script',
         '//style',
-    );
+    ];
 
     /**
      * Tags whitelist
@@ -30,7 +29,7 @@ class Tag
      * @access private
      * @var array
      */
-    private $tag_whitelist = array(
+    private $tag_whitelist = [
         'audio',
         'video',
         'source',
@@ -69,7 +68,7 @@ class Tag
         'abbr',
         'iframe',
         'q',
-    );
+    ];
 
     /**
      * Check if the tag is allowed and is not a pixel tracker
@@ -77,7 +76,7 @@ class Tag
      * @access public
      * @param  string    $tag           Tag name
      * @param  array     $attributes    Attributes dictionary
-     * @return boolean
+     * @return bool
      */
     public function isAllowed($tag, array $attributes)
     {
@@ -94,7 +93,7 @@ class Tag
      */
     public function openHtmlTag($tag, $attributes = '')
     {
-        return '<'.$tag.(empty($attributes) ? '' : ' '.$attributes).($this->isSelfClosingTag($tag) ? '/>' : '>');
+        return '<' . $tag . (empty($attributes) ? '' : ' ' . $attributes) . ($this->isSelfClosingTag($tag) ? '/>' : '>');
     }
 
     /**
@@ -106,7 +105,7 @@ class Tag
      */
     public function closeHtmlTag($tag)
     {
-        return $this->isSelfClosingTag($tag) ? '' : '</'.$tag.'>';
+        return $this->isSelfClosingTag($tag) ? '' : '</' . $tag . '>';
     }
 
     /**
@@ -114,7 +113,7 @@ class Tag
      *
      * @access public
      * @param  string    $tag           Tag name
-     * @return boolean
+     * @return bool
      */
     public function isSelfClosingTag($tag)
     {
@@ -126,7 +125,7 @@ class Tag
      *
      * @access public
      * @param  string     $tag    Tag name
-     * @return boolean
+     * @return bool
      */
     public function isAllowedTag($tag)
     {
@@ -139,7 +138,7 @@ class Tag
      * @access public
      * @param  string  $tag         Tag name
      * @param  array   $attributes  Tag attributes
-     * @return boolean
+     * @return bool
      */
     public function isPixelTracker($tag, array $attributes)
     {
@@ -174,7 +173,6 @@ class Tag
         return $dom->saveXML();
     }
 
-
     /**
      * Remove empty tags
      *
@@ -196,7 +194,7 @@ class Tag
      */
     public function removeMultipleBreakTags($data)
     {
-        return preg_replace("/(<br\s*\/?>\s*)+/", "<br/>", $data);
+        return preg_replace("/(<br\s*\/?>\s*)+/", '<br/>', $data);
     }
 
     /**

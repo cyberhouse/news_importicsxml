@@ -3,7 +3,6 @@ namespace PicoFeed\Serialization;
 
 use PHPUnit_Framework_TestCase;
 
-
 class ImportTest extends PHPUnit_Framework_TestCase
 {
     public function testMalFormedFormat()

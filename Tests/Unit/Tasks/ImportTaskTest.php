@@ -26,14 +26,14 @@ class ImportTaskTest extends UnitTestCase
     public function configurationIsCreatedByProperties()
     {
         $expectedConfiguration = new TaskConfiguration();
-        $props = array(
+        $props = [
             'email' => 'fo@bar.com',
             'pid' => '123',
             'path' => 'fileadmin/fo.xml',
             'mapping' => 'map:mapper',
             'format' => 'xml'
-        );
-        $task = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Tasks\ImportTask', array('dummy'), array(), '',
+        ];
+        $task = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Tasks\ImportTask', ['dummy'], [], '',
             false);
         foreach ($props as $key => $value) {
             $setter = 'set' . ucfirst($key);

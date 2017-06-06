@@ -9,7 +9,6 @@ use DateTimeZone;
  * Logging class
  *
  * @author  Frederic Guillot
- * @package Logging
  */
 class Logger
 {
@@ -20,7 +19,7 @@ class Logger
      * @access private
      * @var array
      */
-    private static $messages = array();
+    private static $messages = [];
 
     /**
      * Default timezone
@@ -36,7 +35,7 @@ class Logger
      *
      * @static
      * @access public
-     * @var boolean
+     * @var bool
      */
     public static $enable = false;
 
@@ -62,7 +61,7 @@ class Logger
     {
         if (self::$enable) {
             $date = new DateTime('now', new DateTimeZone(self::$timezone));
-            self::$messages[] = '['.$date->format('Y-m-d H:i:s').'] '.$message;
+            self::$messages[] = '[' . $date->format('Y-m-d H:i:s') . '] ' . $message;
         }
     }
 
@@ -86,7 +85,7 @@ class Logger
      */
     public static function deleteMessages()
     {
-        self::$messages = array();
+        self::$messages = [];
     }
 
     /**
@@ -111,6 +110,6 @@ class Logger
      */
     public static function toString()
     {
-        return implode(PHP_EOL, self::$messages).PHP_EOL;
+        return implode(PHP_EOL, self::$messages) . PHP_EOL;
     }
 }

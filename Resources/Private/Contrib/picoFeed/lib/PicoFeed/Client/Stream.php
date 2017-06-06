@@ -8,7 +8,6 @@ use PicoFeed\Logging\Logger;
  * Stream context HTTP client
  *
  * @author  Frederic Guillot
- * @package Client
  */
 class Stream extends Client
 {
@@ -20,10 +19,10 @@ class Stream extends Client
      */
     private function prepareHeaders()
     {
-        $headers = array(
+        $headers = [
             'Connection: close',
-            'User-Agent: '.$this->user_agent,
-        );
+            'User-Agent: ' . $this->user_agent,
+        ];
 
         // disable compression in passthrough mode. It could result in double
         // compressed content which isn't decodeable by browsers
@@ -32,19 +31,19 @@ class Stream extends Client
         }
 
         if ($this->etag) {
-            $headers[] = 'If-None-Match: '.$this->etag;
+            $headers[] = 'If-None-Match: ' . $this->etag;
         }
 
         if ($this->last_modified) {
-            $headers[] = 'If-Modified-Since: '.$this->last_modified;
+            $headers[] = 'If-Modified-Since: ' . $this->last_modified;
         }
 
         if ($this->proxy_username) {
-            $headers[] = 'Proxy-Authorization: Basic '.base64_encode($this->proxy_username.':'.$this->proxy_password);
+            $headers[] = 'Proxy-Authorization: Basic ' . base64_encode($this->proxy_username . ':' . $this->proxy_password);
         }
 
         if ($this->username && $this->password) {
-            $headers[] = 'Authorization: Basic '.base64_encode($this->username.':'.$this->password);
+            $headers[] = 'Authorization: Basic ' . base64_encode($this->username . ':' . $this->password);
         }
 
         $headers = array_merge($headers, $this->request_headers);
@@ -60,7 +59,7 @@ class Stream extends Client
      */
     private function setEffectiveUrl($headers)
     {
-        foreach($headers as $header) {
+        foreach ($headers as $header) {
             if (stripos($header, 'Location') === 0) {
                 list(, $value) = explode(': ', $header);
 
@@ -77,27 +76,25 @@ class Stream extends Client
      */
     private function prepareContext()
     {
-        $context = array(
-            'http' => array(
+        $context = [
+            'http' => [
                 'method' => 'GET',
                 'protocol_version' => 1.1,
                 'timeout' => $this->timeout,
                 'max_redirects' => $this->max_redirects,
-            )
-        );
+            ]
+        ];
 
         if ($this->proxy_hostname) {
+            Logger::setMessage(get_called_class() . ' Proxy: ' . $this->proxy_hostname . ':' . $this->proxy_port);
 
-            Logger::setMessage(get_called_class().' Proxy: '.$this->proxy_hostname.':'.$this->proxy_port);
-
-            $context['http']['proxy'] = 'tcp://'.$this->proxy_hostname.':'.$this->proxy_port;
+            $context['http']['proxy'] = 'tcp://' . $this->proxy_hostname . ':' . $this->proxy_port;
             $context['http']['request_fulluri'] = true;
 
             if ($this->proxy_username) {
-                Logger::setMessage(get_called_class().' Proxy credentials: Yes');
-            }
-            else {
-                Logger::setMessage(get_called_class().' Proxy credentials: No');
+                Logger::setMessage(get_called_class() . ' Proxy credentials: Yes');
+            } else {
+                Logger::setMessage(get_called_class() . ' Proxy credentials: No');
             }
         }
 
@@ -133,12 +130,11 @@ class Stream extends Client
             header(':', true, $status);
 
             if (isset($headers['Content-Type'])) {
-                header('Content-Type: '.$headers['Content-Type']);
+                header('Content-Type: ' . $headers['Content-Type']);
             }
 
             fpassthru($stream);
-        }
-        else {
+        } else {
             // Get the entire body until the max size
             $body = stream_get_contents($stream, $this->max_body_size + 1);
 
@@ -156,11 +152,11 @@ class Stream extends Client
 
         $this->setEffectiveUrl($metadata['wrapper_data']);
 
-        return array(
+        return [
             'status' => $status,
             'body' => $this->decodeBody($body, $headers),
             'headers' => $headers
-        );
+        ];
     }
 
     /**

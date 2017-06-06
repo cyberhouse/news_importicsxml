@@ -31,7 +31,7 @@ class IcsMapper extends AbstractMapper implements MapperInterface
      */
     public function map(TaskConfiguration $configuration)
     {
-        $data = array();
+        $data = [];
         $path = $this->getFileContent($configuration);
 
         GeneralUtility::requireOnce(ExtensionManagementUtility::extPath('news_importicsxml') . 'Resources/Private/Contrib/Ical.php');
@@ -44,7 +44,7 @@ class IcsMapper extends AbstractMapper implements MapperInterface
                 $datetime = $iCalService->iCalDateToUnixTimestamp($event['DTSTAMP']);
             }
 
-            $data[] = array(
+            $data[] = [
                 'import_source' => $this->getImportSource(),
                 'import_id' => md5($event['UID']),
                 'crdate' => $GLOBALS['EXEC_TIME'],
@@ -53,10 +53,10 @@ class IcsMapper extends AbstractMapper implements MapperInterface
                 'title' => $this->cleanup($event['SUMMARY']),
                 'bodytext' => $this->cleanup($event['DESCRIPTION']),
                 'datetime' => $datetime,
-                '_dynamicData' => array(
+                '_dynamicData' => [
                     'location' => $event['LOCATION'],
                     'datetime_end' => $iCalService->iCalDateToUnixTimestamp($event['DTEND']),
-                    'news_importicsxml' => array(
+                    'news_importicsxml' => [
                         'importDate' => date('d.m.Y h:i:s', $GLOBALS['EXEC_TIME']),
                         'feed' => $configuration->getPath(),
                         'LOCATION' => $event['LOCATION'],
@@ -67,9 +67,9 @@ class IcsMapper extends AbstractMapper implements MapperInterface
                         'SEQUENCE' => $event['SEQUENCE'],
                         'STATUS' => $event['STATUS'],
                         'TRANSP' => $event['TRANSP'],
-                    )
-                ),
-            );
+                    ]
+                ],
+            ];
         }
 
         if ($this->pathIsModified) {
@@ -85,8 +85,8 @@ class IcsMapper extends AbstractMapper implements MapperInterface
      */
     protected function cleanup($content)
     {
-        $search = array('\\,');
-        $replace = array(',');
+        $search = ['\\,'];
+        $replace = [','];
 
         return str_replace($search, $replace, $content);
     }
@@ -117,10 +117,10 @@ class IcsMapper extends AbstractMapper implements MapperInterface
 
     protected function apiCall($url)
     {
-        $config = array(
+        $config = [
             'follow_redirects' => true,
             'strict_redirects' => true
-        );
+        ];
 
         /** @var $request HttpRequest */
         $request = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Http\\HttpRequest', $url, 'GET', $config);
@@ -148,5 +148,4 @@ class IcsMapper extends AbstractMapper implements MapperInterface
     {
         return 'newsimporticsxml_ics';
     }
-
 }

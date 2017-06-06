@@ -1,13 +1,13 @@
 <?php
-return array(
-    'grabber' => array(
-        '%.*%' => array(
+return [
+    'grabber' => [
+        '%.*%' => [
             'test_url' => 'http://www.bbc.co.uk/news/world-middle-east-23911833',
-            'body' => array(
+            'body' => [
                 '//div[@class="story-body"]',
                 '//div[@class="indPost"]'
-            ),
-            'strip' => array(
+            ],
+            'strip' => [
                 '//form',
                 '//*[@class="warning"]',
                 '//*[@class="story-date"]',
@@ -18,7 +18,7 @@ return array(
                 '//*[@id="video-carousel-container"]',
                 '//*[@id="also-related-links"]',
                 '//*[contains(@class, "share") or contains(@class, "hidden") or contains(@class, "hyper")]',
-            )
-        )
-    )
-);
+            ]
+        ]
+    ]
+];

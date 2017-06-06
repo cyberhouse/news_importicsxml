@@ -31,5 +31,4 @@ interface MapperInterface
      * @return string
      */
     public function getImportSource();
-
 }

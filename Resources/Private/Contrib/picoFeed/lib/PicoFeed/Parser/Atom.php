@@ -2,15 +2,14 @@
 
 namespace PicoFeed\Parser;
 
-use SimpleXMLElement;
-use PicoFeed\Filter\Filter;
 use PicoFeed\Client\Url;
+use PicoFeed\Filter\Filter;
+use SimpleXMLElement;
 
 /**
  * Atom parser
  *
  * @author  Frederic Guillot
- * @package Parser
  */
 class Atom extends Parser
 {
@@ -149,11 +148,9 @@ class Atom extends Parser
 
         if ($published === null && $updated === null) {
             $item->date = $feed->getDate();          // We use the feed date if there is no date for the item
-        }
-        else if ($published !== null && $updated !== null) {
+        } elseif ($published !== null && $updated !== null) {
             $item->date = max($published, $updated); // We use the most recent date between published and updated
-        }
-        else {
+        } else {
             $item->date = $updated ?: $published;
         }
     }
@@ -186,8 +183,7 @@ class Atom extends Parser
     {
         if (isset($entry->author->name)) {
             $item->author = (string) $entry->author->name;
-        }
-        else {
+        } else {
             $item->author = (string) $xml->author->name;
         }
     }
@@ -230,8 +226,7 @@ class Atom extends Parser
 
         if ($id) {
             $item->id = $this->generateId($id);
-        }
-        else {
+        } else {
             $item->id = $this->generateId(
                 $item->getTitle(), $item->getUrl(), $item->getContent()
             );
@@ -328,15 +323,12 @@ class Atom extends Parser
     private function getContent(SimpleXMLElement $entry)
     {
         if (isset($entry->content) && ! empty($entry->content)) {
-
             if (count($entry->content->children())) {
                 return (string) $entry->content->asXML();
-            }
-            else {
+            } else {
                 return (string) $entry->content;
             }
-        }
-        else if (isset($entry->summary) && ! empty($entry->summary)) {
+        } elseif (isset($entry->summary) && ! empty($entry->summary)) {
             return (string) $entry->summary;
         }
 

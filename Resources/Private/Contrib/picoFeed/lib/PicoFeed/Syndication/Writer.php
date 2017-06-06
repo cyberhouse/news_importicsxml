@@ -8,7 +8,6 @@ use RuntimeException;
  * Base writer class
  *
  * @author    Frederic Guillot
- * @package   Syndication
  */
 abstract class Writer
 {
@@ -26,7 +25,7 @@ abstract class Writer
      * @access public
      * @var array
      */
-    public $items = array();
+    public $items = [];
 
     /**
      * Author
@@ -34,7 +33,7 @@ abstract class Writer
      * @access public
      * @var array
      */
-    public $author = array();
+    public $author = [];
 
     /**
      * Feed URL
@@ -72,7 +71,7 @@ abstract class Writer
      * Feed modification date (timestamp)
      *
      * @access public
-     * @var integer
+     * @var int
      */
     public $updated = 0;
 
@@ -97,7 +96,7 @@ abstract class Writer
     {
         foreach ($properties as $property) {
             if ((is_object($container) && ! isset($container->$property)) || (is_array($container) && ! isset($container[$property]))) {
-                throw new RuntimeException('Required property missing: '.$property);
+                throw new RuntimeException('Required property missing: ' . $property);
             }
         }
     }

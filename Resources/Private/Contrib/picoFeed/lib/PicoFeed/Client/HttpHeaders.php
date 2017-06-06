@@ -10,11 +10,10 @@ use PicoFeed\Logging\Logger;
  *
  * @author  Bernhard Posselt
  * @author  Frederic Guillot
- * @package Client
  */
 class HttpHeaders implements ArrayAccess
 {
-    private $headers = array();
+    private $headers = [];
 
     public function __construct(array $headers)
     {
@@ -54,27 +53,26 @@ class HttpHeaders implements ArrayAccess
     public static function parse(array $lines)
     {
         $status = 0;
-        $headers = array();
+        $headers = [];
 
         foreach ($lines as $line) {
-
             if (strpos($line, 'HTTP') === 0) {
-                $headers = array();
+                $headers = [];
                 $status = (int) substr($line, 9, 3);
-            }
-            else if (strpos($line, ':') !== false) {
-
+            } elseif (strpos($line, ':') !== false) {
                 @list($name, $value) = explode(': ', $line);
-                if ($value) $headers[trim($name)] = trim($value);
+                if ($value) {
+                    $headers[trim($name)] = trim($value);
+                }
             }
         }
 
-        Logger::setMessage(get_called_class().' HTTP status code: '.$status);
+        Logger::setMessage(get_called_class() . ' HTTP status code: ' . $status);
 
         foreach ($headers as $name => $value) {
-            Logger::setMessage(get_called_class().' HTTP header: '.$name.' => '.$value);
+            Logger::setMessage(get_called_class() . ' HTTP header: ' . $name . ' => ' . $value);
         }
 
-        return array($status, new self($headers));
+        return [$status, new self($headers)];
     }
 }

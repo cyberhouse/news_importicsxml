@@ -11,7 +11,6 @@ use PicoFeed\Parser\XmlParser;
  * Candidate Parser
  *
  * @author  Frederic Guillot
- * @package Scraper
  */
 class CandidateParser implements ParserInterface
 {
@@ -24,7 +23,7 @@ class CandidateParser implements ParserInterface
      * @access private
      * @var array
      */
-    private $candidatesAttributes = array(
+    private $candidatesAttributes = [
         'articleBody',
         'articlebody',
         'article-body',
@@ -46,7 +45,7 @@ class CandidateParser implements ParserInterface
         'article',
         'content',
         'main',
-    );
+    ];
 
     /**
      * List of attributes to strip
@@ -54,7 +53,7 @@ class CandidateParser implements ParserInterface
      * @access private
      * @var array
      */
-    private $stripAttributes = array(
+    private $stripAttributes = [
         'comment',
         'share',
         'links',
@@ -76,7 +75,7 @@ class CandidateParser implements ParserInterface
         'by_line',
         'byline',
         'sponsors',
-    );
+    ];
 
     /**
      * Tags to remove
@@ -84,13 +83,13 @@ class CandidateParser implements ParserInterface
      * @access private
      * @var array
      */
-    private $stripTags = array(
+    private $stripTags = [
         'nav',
         'header',
         'footer',
         'aside',
         'form',
-    );
+    ];
 
     /**
      * Constructor
@@ -100,7 +99,7 @@ class CandidateParser implements ParserInterface
      */
     public function __construct($html)
     {
-        $this->dom = XmlParser::getHtmlDocument('<?xml version="1.0" encoding="UTF-8">'.$html);
+        $this->dom = XmlParser::getHtmlDocument('<?xml version="1.0" encoding="UTF-8">' . $html);
         $this->xpath = new DOMXPath($this->dom);
     }
 
@@ -134,13 +133,12 @@ class CandidateParser implements ParserInterface
     public function findContentWithCandidates()
     {
         foreach ($this->candidatesAttributes as $candidate) {
+            Logger::setMessage(get_called_class() . ': Try this candidate: "' . $candidate . '"');
 
-            Logger::setMessage(get_called_class().': Try this candidate: "'.$candidate.'"');
-
-            $nodes = $this->xpath->query('//*[(contains(@class, "'.$candidate.'") or @id="'.$candidate.'") and not (contains(@class, "nav") or contains(@class, "page"))]');
+            $nodes = $this->xpath->query('//*[(contains(@class, "' . $candidate . '") or @id="' . $candidate . '") and not (contains(@class, "nav") or contains(@class, "page"))]');
 
             if ($nodes !== false && $nodes->length > 0) {
-                Logger::setMessage(get_called_class().': Find candidate "'.$candidate.'"');
+                Logger::setMessage(get_called_class() . ': Find candidate "' . $candidate . '"');
                 return $this->dom->saveXML($nodes->item(0));
             }
         }
@@ -159,7 +157,7 @@ class CandidateParser implements ParserInterface
         $nodes = $this->xpath->query('//article');
 
         if ($nodes !== false && $nodes->length > 0) {
-            Logger::setMessage(get_called_class().': Find <article/> tag');
+            Logger::setMessage(get_called_class() . ': Find <article/> tag');
             return $this->dom->saveXML($nodes->item(0));
         }
 
@@ -177,7 +175,7 @@ class CandidateParser implements ParserInterface
         $nodes = $this->xpath->query('//body');
 
         if ($nodes !== false && $nodes->length > 0) {
-            Logger::setMessage(get_called_class().' Find <body/>');
+            Logger::setMessage(get_called_class() . ' Find <body/>');
             return $this->dom->saveXML($nodes->item(0));
         }
 
@@ -196,7 +194,6 @@ class CandidateParser implements ParserInterface
         $dom = XmlParser::getDomDocument($content);
 
         if ($dom !== false) {
-
             $xpath = new DOMXPath($dom);
 
             $this->stripTags($xpath);
@@ -217,12 +214,10 @@ class CandidateParser implements ParserInterface
     public function stripTags(DOMXPath $xpath)
     {
         foreach ($this->stripTags as $tag) {
-
-            $nodes = $xpath->query('//'.$tag);
+            $nodes = $xpath->query('//' . $tag);
 
             if ($nodes !== false && $nodes->length > 0) {
-
-                Logger::setMessage(get_called_class().': Strip tag: "'.$tag.'"');
+                Logger::setMessage(get_called_class() . ': Strip tag: "' . $tag . '"');
 
                 foreach ($nodes as $node) {
                     $node->parentNode->removeChild($node);
@@ -241,12 +236,10 @@ class CandidateParser implements ParserInterface
     public function stripAttributes(DomDocument $dom, DOMXPath $xpath)
     {
         foreach ($this->stripAttributes as $attribute) {
-
-            $nodes = $xpath->query('//*[contains(@class, "'.$attribute.'") or contains(@id, "'.$attribute.'")]');
+            $nodes = $xpath->query('//*[contains(@class, "' . $attribute . '") or contains(@id, "' . $attribute . '")]');
 
             if ($nodes !== false && $nodes->length > 0) {
-
-                Logger::setMessage(get_called_class().': Strip attribute: "'.$attribute.'"');
+                Logger::setMessage(get_called_class() . ': Strip attribute: "' . $attribute . '"');
 
                 foreach ($nodes as $node) {
                     if ($this->shouldRemove($dom, $node)) {
@@ -263,7 +256,7 @@ class CandidateParser implements ParserInterface
      * @access public
      * @param  DomDocument  $dom
      * @param  DomNode      $node
-     * @return boolean
+     * @return bool
      */
     public function shouldRemove(DomDocument $dom, $node)
     {
@@ -277,7 +270,7 @@ class CandidateParser implements ParserInterface
         $ratio = $node_length * 100 / $document_length;
 
         if ($ratio >= 90) {
-            Logger::setMessage(get_called_class().': Should not remove this node ('.$node->nodeName.') ratio: '.$ratio.'%');
+            Logger::setMessage(get_called_class() . ': Should not remove this node (' . $node->nodeName . ') ratio: ' . $ratio . '%');
             return false;
         }
 

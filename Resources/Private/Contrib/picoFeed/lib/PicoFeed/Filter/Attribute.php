@@ -8,7 +8,6 @@ use PicoFeed\Client\Url;
  * Attribute Filter class
  *
  * @author  Frederic Guillot
- * @package Filter
  */
 class Attribute
 {
@@ -42,46 +41,46 @@ class Attribute
      * @access private
      * @var array
      */
-    private $attribute_whitelist = array(
-        'audio' => array('controls', 'src'),
-        'video' => array('poster', 'controls', 'height', 'width', 'src'),
-        'source' => array('src', 'type'),
-        'dt' => array(),
-        'dd' => array(),
-        'dl' => array(),
-        'table' => array(),
-        'caption' => array(),
-        'tr' => array(),
-        'th' => array(),
-        'td' => array(),
-        'tbody' => array(),
-        'thead' => array(),
-        'h2' => array(),
-        'h3' => array(),
-        'h4' => array(),
-        'h5' => array(),
-        'h6' => array(),
-        'strong' => array(),
-        'em' => array(),
-        'code' => array(),
-        'pre' => array(),
-        'blockquote' => array(),
-        'p' => array(),
-        'ul' => array(),
-        'li' => array(),
-        'ol' => array(),
-        'br' => array(),
-        'del' => array(),
-        'a' => array('href'),
-        'img' => array('src', 'title', 'alt'),
-        'figure' => array(),
-        'figcaption' => array(),
-        'cite' => array(),
-        'time' => array('datetime'),
-        'abbr' => array('title'),
-        'iframe' => array('width', 'height', 'frameborder', 'src'),
-        'q' => array('cite')
-    );
+    private $attribute_whitelist = [
+        'audio' => ['controls', 'src'],
+        'video' => ['poster', 'controls', 'height', 'width', 'src'],
+        'source' => ['src', 'type'],
+        'dt' => [],
+        'dd' => [],
+        'dl' => [],
+        'table' => [],
+        'caption' => [],
+        'tr' => [],
+        'th' => [],
+        'td' => [],
+        'tbody' => [],
+        'thead' => [],
+        'h2' => [],
+        'h3' => [],
+        'h4' => [],
+        'h5' => [],
+        'h6' => [],
+        'strong' => [],
+        'em' => [],
+        'code' => [],
+        'pre' => [],
+        'blockquote' => [],
+        'p' => [],
+        'ul' => [],
+        'li' => [],
+        'ol' => [],
+        'br' => [],
+        'del' => [],
+        'a' => ['href'],
+        'img' => ['src', 'title', 'alt'],
+        'figure' => [],
+        'figcaption' => [],
+        'cite' => [],
+        'time' => ['datetime'],
+        'abbr' => ['title'],
+        'iframe' => ['width', 'height', 'frameborder', 'src'],
+        'q' => ['cite']
+    ];
 
     /**
      * Scheme whitelist
@@ -91,7 +90,7 @@ class Attribute
      * @access private
      * @var array
      */
-    private $scheme_whitelist = array(
+    private $scheme_whitelist = [
         'bitcoin:',
         'callto:',
         'ed2k://',
@@ -121,7 +120,7 @@ class Attribute
         'steam:',
         'svn://',
         'tel:',
-    );
+    ];
 
     /**
      * Iframe source whitelist, everything else is ignored
@@ -129,14 +128,14 @@ class Attribute
      * @access private
      * @var array
      */
-    private $iframe_whitelist = array(
+    private $iframe_whitelist = [
         'http://www.youtube.com',
         'https://www.youtube.com',
         'http://player.vimeo.com',
         'https://player.vimeo.com',
         'http://www.dailymotion.com',
         'https://www.dailymotion.com',
-    );
+    ];
 
     /**
      * Blacklisted resources
@@ -144,7 +143,7 @@ class Attribute
      * @access private
      * @var array
      */
-    private $media_blacklist = array(
+    private $media_blacklist = [
         'api.flattr.com',
         'feeds.feedburner.com',
         'share.feedsportal.com',
@@ -168,7 +167,7 @@ class Attribute
         'www.gstatic.com/images/icons/gplus-16.png',
         'www.gstatic.com/images/icons/gplus-32.png',
         'www.gstatic.com/images/icons/gplus-64.png',
-    );
+    ];
 
     /**
      * Attributes used for external resources
@@ -176,11 +175,11 @@ class Attribute
      * @access private
      * @var array
      */
-    private $media_attributes = array(
+    private $media_attributes = [
         'src',
         'href',
         'poster',
-    );
+    ];
 
     /**
      * Attributes that must be integer
@@ -188,11 +187,11 @@ class Attribute
      * @access private
      * @var array
      */
-    private $integer_attributes = array(
+    private $integer_attributes = [
         'width',
         'height',
         'frameborder',
-    );
+    ];
 
     /**
      * Mandatory attributes for specified tags
@@ -200,13 +199,13 @@ class Attribute
      * @access private
      * @var array
      */
-    private $required_attributes = array(
-        'a' => array('href'),
-        'img' => array('src'),
-        'iframe' => array('src'),
-        'audio' => array('src'),
-        'source' => array('src'),
-    );
+    private $required_attributes = [
+        'a' => ['href'],
+        'img' => ['src'],
+        'iframe' => ['src'],
+        'audio' => ['src'],
+        'source' => ['src'],
+    ];
 
     /**
      * Add attributes to specified tags
@@ -214,10 +213,10 @@ class Attribute
      * @access private
      * @var array
      */
-    private $add_attributes = array(
-        'a' => array('rel' => 'noreferrer', 'target' => '_blank'),
-        'video' => array('controls' => 'true'),
-    );
+    private $add_attributes = [
+        'a' => ['rel' => 'noreferrer', 'target' => '_blank'],
+        'video' => ['controls' => 'true'],
+    ];
 
     /**
      * List of filters to apply
@@ -225,7 +224,7 @@ class Attribute
      * @access private
      * @var array
      */
-    private $filters = array(
+    private $filters = [
         'filterEmptyAttribute',
         'filterAllowedAttribute',
         'filterIntegerAttribute',
@@ -236,7 +235,7 @@ class Attribute
         'rewriteImageProxyUrl',
         'secureIframeSrc',
         'removeYouTubeAutoplay'
-    );
+    ];
 
     /**
      * Add attributes to specified tags
@@ -286,7 +285,7 @@ class Attribute
      * @param  string    $tag           Tag name
      * @param  string    $attribute     Attribute name
      * @param  string    $value         Attribute value
-     * @return boolean
+     * @return bool
      */
     public function filterEmptyAttribute($tag, $attribute, $value)
     {
@@ -300,7 +299,7 @@ class Attribute
      * @param  string    $tag           Tag name
      * @param  string    $attribute     Attribute name
      * @param  string    $value         Attribute value
-     * @return boolean
+     * @return bool
      */
     public function filterAllowedAttribute($tag, $attribute, $value)
     {
@@ -314,7 +313,7 @@ class Attribute
      * @param  string    $tag           Tag name
      * @param  string    $attribute     Attribute name
      * @param  string    $value         Attribute value
-     * @return boolean
+     * @return bool
      */
     public function filterIntegerAttribute($tag, $attribute, $value)
     {
@@ -332,12 +331,11 @@ class Attribute
      * @param  string    $tag           Tag name
      * @param  string    $attribute     Attribute name
      * @param  string    $value         Attribute value
-     * @return boolean
+     * @return bool
      */
     public function filterIframeAttribute($tag, $attribute, $value)
     {
         if ($tag === 'iframe' && $attribute === 'src') {
-
             foreach ($this->iframe_whitelist as $url) {
                 if (strpos($value, $url) === 0) {
                     return true;
@@ -357,7 +355,7 @@ class Attribute
      * @param  string    $tag           Tag name
      * @param  string    $attribute     Attribute name
      * @param  string    $value         Attribute value
-     * @return boolean
+     * @return bool
      */
     public function filterBlacklistResourceAttribute($tag, $attribute, $value)
     {
@@ -375,7 +373,7 @@ class Attribute
      * @param  string    $tag           Tag name
      * @param  string    $attribute     Attribute name
      * @param  string    $value         Attribute value
-     * @return boolean
+     * @return bool
      */
     public function rewriteAbsoluteUrl($tag, $attribute, &$value)
     {
@@ -394,7 +392,7 @@ class Attribute
      * @param  string    $tag            Tag name
      * @param  array     $attribute      Atttributes name
      * @param  string    $value          Attribute value
-     * @return boolean
+     * @return bool
      */
     public function secureIframeSrc($tag, $attribute, &$value)
     {
@@ -412,7 +410,7 @@ class Attribute
      * @param  string    $tag            Tag name
      * @param  array     $attribute      Atttributes name
      * @param  string    $value          Attribute value
-     * @return boolean
+     * @return bool
      */
     public function removeYouTubeAutoplay($tag, $attribute, &$value)
     {
@@ -431,17 +429,15 @@ class Attribute
      * @param  string    $tag           Tag name
      * @param  string    $attribute     Attribute name
      * @param  string    $value         Attribute value
-     * @return boolean
+     * @return bool
      */
     public function rewriteImageProxyUrl($tag, $attribute, &$value)
     {
         if ($tag === 'img' && $attribute === 'src'
-	    && ! ($this->image_proxy_limit_protocol !== '' && stripos($value, $this->image_proxy_limit_protocol.':') !== 0)) {
-
+        && ! ($this->image_proxy_limit_protocol !== '' && stripos($value, $this->image_proxy_limit_protocol . ':') !== 0)) {
             if ($this->image_proxy_url) {
                 $value = sprintf($this->image_proxy_url, rawurlencode($value));
-            }
-            else if (is_callable($this->image_proxy_callback)) {
+            } elseif (is_callable($this->image_proxy_callback)) {
                 $value = call_user_func($this->image_proxy_callback, $value);
             }
         }
@@ -456,7 +452,7 @@ class Attribute
      * @param  string    $tag           Tag name
      * @param  string    $attribute     Attribute name
      * @param  string    $value         Attribute value
-     * @return boolean
+     * @return bool
      */
     public function filterProtocolUrlAttribute($tag, $attribute, $value)
     {
@@ -490,12 +486,11 @@ class Attribute
      * @access public
      * @param  string    $tag            Tag name
      * @param  array     $attributes     Attributes list
-     * @return boolean
+     * @return bool
      */
     public function hasRequiredAttributes($tag, array $attributes)
     {
         if (isset($this->required_attributes[$tag])) {
-
             foreach ($this->required_attributes[$tag] as $attribute) {
                 if (! isset($attributes[$attribute])) {
                     return false;
@@ -511,7 +506,7 @@ class Attribute
      *
      * @access public
      * @param  string  $attribute  Attribute name
-     * @return boolean
+     * @return bool
      */
     public function isResource($attribute)
     {
@@ -523,12 +518,11 @@ class Attribute
      *
      * @access public
      * @param  string  $value  Attribute value
-     * @return boolean
+     * @return bool
      */
     public function isAllowedProtocol($value)
     {
         foreach ($this->scheme_whitelist as $protocol) {
-
             if (strpos($value, $protocol) === 0) {
                 return true;
             }
@@ -542,12 +536,11 @@ class Attribute
      *
      * @access public
      * @param  string  $resource  Attribute value (URL)
-     * @return boolean
+     * @return bool
      */
     public function isBlacklistedMedia($resource)
     {
         foreach ($this->media_blacklist as $name) {
-
             if (strpos($resource, $name) !== false) {
                 return true;
             }
@@ -565,7 +558,7 @@ class Attribute
      */
     public function toHtml(array $attributes)
     {
-        $html = array();
+        $html = [];
 
         foreach ($attributes as $attribute => $value) {
             $html[] = sprintf('%s="%s"', $attribute, Filter::escape($value));

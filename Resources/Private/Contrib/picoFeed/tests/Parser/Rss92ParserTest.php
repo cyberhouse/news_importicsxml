@@ -3,7 +3,6 @@ namespace PicoFeed\Parser;
 
 use PHPUnit_Framework_TestCase;
 
-
 class Rss92ParserTest extends PHPUnit_Framework_TestCase
 {
     public function testFormatOk()

@@ -26,13 +26,11 @@ class NewsImportAspect
     {
         /** @var \Cyberhouse\NewsImporticsxml\Domain\Model\News $news */
         if (is_array($importData['_dynamicData']) && is_array($importData['_dynamicData']['news_importicsxml'])) {
-            $metaData = array();
+            $metaData = [];
             foreach ($importData['_dynamicData']['news_importicsxml'] as $key => $value) {
                 $metaData[] = $key . ': ' . $value;
             }
             $news->setNewsImportData(implode(LF, $metaData));
         }
-
     }
-
 }

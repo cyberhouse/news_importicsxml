@@ -3,24 +3,23 @@ namespace PicoFeed\Serialization;
 
 use PHPUnit_Framework_TestCase;
 
-
 class ExportTest extends PHPUnit_Framework_TestCase
 {
     public function testOuput()
     {
-        $feeds = array(
-            array(
+        $feeds = [
+            [
                 'title' => 'Site title',
                 'description' => 'Optional description',
                 'site_url' => 'http://blabla.fr/',
-            ),
-            array(
+            ],
+            [
                 'title' => 'Site title',
                 'description' => 'Optional description',
                 'site_url' => 'http://petitcodeur.fr/',
                 'feed_url' => 'http://petitcodeur.fr/feed.xml',
-            )
-        );
+            ]
+        ];
 
         $export = new Export($feeds);
         $opml = $export->execute();
@@ -34,29 +33,29 @@ class ExportTest extends PHPUnit_Framework_TestCase
 
     public function testCategoryOuput()
     {
-        $feeds = array(
-            'my category' => array(
-                array(
+        $feeds = [
+            'my category' => [
+                [
                     'title' => 'Site title',
                     'description' => 'Optional description',
                     'site_url' => 'http://blabla.fr/',
-                ),
-                array(
+                ],
+                [
                     'title' => 'Site title',
                     'description' => 'Optional description',
                     'site_url' => 'http://petitcodeur.fr/',
                     'feed_url' => 'http://petitcodeur.fr/feed.xml',
-                )
-            ),
-            'another category' => array(
-                array(
+                ]
+            ],
+            'another category' => [
+                [
                     'title' => 'Site title',
                     'description' => 'Optional description',
                     'site_url' => 'http://youpi.ici/',
                     'feed_url' => 'http://youpi.ici/feed.xml',
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
         $export = new Export($feeds);
         $opml = $export->execute();

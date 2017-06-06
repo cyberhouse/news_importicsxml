@@ -16,7 +16,6 @@ use PicoFeed\Parser\XmlParser;
  * https://en.wikipedia.org/wiki/Favicon
  *
  * @author  Frederic Guillot
- * @package Reader
  */
 class Favicon
 {
@@ -26,13 +25,13 @@ class Favicon
      * @access private
      * @var array
      */
-    private $types = array(
+    private $types = [
         'image/png',
         'image/gif',
         'image/x-icon',
         'image/jpeg',
         'image/jpg',
-    );
+    ];
 
     /**
      * Config class instance
@@ -128,13 +127,12 @@ class Favicon
         $client = Client::getInstance();
         $client->setConfig($this->config);
 
-        Logger::setMessage(get_called_class().' Download => '.$url);
+        Logger::setMessage(get_called_class() . ' Download => ' . $url);
 
         try {
             $client->execute($url);
-        }
-        catch (ClientException $e) {
-            Logger::setMessage(get_called_class().' Download Failed => '.$e->getMessage());
+        } catch (ClientException $e) {
+            Logger::setMessage(get_called_class() . ' Download Failed => ' . $e->getMessage());
         }
 
         return $client;
@@ -145,7 +143,7 @@ class Favicon
      *
      * @access public
      * @param  string    $url    URL
-     * @return boolean
+     * @return bool
      */
     public function exists($url)
     {
@@ -165,7 +163,7 @@ class Favicon
         $website = new Url($website_link);
 
         if ($favicon_link !== '') {
-            $icons = array($favicon_link);
+            $icons = [$favicon_link];
         } else {
             $icons = $this->extract($this->download($website->getBaseUrl('/'))->getContent());
             $icons[] = $website->getBaseUrl('/favicon.ico');
@@ -196,7 +194,7 @@ class Favicon
      */
     public function extract($html)
     {
-        $icons = array();
+        $icons = [];
 
         if (empty($html)) {
             return $icons;

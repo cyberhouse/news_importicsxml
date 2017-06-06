@@ -2,18 +2,17 @@
 
 namespace PicoFeed\Parser;
 
-use SimpleXMLElement;
 use PicoFeed\Client\Url;
 use PicoFeed\Encoding\Encoding;
 use PicoFeed\Filter\Filter;
 use PicoFeed\Logging\Logger;
 use PicoFeed\Scraper\Scraper;
+use SimpleXMLElement;
 
 /**
  * Base parser class
  *
  * @author  Frederic Guillot
- * @package Parser
  */
 abstract class Parser
 {
@@ -63,7 +62,7 @@ abstract class Parser
      * @access protected
      * @var array
      */
-    protected $namespaces = array();
+    protected $namespaces = [];
 
     /**
      * Enable the content filtering
@@ -95,7 +94,7 @@ abstract class Parser
      * @access private
      * @var array
      */
-    private $grabber_ignore_urls = array();
+    private $grabber_ignore_urls = [];
 
     /**
      * Constructor
@@ -115,7 +114,7 @@ abstract class Parser
         $this->content = Filter::stripXmlTag($content);
 
         // Encode everything in UTF-8
-        Logger::setMessage(get_called_class().': HTTP Encoding "'.$http_encoding.'" ; XML Encoding "'.$xml_encoding.'"');
+        Logger::setMessage(get_called_class() . ': HTTP Encoding "' . $http_encoding . '" ; XML Encoding "' . $xml_encoding . '"');
         $this->content = Encoding::convert($this->content, $xml_encoding ?: $http_encoding);
     }
 
@@ -127,17 +126,17 @@ abstract class Parser
      */
     public function execute()
     {
-        Logger::setMessage(get_called_class().': begin parsing');
+        Logger::setMessage(get_called_class() . ': begin parsing');
 
         $xml = XmlParser::getSimpleXml($this->content);
 
         if ($xml === false) {
-            Logger::setMessage(get_called_class().': Applying XML workarounds');
+            Logger::setMessage(get_called_class() . ': Applying XML workarounds');
             $this->content = Filter::normalizeData($this->content);
             $xml = XmlParser::getSimpleXml($this->content);
 
             if ($xml === false) {
-                Logger::setMessage(get_called_class().': XML parsing error');
+                Logger::setMessage(get_called_class() . ': XML parsing error');
                 Logger::setMessage(XmlParser::getErrors());
                 throw new MalformedXmlException('XML parsing error');
             }
@@ -162,7 +161,6 @@ abstract class Parser
         $this->findFeedIcon($xml, $feed);
 
         foreach ($this->getItemsTree($xml) as $entry) {
-
             $item = new Item;
             $item->xml = $entry;
             $item->namespaces = $this->namespaces;
@@ -189,7 +187,7 @@ abstract class Parser
             $feed->items[] = $item;
         }
 
-        Logger::setMessage(get_called_class().PHP_EOL.$feed);
+        Logger::setMessage(get_called_class() . PHP_EOL . $feed);
 
         return $feed;
     }
@@ -204,8 +202,7 @@ abstract class Parser
     {
         if ($feed->getFeedUrl() === '') {
             $feed->feed_url = $this->fallback_url;
-        }
-        else {
+        } else {
             $feed->feed_url = Url::resolve($feed->getFeedUrl(), $this->fallback_url);
         }
     }
@@ -220,8 +217,7 @@ abstract class Parser
     {
         if ($feed->getSiteUrl() === '') {
             $feed->site_url = Url::base($feed->getFeedUrl());
-        }
-        else {
+        } else {
             $feed->site_url = Url::resolve($feed->getSiteUrl(), $this->fallback_url);
         }
     }
@@ -247,7 +243,6 @@ abstract class Parser
     public function scrapWebsite(Item $item)
     {
         if ($this->enable_grabber && ! in_array($item->getUrl(), $this->grabber_ignore_urls)) {
-
             $grabber = new Scraper($this->config);
             $grabber->setUrl($item->getUrl());
 
@@ -276,9 +271,8 @@ abstract class Parser
             $filter = Filter::html($item->getContent(), $feed->getSiteUrl());
             $filter->setConfig($this->config);
             $item->content = $filter->execute();
-        }
-        else {
-            Logger::setMessage(get_called_class().': Content filtering disabled');
+        } else {
+            Logger::setMessage(get_called_class() . ': Content filtering disabled');
         }
     }
 
@@ -305,7 +299,7 @@ abstract class Parser
     {
         $language = strtolower($language);
 
-        $rtl_languages = array(
+        $rtl_languages = [
             'ar', // Arabic (ar-**)
             'fa', // Farsi (fa-**)
             'ur', // Urdu (ur-**)
@@ -314,7 +308,7 @@ abstract class Parser
             'dv', // Divehi (dv-**)
             'he', // Hebrew (he-**)
             'yi', // Yiddish (yi-**)
-        );
+        ];
 
         foreach ($rtl_languages as $prefix) {
             if (strpos($language, $prefix) === 0) {
@@ -383,7 +377,7 @@ abstract class Parser
      * Return true if the content filtering is enabled
      *
      * @access public
-     * @return boolean
+     * @return bool
      */
     public function isFilteringEnabled()
     {
@@ -427,7 +421,7 @@ abstract class Parser
      * @param  SimpleXMLElement          $xml     Feed xml
      * @param  \PicoFeed\Parser\Feed     $feed    Feed object
      */
-    public abstract function findFeedUrl(SimpleXMLElement $xml, Feed $feed);
+    abstract public function findFeedUrl(SimpleXMLElement $xml, Feed $feed);
 
     /**
      * Find the site url
@@ -436,7 +430,7 @@ abstract class Parser
      * @param  SimpleXMLElement          $xml     Feed xml
      * @param  \PicoFeed\Parser\Feed     $feed    Feed object
      */
-    public abstract function findSiteUrl(SimpleXMLElement $xml, Feed $feed);
+    abstract public function findSiteUrl(SimpleXMLElement $xml, Feed $feed);
 
     /**
      * Find the feed title
@@ -445,7 +439,7 @@ abstract class Parser
      * @param  SimpleXMLElement          $xml     Feed xml
      * @param  \PicoFeed\Parser\Feed     $feed    Feed object
      */
-    public abstract function findFeedTitle(SimpleXMLElement $xml, Feed $feed);
+    abstract public function findFeedTitle(SimpleXMLElement $xml, Feed $feed);
 
     /**
      * Find the feed description
@@ -454,7 +448,7 @@ abstract class Parser
      * @param  SimpleXMLElement          $xml     Feed xml
      * @param  \PicoFeed\Parser\Feed     $feed    Feed object
      */
-    public abstract function findFeedDescription(SimpleXMLElement $xml, Feed $feed);
+    abstract public function findFeedDescription(SimpleXMLElement $xml, Feed $feed);
 
     /**
      * Find the feed language
@@ -463,7 +457,7 @@ abstract class Parser
      * @param  SimpleXMLElement          $xml     Feed xml
      * @param  \PicoFeed\Parser\Feed     $feed    Feed object
      */
-    public abstract function findFeedLanguage(SimpleXMLElement $xml, Feed $feed);
+    abstract public function findFeedLanguage(SimpleXMLElement $xml, Feed $feed);
 
     /**
      * Find the feed id
@@ -472,7 +466,7 @@ abstract class Parser
      * @param  SimpleXMLElement          $xml     Feed xml
      * @param  \PicoFeed\Parser\Feed     $feed    Feed object
      */
-    public abstract function findFeedId(SimpleXMLElement $xml, Feed $feed);
+    abstract public function findFeedId(SimpleXMLElement $xml, Feed $feed);
 
     /**
      * Find the feed date
@@ -481,7 +475,7 @@ abstract class Parser
      * @param  SimpleXMLElement          $xml     Feed xml
      * @param  \PicoFeed\Parser\Feed     $feed    Feed object
      */
-    public abstract function findFeedDate(SimpleXMLElement $xml, Feed $feed);
+    abstract public function findFeedDate(SimpleXMLElement $xml, Feed $feed);
 
     /**
      * Find the feed logo url
@@ -490,7 +484,7 @@ abstract class Parser
      * @param  SimpleXMLElement          $xml     Feed xml
      * @param  \PicoFeed\Parser\Feed     $feed    Feed object
      */
-    public abstract function findFeedLogo(SimpleXMLElement $xml, Feed $feed);
+    abstract public function findFeedLogo(SimpleXMLElement $xml, Feed $feed);
 
     /**
      * Find the feed icon
@@ -499,7 +493,7 @@ abstract class Parser
      * @param  SimpleXMLElement          $xml     Feed xml
      * @param  \PicoFeed\Parser\Feed     $feed    Feed object
      */
-    public abstract function findFeedIcon(SimpleXMLElement $xml, Feed $feed);
+    abstract public function findFeedIcon(SimpleXMLElement $xml, Feed $feed);
 
     /**
      * Get the path to the items XML tree
@@ -508,7 +502,7 @@ abstract class Parser
      * @param  SimpleXMLElement   $xml   Feed xml
      * @return SimpleXMLElement
      */
-    public abstract function getItemsTree(SimpleXMLElement $xml);
+    abstract public function getItemsTree(SimpleXMLElement $xml);
 
     /**
      * Find the item author
@@ -518,7 +512,7 @@ abstract class Parser
      * @param  SimpleXMLElement          $entry   Feed item
      * @param  \PicoFeed\Parser\Item     $item    Item object
      */
-    public abstract function findItemAuthor(SimpleXMLElement $xml, SimpleXMLElement $entry, Item $item);
+    abstract public function findItemAuthor(SimpleXMLElement $xml, SimpleXMLElement $entry, Item $item);
 
     /**
      * Find the item URL
@@ -527,7 +521,7 @@ abstract class Parser
      * @param  SimpleXMLElement          $entry   Feed item
      * @param  \PicoFeed\Parser\Item     $item    Item object
      */
-    public abstract function findItemUrl(SimpleXMLElement $entry, Item $item);
+    abstract public function findItemUrl(SimpleXMLElement $entry, Item $item);
 
     /**
      * Find the item title
@@ -536,7 +530,7 @@ abstract class Parser
      * @param  SimpleXMLElement          $entry   Feed item
      * @param  \PicoFeed\Parser\Item     $item    Item object
      */
-    public abstract function findItemTitle(SimpleXMLElement $entry, Item $item);
+    abstract public function findItemTitle(SimpleXMLElement $entry, Item $item);
 
     /**
      * Genereate the item id
@@ -546,7 +540,7 @@ abstract class Parser
      * @param  \PicoFeed\Parser\Item     $item    Item object
      * @param  \PicoFeed\Parser\Feed     $feed    Feed object
      */
-    public abstract function findItemId(SimpleXMLElement $entry, Item $item, Feed $feed);
+    abstract public function findItemId(SimpleXMLElement $entry, Item $item, Feed $feed);
 
     /**
      * Find the item date
@@ -556,7 +550,7 @@ abstract class Parser
      * @param  Item                      $item    Item object
      * @param  \PicoFeed\Parser\Feed     $feed    Feed object
      */
-    public abstract function findItemDate(SimpleXMLElement $entry, Item $item, Feed $feed);
+    abstract public function findItemDate(SimpleXMLElement $entry, Item $item, Feed $feed);
 
     /**
      * Find the item content
@@ -565,7 +559,7 @@ abstract class Parser
      * @param  SimpleXMLElement          $entry   Feed item
      * @param  \PicoFeed\Parser\Item     $item    Item object
      */
-    public abstract function findItemContent(SimpleXMLElement $entry, Item $item);
+    abstract public function findItemContent(SimpleXMLElement $entry, Item $item);
 
     /**
      * Find the item enclosure
@@ -575,7 +569,7 @@ abstract class Parser
      * @param  \PicoFeed\Parser\Item     $item    Item object
      * @param  \PicoFeed\Parser\Feed     $feed    Feed object
      */
-    public abstract function findItemEnclosure(SimpleXMLElement $entry, Item $item, Feed $feed);
+    abstract public function findItemEnclosure(SimpleXMLElement $entry, Item $item, Feed $feed);
 
     /**
      * Find the item language
@@ -585,5 +579,5 @@ abstract class Parser
      * @param  \PicoFeed\Parser\Item     $item    Item object
      * @param  \PicoFeed\Parser\Feed     $feed    Feed object
      */
-    public abstract function findItemLanguage(SimpleXMLElement $entry, Item $item, Feed $feed);
+    abstract public function findItemLanguage(SimpleXMLElement $entry, Item $item, Feed $feed);
 }

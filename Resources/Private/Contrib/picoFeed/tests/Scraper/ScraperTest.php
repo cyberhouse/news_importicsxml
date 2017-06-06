@@ -3,8 +3,8 @@
 namespace PicoFeed\Scraper;
 
 use PHPUnit_Framework_TestCase;
-use PicoFeed\Reader\Reader;
 use PicoFeed\Config\Config;
+use PicoFeed\Reader\Reader;
 
 class ScraperTest extends PHPUnit_Framework_TestCase
 {

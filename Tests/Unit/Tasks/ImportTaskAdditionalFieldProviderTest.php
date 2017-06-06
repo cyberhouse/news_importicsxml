@@ -14,7 +14,6 @@ namespace Cyberhouse\NewsImporticsxml\Tests\Unit\Tasks;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 class ImportTaskAdditionalFieldProviderTest extends UnitTestCase
@@ -27,70 +26,70 @@ class ImportTaskAdditionalFieldProviderTest extends UnitTestCase
     public function propertyValidation($data, $result)
     {
         $mockedSchedulerController = $this->getAccessibleMock('TYPO3\\CMS\\Scheduler\\Controller\\SchedulerModuleController',
-            array('dummy'), array(), '', false);
+            ['dummy'], [], '', false);
 
         $fieldProvider = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Tasks\\ImportTaskAdditionalFieldProvider',
-            array('translate'), array(), '', false);
+            ['translate'], [], '', false);
         $this->assertEquals($result, $fieldProvider->_call('validate', $data, $mockedSchedulerController));
     }
 
     public function propertyValidationDataProvider()
     {
-        return array(
-            'works' => array(
-                array(
+        return [
+            'works' => [
+                [
                     'email' => 'fo@bar.com',
                     'path' => 'fileadmin/xy.xml',
                     'pid' => '123',
                     'format' => 'xml',
-                ),
+                ],
                 true
-            ),
-            'wrongEmail' => array(
-                array(
+            ],
+            'wrongEmail' => [
+                [
                     'email' => 'lorem ipsum',
                     'path' => 'fileadmin/xy.xml',
                     'pid' => '123',
                     'format' => 'xml',
-                ),
+                ],
                 false
-            ),
-            'optionalEmailIsOk' => array(
-                array(
+            ],
+            'optionalEmailIsOk' => [
+                [
                     'email' => '',
                     'path' => 'fileadmin/xy.xml',
                     'pid' => '123',
                     'format' => 'xml',
-                ),
+                ],
                 true
-            ),
-            'wrongPid' => array(
-                array(
+            ],
+            'wrongPid' => [
+                [
                     'email' => '',
                     'path' => 'fileadmin/xy.xml',
                     'pid' => 'text',
                     'format' => 'xml',
-                ),
+                ],
                 false
-            ),
-            'noFormat' => array(
-                array(
+            ],
+            'noFormat' => [
+                [
                     'email' => '',
                     'path' => 'fileadmin/xy.xml',
                     'pid' => 'text',
                     'format' => '',
-                ),
+                ],
                 false
-            ),
-            'noPath' => array(
-                array(
+            ],
+            'noPath' => [
+                [
                     'email' => '',
                     'path' => '',
                     'pid' => 'text',
                     'format' => 'xml',
-                ),
+                ],
                 false
-            )
-        );
+            ]
+        ];
     }
 }

@@ -2,16 +2,15 @@
 
 namespace PicoFeed\Filter;
 
-use PicoFeed\Config\Config;
 use PicoFeed\Client\Url;
-use PicoFeed\Scraper\RuleLoader;
+use PicoFeed\Config\Config;
 use PicoFeed\Parser\XmlParser;
+use PicoFeed\Scraper\RuleLoader;
 
 /**
  * HTML Filter class
  *
  * @author  Frederic Guillot
- * @package Filter
  */
 class Html
 {
@@ -45,13 +44,13 @@ class Html
      * @access private
      * @var array
      */
-    private $empty_tags = array();
+    private $empty_tags = [];
 
     /**
      * Empty flag
      *
      * @access private
-     * @var boolean
+     * @var bool
      */
     private $empty = true;
 
@@ -110,15 +109,15 @@ class Html
             $this->attribute->setImageProxyCallback($this->config->getFilterImageProxyCallback());
             $this->attribute->setImageProxyUrl($this->config->getFilterImageProxyUrl());
             $this->attribute->setImageProxyProtocol($this->config->getFilterImageProxyProtocol());
-            $this->attribute->setIframeWhitelist($this->config->getFilterIframeWhitelist(array()));
-            $this->attribute->setIntegerAttributes($this->config->getFilterIntegerAttributes(array()));
-            $this->attribute->setAttributeOverrides($this->config->getFilterAttributeOverrides(array()));
-            $this->attribute->setRequiredAttributes($this->config->getFilterRequiredAttributes(array()));
-            $this->attribute->setMediaBlacklist($this->config->getFilterMediaBlacklist(array()));
-            $this->attribute->setMediaAttributes($this->config->getFilterMediaAttributes(array()));
-            $this->attribute->setSchemeWhitelist($this->config->getFilterSchemeWhitelist(array()));
-            $this->attribute->setWhitelistedAttributes($this->config->getFilterWhitelistedTags(array()));
-            $this->tag->setWhitelistedTags(array_keys($this->config->getFilterWhitelistedTags(array())));
+            $this->attribute->setIframeWhitelist($this->config->getFilterIframeWhitelist([]));
+            $this->attribute->setIntegerAttributes($this->config->getFilterIntegerAttributes([]));
+            $this->attribute->setAttributeOverrides($this->config->getFilterAttributeOverrides([]));
+            $this->attribute->setRequiredAttributes($this->config->getFilterRequiredAttributes([]));
+            $this->attribute->setMediaBlacklist($this->config->getFilterMediaBlacklist([]));
+            $this->attribute->setMediaAttributes($this->config->getFilterMediaAttributes([]));
+            $this->attribute->setSchemeWhitelist($this->config->getFilterSchemeWhitelist([]));
+            $this->attribute->setWhitelistedAttributes($this->config->getFilterWhitelistedTags([]));
+            $this->tag->setWhitelistedTags(array_keys($this->config->getFilterWhitelistedTags([])));
         }
 
         return $this;
@@ -195,7 +194,7 @@ class Html
         if (isset($rules['filter'])) {
             foreach ($rules['filter'] as $pattern => $rule) {
                 if (preg_match($pattern, $sub_url)) {
-                    foreach($rule as $search => $replace) {
+                    foreach ($rule as $search => $replace) {
                         $content = preg_replace($search, $replace, $content);
                     }
                 }
@@ -218,11 +217,9 @@ class Html
         $this->empty = true;
 
         if ($this->tag->isAllowed($tag, $attributes)) {
-
             $attributes = $this->attribute->filter($tag, $attributes);
 
             if ($this->attribute->hasRequiredAttributes($tag, $attributes)) {
-
                 $attributes = $this->attribute->addAttributes($tag, $attributes);
 
                 $this->output .= $this->tag->openHtmlTag($tag, $this->attribute->toHtml($attributes));

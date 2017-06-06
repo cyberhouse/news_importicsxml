@@ -9,7 +9,6 @@ use DateTimeZone;
  * Date Parser
  *
  * @author  Frederic Guillot
- * @package Parser
  */
 class DateParser
 {
@@ -27,7 +26,7 @@ class DateParser
      * @access public
      * @var array
      */
-    public $formats = array(
+    public $formats = [
         DATE_ATOM => null,
         DATE_RSS => null,
         DATE_COOKIE => null,
@@ -53,7 +52,7 @@ class DateParser
         'm.d.Y' => 10,
         'd/m/Y' => 10,
         'm/d/Y' => 10,
-    );
+    ];
 
     /**
      * Try to parse all date format for broken feeds
@@ -67,7 +66,6 @@ class DateParser
         $value = trim($value);
 
         foreach ($this->formats as $format => $length) {
-
             $truncated_value = $value;
             if ($length !== null) {
                 $truncated_value = substr($truncated_value, 0, $length);
@@ -88,14 +86,13 @@ class DateParser
      * @access public
      * @param  string  $format   Date format
      * @param  string  $value    Original date value
-     * @return DateTime|boolean
+     * @return DateTime|bool
      */
     public function getValidDate($format, $value)
     {
         $date = DateTime::createFromFormat($format, $value, new DateTimeZone($this->timezone));
 
         if ($date !== false) {
-
             $errors = DateTime::getLastErrors();
 
             if ($errors['error_count'] === 0 && $errors['warning_count'] === 0) {

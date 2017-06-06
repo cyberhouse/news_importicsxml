@@ -6,7 +6,6 @@ use PHPUnit_Framework_TestCase;
 use PicoFeed\Client\Url;
 use PicoFeed\Config\Config;
 
-
 class AttributeFilterTest extends PHPUnit_Framework_TestCase
 {
     public function testFilterEmptyAttribute()
@@ -15,8 +14,8 @@ class AttributeFilterTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($filter->filterEmptyAttribute('abbr', 'title', 'test'));
         $this->assertFalse($filter->filterEmptyAttribute('abbr', 'title', ''));
-        $this->assertEquals(array('title' => 'test'), $filter->filter('abbr', array('title' => 'test')));
-        $this->assertEquals(array(), $filter->filter('abbr', array('title' => '')));
+        $this->assertEquals(['title' => 'test'], $filter->filter('abbr', ['title' => 'test']));
+        $this->assertEquals([], $filter->filter('abbr', ['title' => '']));
     }
 
     public function testFilterAllowedAttribute()
@@ -26,9 +25,9 @@ class AttributeFilterTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($filter->filterAllowedAttribute('abbr', 'title', 'test'));
         $this->assertFalse($filter->filterAllowedAttribute('script', 'type', 'text/javascript'));
 
-        $this->assertEquals(array(), $filter->filter('script', array('type' => 'text/javascript')));
-        $this->assertEquals(array(), $filter->filter('a', array('onclick' => 'javascript')));
-        $this->assertEquals(array('href' => 'http://google.com/'), $filter->filter('a', array('href' => 'http://google.com')));
+        $this->assertEquals([], $filter->filter('script', ['type' => 'text/javascript']));
+        $this->assertEquals([], $filter->filter('a', ['onclick' => 'javascript']));
+        $this->assertEquals(['href' => 'http://google.com/'], $filter->filter('a', ['href' => 'http://google.com']));
     }
 
     public function testFilterIntegerAttribute()
@@ -40,8 +39,8 @@ class AttributeFilterTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($filter->filterIntegerAttribute('iframe', 'width', '450'));
         $this->assertFalse($filter->filterIntegerAttribute('iframe', 'width', 'test'));
 
-        $this->assertEquals(array('width' => '10', 'src' => 'https://www.youtube.com/test'), $filter->filter('iframe', array('width' => '10', 'src' => 'http://www.youtube.com/test')));
-        $this->assertEquals(array('src' => 'https://www.youtube.com/test'), $filter->filter('iframe', array('width' => 'test', 'src' => 'http://www.youtube.com/test')));
+        $this->assertEquals(['width' => '10', 'src' => 'https://www.youtube.com/test'], $filter->filter('iframe', ['width' => '10', 'src' => 'http://www.youtube.com/test']));
+        $this->assertEquals(['src' => 'https://www.youtube.com/test'], $filter->filter('iframe', ['width' => 'test', 'src' => 'http://www.youtube.com/test']));
     }
 
     public function testRewriteProxyImageUrl()
@@ -65,18 +64,18 @@ class AttributeFilterTest extends PHPUnit_Framework_TestCase
         $filter->setImageProxyUrl('https://myproxy/?u=%s');
         $url = 'http://example.net/image.png';
         $this->assertTrue($filter->rewriteImageProxyUrl('img', 'src', $url));
-        $this->assertEquals('https://myproxy/?u='.rawurlencode('http://example.net/image.png'), $url);
+        $this->assertEquals('https://myproxy/?u=' . rawurlencode('http://example.net/image.png'), $url);
 
         $filter = new Attribute(new Url('http://www.la-grange.net'));
 
         $filter->setImageProxyCallback(function ($image_url) {
             $key = hash_hmac('sha1', $image_url, 'secret');
-            return 'https://mypublicproxy/'.$key.'/'.rawurlencode($image_url);
+            return 'https://mypublicproxy/' . $key . '/' . rawurlencode($image_url);
         });
 
         $url = 'http://example.net/image.png';
         $this->assertTrue($filter->rewriteImageProxyUrl('img', 'src', $url));
-        $this->assertEquals('https://mypublicproxy/d9701029b054f6e178ef88fcd3c789365e52a26d/'.rawurlencode('http://example.net/image.png'), $url);
+        $this->assertEquals('https://mypublicproxy/d9701029b054f6e178ef88fcd3c789365e52a26d/' . rawurlencode('http://example.net/image.png'), $url);
     }
 
     public function testRewriteAbsoluteUrl()
@@ -111,10 +110,10 @@ class AttributeFilterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('https://127.0.0.1:8000/here/image.png?v=2', $url);
 
         $filter = new Attribute(new Url('https://truc/'));
-        $this->assertEquals(array('src' => 'https://www.youtube.com/test'), $filter->filter('iframe', array('width' => 'test', 'src' => '//www.youtube.com/test')));
+        $this->assertEquals(['src' => 'https://www.youtube.com/test'], $filter->filter('iframe', ['width' => 'test', 'src' => '//www.youtube.com/test']));
 
         $filter = new Attribute(new Url('http://truc/'));
-        $this->assertEquals(array('href' => 'http://google.fr/'), $filter->filter('a', array('href' => '//google.fr')));
+        $this->assertEquals(['href' => 'http://google.fr/'], $filter->filter('a', ['href' => '//google.fr']));
     }
 
     public function testFilterIframeAttribute()
@@ -126,20 +125,20 @@ class AttributeFilterTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($filter->filterIframeAttribute('iframe', 'src', '//www.youtube.com/test'));
         $this->assertFalse($filter->filterIframeAttribute('iframe', 'src', '//www.bidule.com/test'));
 
-        $this->assertEquals(array('src' => 'https://www.youtube.com/test'), $filter->filter('iframe', array('src' => '//www.youtube.com/test')));
+        $this->assertEquals(['src' => 'https://www.youtube.com/test'], $filter->filter('iframe', ['src' => '//www.youtube.com/test']));
     }
 
     public function testRemoveYouTubeAutoplay()
     {
         $filter = new Attribute(new Url('http://google.com'));
-        $urls = array(
+        $urls = [
             'https://www.youtube.com/something/?autoplay=1' => 'https://www.youtube.com/something/?autoplay=0',
             'https://www.youtube.com/something/?test=s&autoplay=1&a=2' => 'https://www.youtube.com/something/?test=s&autoplay=0&a=2',
             'https://www.youtube.com/something/?test=s' => 'https://www.youtube.com/something/?test=s',
             'https://youtube.com/something/?autoplay=1' => 'https://youtube.com/something/?autoplay=0',
             'https://youtube.com/something/?test=s&autoplay=1&a=2' => 'https://youtube.com/something/?test=s&autoplay=0&a=2',
             'https://youtube.com/something/?test=s' => 'https://youtube.com/something/?test=s',
-        );
+        ];
 
         foreach ($urls as $before => $after) {
             $filter->removeYouTubeAutoplay('iframe', 'src', $before);
@@ -154,8 +153,8 @@ class AttributeFilterTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($filter->filterBlacklistResourceAttribute('a', 'href', 'http://google.fr/'));
         $this->assertFalse($filter->filterBlacklistResourceAttribute('a', 'href', 'http://res3.feedsportal.com/truc'));
 
-        $this->assertEquals(array('href' => 'http://google.fr/'), $filter->filter('a', array('href' => 'http://google.fr/')));
-        $this->assertEquals(array(), $filter->filter('a', array('href' => 'http://res3.feedsportal.com/')));
+        $this->assertEquals(['href' => 'http://google.fr/'], $filter->filter('a', ['href' => 'http://google.fr/']));
+        $this->assertEquals([], $filter->filter('a', ['href' => 'http://res3.feedsportal.com/']));
     }
 
     public function testFilterProtocolAttribute()
@@ -166,30 +165,30 @@ class AttributeFilterTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($filter->filterProtocolUrlAttribute('a', 'href', 'bla://google.fr/'));
         $this->assertFalse($filter->filterProtocolUrlAttribute('a', 'href', 'javascript:alert("test")'));
 
-        $this->assertEquals(array('href' => 'http://google.fr/'), $filter->filter('a', array('href' => 'http://google.fr/')));
-        $this->assertEquals(array(), $filter->filter('a', array('href' => 'bla://google.fr/')));
+        $this->assertEquals(['href' => 'http://google.fr/'], $filter->filter('a', ['href' => 'http://google.fr/']));
+        $this->assertEquals([], $filter->filter('a', ['href' => 'bla://google.fr/']));
     }
 
     public function testRequiredAttribute()
     {
         $filter = new Attribute(new Url('http://google.com'));
 
-        $this->assertTrue($filter->hasRequiredAttributes('a', array('href' => 'bla')));
-        $this->assertTrue($filter->hasRequiredAttributes('img', array('src' => 'bla')));
-        $this->assertTrue($filter->hasRequiredAttributes('source', array('src' => 'bla')));
-        $this->assertTrue($filter->hasRequiredAttributes('audio', array('src' => 'bla')));
-        $this->assertTrue($filter->hasRequiredAttributes('iframe', array('src' => 'bla')));
-        $this->assertTrue($filter->hasRequiredAttributes('p', array('class' => 'bla')));
-        $this->assertFalse($filter->hasRequiredAttributes('a', array('title' => 'bla')));
+        $this->assertTrue($filter->hasRequiredAttributes('a', ['href' => 'bla']));
+        $this->assertTrue($filter->hasRequiredAttributes('img', ['src' => 'bla']));
+        $this->assertTrue($filter->hasRequiredAttributes('source', ['src' => 'bla']));
+        $this->assertTrue($filter->hasRequiredAttributes('audio', ['src' => 'bla']));
+        $this->assertTrue($filter->hasRequiredAttributes('iframe', ['src' => 'bla']));
+        $this->assertTrue($filter->hasRequiredAttributes('p', ['class' => 'bla']));
+        $this->assertFalse($filter->hasRequiredAttributes('a', ['title' => 'bla']));
     }
 
     public function testHtml()
     {
         $filter = new Attribute(new Url('http://google.com'));
 
-        $this->assertEquals('title="A &amp; B"', $filter->toHtml(array('title' => 'A & B')));
-        $this->assertEquals('title="&quot;a&quot;"', $filter->toHtml(array('title' => '"a"')));
-        $this->assertEquals('title="ç" alt="b"', $filter->toHtml(array('title' => 'ç', 'alt' => 'b')));
+        $this->assertEquals('title="A &amp; B"', $filter->toHtml(['title' => 'A & B']));
+        $this->assertEquals('title="&quot;a&quot;"', $filter->toHtml(['title' => '"a"']));
+        $this->assertEquals('title="ç" alt="b"', $filter->toHtml(['title' => 'ç', 'alt' => 'b']));
     }
 
     public function testNoImageProxySet()
@@ -211,7 +210,7 @@ class AttributeFilterTest extends PHPUnit_Framework_TestCase
         $f->setConfig($config);
 
         $this->assertEquals(
-            '<p>Image <img src="http://myproxy/?url='.rawurlencode('http://localhost/image.png').'" alt="My Image"/></p>',
+            '<p>Image <img src="http://myproxy/?url=' . rawurlencode('http://localhost/image.png') . '" alt="My Image"/></p>',
             $f->execute()
         );
     }
@@ -225,7 +224,7 @@ class AttributeFilterTest extends PHPUnit_Framework_TestCase
         $f->setConfig($config);
 
         $this->assertEquals(
-            '<p>Image <img src="http://myproxy/?url='.rawurlencode('https://localhost/image.png').'" alt="My Image"/></p>',
+            '<p>Image <img src="http://myproxy/?url=' . rawurlencode('https://localhost/image.png') . '" alt="My Image"/></p>',
             $f->execute()
         );
     }
@@ -255,7 +254,7 @@ class AttributeFilterTest extends PHPUnit_Framework_TestCase
         $f->setConfig($config);
 
         $this->assertEquals(
-            '<p>Image <img src="http://myproxy/?url='.rawurlencode('http://localhost/image.png').'" alt="My Image"/></p>',
+            '<p>Image <img src="http://myproxy/?url=' . rawurlencode('http://localhost/image.png') . '" alt="My Image"/></p>',
             $f->execute()
         );
     }
@@ -300,7 +299,7 @@ class AttributeFilterTest extends PHPUnit_Framework_TestCase
         $f->setConfig($config);
 
         $this->assertEquals(
-            '<p>Image <img src="http://myproxy/?url='.rawurlencode('https://localhost/image.png').'" alt="My Image"/></p>',
+            '<p>Image <img src="http://myproxy/?url=' . rawurlencode('https://localhost/image.png') . '" alt="My Image"/></p>',
             $f->execute()
         );
     }
@@ -310,14 +309,14 @@ class AttributeFilterTest extends PHPUnit_Framework_TestCase
         $config = new Config;
         $config->setFilterImageProxyCallback(function ($image_url) {
             $key = hash_hmac('sha1', $image_url, 'secret');
-            return 'https://mypublicproxy/'.$key.'/'.rawurlencode($image_url);
+            return 'https://mypublicproxy/' . $key . '/' . rawurlencode($image_url);
         });
 
         $f = Filter::html('<p>Image <img src="/image.png" alt="My Image"/></p>', 'http://foo');
         $f->setConfig($config);
 
         $this->assertEquals(
-            '<p>Image <img src="https://mypublicproxy/4924964043f3119b3cf2b07b1922d491bcc20092/'.rawurlencode('http://foo/image.png').'" alt="My Image"/></p>',
+            '<p>Image <img src="https://mypublicproxy/4924964043f3119b3cf2b07b1922d491bcc20092/' . rawurlencode('http://foo/image.png') . '" alt="My Image"/></p>',
             $f->execute()
         );
     }

@@ -1,15 +1,15 @@
 <?php
-return array(
-    'grabber' => array(
-        '%.*%' => array(
+return [
+    'grabber' => [
+        '%.*%' => [
             'test_url' => 'http://www.numerama.com/magazine/26857-bientot-des-robots-dans-les-cuisines-de-mcdo.html',
-            'body' => array(
+            'body' => [
                 '//div[@class="col_left"]//div[@class="content"]',
-            ),
-            'strip' => array(
+            ],
+            'strip' => [
                 '//div[@class="news_social"]',
                 '//div[@id="newssuiv"]',
-            )
-        )
-    )
-);
+            ]
+        ]
+    ]
+];

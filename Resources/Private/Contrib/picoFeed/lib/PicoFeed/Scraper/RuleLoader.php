@@ -2,15 +2,14 @@
 
 namespace PicoFeed\Scraper;
 
-use PicoFeed\Logging\Logger;
 use PicoFeed\Config\Config;
+use PicoFeed\Logging\Logger;
 
 /**
  * RuleLoader class
  *
  * @author  Frederic Guillot
  * @author  Bernhard Posselt
- * @package Scraper
  */
 class RuleLoader
 {
@@ -45,7 +44,6 @@ class RuleLoader
         $hostname = parse_url($url, PHP_URL_HOST);
 
         if ($hostname !== false) {
-
             $files = $this->getRulesFileList($hostname);
 
             foreach ($this->getRulesFolders() as $folder) {
@@ -57,7 +55,7 @@ class RuleLoader
             }
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -69,18 +67,17 @@ class RuleLoader
      */
     public function getRulesFileList($hostname)
     {
-        $files = array($hostname);                 // subdomain.domain.tld
+        $files = [$hostname];                 // subdomain.domain.tld
         $parts = explode('.', $hostname);
         $len = count($parts);
 
         if ($len > 2) {
             $subdomain = array_shift($parts);
             $files[] = implode('.', $parts);       // domain.tld
-            $files[] = '.'.implode('.', $parts);   // .domain.tld
+            $files[] = '.' . implode('.', $parts);   // .domain.tld
             $files[] = $subdomain;                 // subdomain
-        }
-        else if ($len === 2) {
-            $files[] = '.'.implode('.', $parts);    // .domain.tld
+        } elseif ($len === 2) {
+            $files[] = '.' . implode('.', $parts);    // .domain.tld
             $files[] = $parts[0];                   // domain
         }
 
@@ -98,14 +95,14 @@ class RuleLoader
     public function loadRuleFile($folder, array $files)
     {
         foreach ($files as $file) {
-            $filename = $folder.'/'.$file.'.php';
+            $filename = $folder . '/' . $file . '.php';
             if (file_exists($filename)) {
-                Logger::setMessage(get_called_class().' Load rule: '.$file);
+                Logger::setMessage(get_called_class() . ' Load rule: ' . $file);
                 return include $filename;
             }
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -116,7 +113,7 @@ class RuleLoader
      */
     public function getRulesFolders()
     {
-        $folders = array(__DIR__.'/../Rules');
+        $folders = [__DIR__ . '/../Rules'];
 
         if ($this->config !== null && $this->config->getGrabberRulesFolder() !== null) {
             $folders[] = $this->config->getGrabberRulesFolder();

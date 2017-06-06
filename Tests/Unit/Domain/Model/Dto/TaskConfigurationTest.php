@@ -85,4 +85,3 @@ class TaskConfigurationTest extends UnitTestCase
         $this->assertEquals($value, $this->instance->getMapping());
     }
 }
-

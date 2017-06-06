@@ -31,14 +31,14 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
      */
     public function getAdditionalFields(array &$taskInfo, $task, SchedulerModuleController $parentObject)
     {
-        $additionalFields = array();
-        $fields = array(
-            'format' => array('type' => 'select', 'options' => array('xml', 'ics')),
-            'path' => array('type' => 'input'),
-            'pid' => array('type' => 'input'),
-            'mapping' => array('type' => 'textarea'),
-            'email' => array('type' => 'input', 'default' => $GLOBALS['BE_USER']->user['email']),
-        );
+        $additionalFields = [];
+        $fields = [
+            'format' => ['type' => 'select', 'options' => ['xml', 'ics']],
+            'path' => ['type' => 'input'],
+            'pid' => ['type' => 'input'],
+            'mapping' => ['type' => 'textarea'],
+            'email' => ['type' => 'input', 'default' => $GLOBALS['BE_USER']->user['email']],
+        ];
 
         foreach ($fields as $field => $configuration) {
             if (empty($taskInfo[$field])) {
@@ -61,7 +61,7 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
                     $html = '<textarea name="tx_scheduler[' . $field . ']" id="' . $field . '">' . $value . '</textarea>';
                     break;
                 case 'select':
-                    $options = array();
+                    $options = [];
                     foreach ($configuration['options'] as $item) {
                         $options[] = sprintf(
                             '<option %s value="%s">%s</option>',
@@ -74,10 +74,10 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
                             $options) . '</select>';
                     break;
             }
-            $additionalFields[$field] = array(
+            $additionalFields[$field] = [
                 'code' => $html,
                 'label' => $this->translate($field)
-            );
+            ];
         }
         return $additionalFields;
     }
@@ -145,5 +145,4 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
         }
         return $result;
     }
-
 }

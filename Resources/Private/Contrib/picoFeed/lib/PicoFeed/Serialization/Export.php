@@ -8,7 +8,6 @@ use SimpleXMLElement;
  * OPML export class
  *
  * @author  Frederic Guillot
- * @package Serialization
  */
 class Export
 {
@@ -18,7 +17,7 @@ class Export
      * @access private
      * @var array
      */
-    private $content = array();
+    private $content = [];
 
     /**
      * List of required properties for each feed
@@ -26,11 +25,11 @@ class Export
      * @access private
      * @var array
      */
-    private $required_fields = array(
+    private $required_fields = [
         'title',
         'site_url',
         'feed_url',
-    );
+    ];
 
     /**
      * Constructor
@@ -59,11 +58,9 @@ class Export
         $body = $xml->addChild('body');
 
         foreach ($this->content as $category => $values) {
-
             if (is_string($category)) {
                 $this->createCategory($body, $category, $values);
-            }
-            else {
+            } else {
                 $this->createEntry($body, $values);
             }
         }

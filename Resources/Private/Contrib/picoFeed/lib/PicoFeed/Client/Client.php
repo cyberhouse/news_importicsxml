@@ -9,7 +9,6 @@ use PicoFeed\Logging\Logger;
  * Client class
  *
  * @author  Frederic Guillot
- * @package client
  */
 abstract class Client
 {
@@ -43,7 +42,7 @@ abstract class Client
      * @access protected
      * @var array
      */
-    protected $request_headers = array();
+    protected $request_headers = [];
 
     /**
      * HTTP Etag header
@@ -73,7 +72,7 @@ abstract class Client
      * Proxy port
      *
      * @access protected
-     * @var integer
+     * @var int
      */
     protected $proxy_port = 3128;
 
@@ -113,7 +112,7 @@ abstract class Client
      * Client connection timeout
      *
      * @access protected
-     * @var integer
+     * @var int
      */
     protected $timeout = 10;
 
@@ -145,7 +144,7 @@ abstract class Client
      * Number maximum of HTTP redirections to avoid infinite loops
      *
      * @access protected
-     * @var integer
+     * @var int
      */
     protected $max_redirects = 5;
 
@@ -153,7 +152,7 @@ abstract class Client
      * Maximum size of the HTTP body response
      *
      * @access protected
-     * @var integer
+     * @var int
      */
     protected $max_body_size = 2097152; // 2MB
 
@@ -161,7 +160,7 @@ abstract class Client
      * HTTP response status code
      *
      * @access protected
-     * @var integer
+     * @var int
      */
     protected $status_code = 0;
 
@@ -193,8 +192,7 @@ abstract class Client
     {
         if (function_exists('curl_init')) {
             return new Curl;
-        }
-        else if (ini_get('allow_url_fopen')) {
+        } elseif (ini_get('allow_url_fopen')) {
             return new Stream;
         }
 
@@ -207,7 +205,8 @@ abstract class Client
      * @access public
      * @param array $headers
      */
-    public function setHeaders($headers) {
+    public function setHeaders($headers)
+    {
         $this->request_headers = $headers;
     }
 
@@ -224,9 +223,9 @@ abstract class Client
             $this->url = $url;
         }
 
-        Logger::setMessage(get_called_class().' Fetch URL: '.$this->url);
-        Logger::setMessage(get_called_class().' Etag provided: '.$this->etag);
-        Logger::setMessage(get_called_class().' Last-Modified provided: '.$this->last_modified);
+        Logger::setMessage(get_called_class() . ' Fetch URL: ' . $this->url);
+        Logger::setMessage(get_called_class() . ' Etag provided: ' . $this->etag);
+        Logger::setMessage(get_called_class() . ' Last-Modified provided: ' . $this->last_modified);
 
         $response = $this->doRequest();
 
@@ -248,15 +247,14 @@ abstract class Client
     {
         if ($response['status'] == 304) {
             $this->is_modified = false;
-        }
-        else if ($response['status'] == 200) {
+        } elseif ($response['status'] == 200) {
             $this->is_modified = $this->hasBeenModified($response, $this->etag, $this->last_modified);
             $this->etag = $this->getHeader($response, 'ETag');
             $this->last_modified = $this->getHeader($response, 'Last-Modified');
         }
 
         if ($this->is_modified === false) {
-            Logger::setMessage(get_called_class().' Resource not modified');
+            Logger::setMessage(get_called_class() . ' Resource not modified');
         }
     }
 
@@ -295,14 +293,14 @@ abstract class Client
      * @param  array    $response
      * @param  string   $etag
      * @param  string   $lastModified
-     * @return boolean
+     * @return bool
      */
     private function hasBeenModified($response, $etag, $lastModified)
     {
-        $headers = array(
+        $headers = [
             'Etag' => $etag,
             'Last-Modified' => $lastModified
-        );
+        ];
 
         // Compare the values for each header that is present
         $presentCacheHeaderCount = 0;
@@ -437,7 +435,7 @@ abstract class Client
      * Get the HTTP response status code
      *
      * @access public
-     * @return integer
+     * @return int
      */
     public function getStatusCode()
     {
@@ -503,7 +501,7 @@ abstract class Client
      * Set connection timeout
      *
      * @access public
-     * @param  integer   $timeout   Connection timeout
+     * @param  int   $timeout   Connection timeout
      * @return \PicoFeed\Client\Client
      */
     public function setTimeout($timeout)
@@ -529,7 +527,7 @@ abstract class Client
      * Set the mximum number of HTTP redirections
      *
      * @access public
-     * @param  integer   $max   Maximum
+     * @param  int   $max   Maximum
      * @return \PicoFeed\Client\Client
      */
     public function setMaxRedirections($max)
@@ -542,7 +540,7 @@ abstract class Client
      * Set the maximum size of the HTTP body
      *
      * @access public
-     * @param  integer   $max   Maximum
+     * @param  int   $max   Maximum
      * @return \PicoFeed\Client\Client
      */
     public function setMaxBodySize($max)
@@ -568,7 +566,7 @@ abstract class Client
      * Set the proxy port
      *
      * @access public
-     * @param  integer   $port   Proxy port
+     * @param  int   $port   Proxy port
      * @return \PicoFeed\Client\Client
      */
     public function setProxyPort($port)

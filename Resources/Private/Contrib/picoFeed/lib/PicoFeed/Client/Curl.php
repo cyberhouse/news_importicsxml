@@ -8,7 +8,6 @@ use PicoFeed\Logging\Logger;
  * cURL HTTP client
  *
  * @author  Frederic Guillot
- * @package Client
  */
 class Curl extends Client
 {
@@ -24,7 +23,7 @@ class Curl extends Client
      * Body size
      *
      * @access private
-     * @var integer
+     * @var int
      */
     private $body_length = 0;
 
@@ -34,13 +33,13 @@ class Curl extends Client
      * @access private
      * @var array
      */
-    private $response_headers = array();
+    private $response_headers = [];
 
     /**
      * Counter on the number of header received
      *
      * @access private
-     * @var integer
+     * @var int
      */
     private $response_headers_count = 0;
 
@@ -52,7 +51,7 @@ class Curl extends Client
      * @access public
      * @param  resource  $ch       cURL handler
      * @param  string    $buffer   Chunk of data
-     * @return integer   Length of the buffer
+     * @return int   Length of the buffer
      */
     public function readBody($ch, $buffer)
     {
@@ -74,7 +73,7 @@ class Curl extends Client
      * @access public
      * @param  resource  $ch       cURL handler
      * @param  string    $buffer   Header line
-     * @return integer   Length of the buffer
+     * @return int   Length of the buffer
      */
     public function readHeaders($ch, $buffer)
     {
@@ -82,9 +81,7 @@ class Curl extends Client
 
         if ($buffer === "\r\n" || $buffer === "\n") {
             $this->response_headers_count++;
-        }
-        else {
-
+        } else {
             if (! isset($this->response_headers[$this->response_headers_count])) {
                 $this->response_headers[$this->response_headers_count] = '';
             }
@@ -101,16 +98,15 @@ class Curl extends Client
      * @access public
      * @param  resource  $ch       cURL handler
      * @param  string    $buffer   Header line
-     * @return integer   Length of the buffer
+     * @return int   Length of the buffer
      */
     public function passthroughHeaders($ch, $buffer)
     {
-        list($status, $headers) = HttpHeaders::parse(array($buffer));
+        list($status, $headers) = HttpHeaders::parse([$buffer]);
 
         if ($status !== 0) {
             header(':', true, $status);
-        }
-        elseif (isset($headers['Content-Type'])) {
+        } elseif (isset($headers['Content-Type'])) {
             header($buffer);
         }
 
@@ -125,7 +121,7 @@ class Curl extends Client
      * @access public
      * @param  resource  $ch       cURL handler
      * @param  string    $buffer   Chunk of data
-     * @return integer   Length of the buffer
+     * @return int   Length of the buffer
      */
     public function passthroughBody($ch, $buffer)
     {
@@ -141,16 +137,16 @@ class Curl extends Client
      */
     private function prepareHeaders()
     {
-        $headers = array(
+        $headers = [
             'Connection: close',
-        );
+        ];
 
         if ($this->etag) {
-            $headers[] = 'If-None-Match: '.$this->etag;
+            $headers[] = 'If-None-Match: ' . $this->etag;
         }
 
         if ($this->last_modified) {
-            $headers[] = 'If-Modified-Since: '.$this->last_modified;
+            $headers[] = 'If-Modified-Since: ' . $this->last_modified;
         }
 
         $headers = array_merge($headers, $this->request_headers);
@@ -168,19 +164,17 @@ class Curl extends Client
     private function prepareProxyContext($ch)
     {
         if ($this->proxy_hostname) {
-
-            Logger::setMessage(get_called_class().' Proxy: '.$this->proxy_hostname.':'.$this->proxy_port);
+            Logger::setMessage(get_called_class() . ' Proxy: ' . $this->proxy_hostname . ':' . $this->proxy_port);
 
             curl_setopt($ch, CURLOPT_PROXYPORT, $this->proxy_port);
             curl_setopt($ch, CURLOPT_PROXYTYPE, 'HTTP');
             curl_setopt($ch, CURLOPT_PROXY, $this->proxy_hostname);
 
             if ($this->proxy_username) {
-                Logger::setMessage(get_called_class().' Proxy credentials: Yes');
-                curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->proxy_username.':'.$this->proxy_password);
-            }
-            else {
-                Logger::setMessage(get_called_class().' Proxy credentials: No');
+                Logger::setMessage(get_called_class() . ' Proxy credentials: Yes');
+                curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->proxy_username . ':' . $this->proxy_password);
+            } else {
+                Logger::setMessage(get_called_class() . ' Proxy credentials: No');
             }
         }
 
@@ -197,7 +191,7 @@ class Curl extends Client
     private function prepareAuthContext($ch)
     {
         if ($this->username && $this->password) {
-            curl_setopt($ch, CURLOPT_USERPWD, $this->username.':'.$this->password);
+            curl_setopt($ch, CURLOPT_USERPWD, $this->username . ':' . $this->password);
         }
 
         return $ch;
@@ -218,11 +212,10 @@ class Curl extends Client
         if ($this->isPassthroughEnabled()) {
             $write_function = 'passthroughBody';
             $header_function = 'passthroughHeaders';
-
         }
 
-        curl_setopt($ch, CURLOPT_WRITEFUNCTION, array($this, $write_function));
-        curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, $header_function));
+        curl_setopt($ch, CURLOPT_WRITEFUNCTION, [$this, $write_function]);
+        curl_setopt($ch, CURLOPT_HEADERFUNCTION, [$this, $header_function]);
 
         return $ch;
     }
@@ -276,16 +269,16 @@ class Curl extends Client
         $ch = $this->prepareContext();
         curl_exec($ch);
 
-        Logger::setMessage(get_called_class().' cURL total time: '.curl_getinfo($ch, CURLINFO_TOTAL_TIME));
-        Logger::setMessage(get_called_class().' cURL dns lookup time: '.curl_getinfo($ch, CURLINFO_NAMELOOKUP_TIME));
-        Logger::setMessage(get_called_class().' cURL connect time: '.curl_getinfo($ch, CURLINFO_CONNECT_TIME));
-        Logger::setMessage(get_called_class().' cURL speed download: '.curl_getinfo($ch, CURLINFO_SPEED_DOWNLOAD));
-        Logger::setMessage(get_called_class().' cURL effective url: '.curl_getinfo($ch, CURLINFO_EFFECTIVE_URL));
+        Logger::setMessage(get_called_class() . ' cURL total time: ' . curl_getinfo($ch, CURLINFO_TOTAL_TIME));
+        Logger::setMessage(get_called_class() . ' cURL dns lookup time: ' . curl_getinfo($ch, CURLINFO_NAMELOOKUP_TIME));
+        Logger::setMessage(get_called_class() . ' cURL connect time: ' . curl_getinfo($ch, CURLINFO_CONNECT_TIME));
+        Logger::setMessage(get_called_class() . ' cURL speed download: ' . curl_getinfo($ch, CURLINFO_SPEED_DOWNLOAD));
+        Logger::setMessage(get_called_class() . ' cURL effective url: ' . curl_getinfo($ch, CURLINFO_EFFECTIVE_URL));
 
         $curl_errno = curl_errno($ch);
 
         if ($curl_errno) {
-            Logger::setMessage(get_called_class().' cURL error: '.curl_error($ch));
+            Logger::setMessage(get_called_class() . ' cURL error: ' . curl_error($ch));
             curl_close($ch);
 
             $this->handleError($curl_errno);
@@ -315,20 +308,20 @@ class Curl extends Client
             return $this->handleRedirection($headers['Location']);
         }
 
-        return array(
+        return [
             'status' => $status,
             'body' => $this->body,
             'headers' => $headers
-        );
+        ];
     }
 
     /**
      * Check if the redirection have to be handled manually
      *
      * @access private
-     * @param  boolean    $follow_location    Flag
-     * @param  integer    $status             HTTP status code
-     * @return boolean
+     * @param  bool    $follow_location    Flag
+     * @param  int    $status             HTTP status code
+     * @return bool
      */
     private function needToHandleRedirection($follow_location, $status)
     {
@@ -345,15 +338,14 @@ class Curl extends Client
     private function handleRedirection($location)
     {
         $nb_redirects = 0;
-        $result = array();
+        $result = [];
         $this->url = Url::resolve($location, $this->url);
         $this->body = '';
         $this->body_length = 0;
-        $this->response_headers = array();
+        $this->response_headers = [];
         $this->response_headers_count = 0;
 
         while (true) {
-
             $nb_redirects++;
 
             if ($nb_redirects >= $this->max_redirects) {
@@ -366,10 +358,9 @@ class Curl extends Client
                 $this->url = Url::resolve($result['headers']['Location'], $this->url);
                 $this->body = '';
                 $this->body_length = 0;
-                $this->response_headers = array();
+                $this->response_headers = [];
                 $this->response_headers_count = 0;
-            }
-            else {
+            } else {
                 break;
             }
         }
@@ -385,7 +376,7 @@ class Curl extends Client
      *
      * @see    http://curl.haxx.se/libcurl/c/libcurl-errors.html
      * @access private
-     * @param  integer     $errno    cURL error code
+     * @param  int     $errno    cURL error code
      */
     private function handleError($errno)
     {

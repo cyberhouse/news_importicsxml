@@ -2,15 +2,14 @@
 
 namespace PicoFeed\Parser;
 
-use SimpleXMLElement;
-use PicoFeed\Filter\Filter;
 use PicoFeed\Client\Url;
+use PicoFeed\Filter\Filter;
+use SimpleXMLElement;
 
 /**
  * RSS 2.0 Parser
  *
  * @author  Frederic Guillot
- * @package Parser
  */
 class Rss20 extends Parser
 {
@@ -23,7 +22,7 @@ class Rss20 extends Parser
      */
     public function getItemsTree(SimpleXMLElement $xml)
     {
-        $items = array();
+        $items = [];
 
         if (isset($xml->channel->item)) {
             $items = $xml->channel->item;
@@ -197,8 +196,7 @@ class Rss20 extends Parser
         if (empty($item->author)) {
             if (isset($entry->author)) {
                 $item->author = (string) $entry->author;
-            }
-            else if (isset($xml->channel->webMaster)) {
+            } elseif (isset($xml->channel->webMaster)) {
                 $item->author = (string) $xml->channel->webMaster;
             }
         }
@@ -231,12 +229,12 @@ class Rss20 extends Parser
      */
     public function findItemUrl(SimpleXMLElement $entry, Item $item)
     {
-        $links = array(
+        $links = [
             XmlParser::getNamespaceValue($entry, $this->namespaces, 'origLink'),
             isset($entry->link) ? (string) $entry->link : '',
             XmlParser::getNamespaceValue($entry, $this->namespaces, 'link', 'href'),
             isset($entry->guid) ? (string) $entry->guid : '',
-        );
+        ];
 
         foreach ($links as $link) {
             $link = trim($link);
@@ -261,8 +259,7 @@ class Rss20 extends Parser
 
         if ($id) {
             $item->id = $this->generateId($id);
-        }
-        else {
+        } else {
             $item->id = $this->generateId(
                 $item->getTitle(), $item->getUrl(), $item->getContent()
             );
@@ -280,7 +277,6 @@ class Rss20 extends Parser
     public function findItemEnclosure(SimpleXMLElement $entry, Item $item, Feed $feed)
     {
         if (isset($entry->enclosure)) {
-
             $item->enclosure_url = XmlParser::getNamespaceValue($entry->enclosure, $this->namespaces, 'origEnclosureLink');
 
             if (empty($item->enclosure_url)) {

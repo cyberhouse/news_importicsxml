@@ -19,15 +19,14 @@ use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 class ImportJobTest extends UnitTestCase
 {
-
     protected $mockedJob;
 
     public function setUp()
     {
-        $logger = $this->getAccessibleMock('TYPO3\\CMS\\Core\\Log\\Logger', array('dummy'), array(), '', false);
+        $logger = $this->getAccessibleMock('TYPO3\\CMS\\Core\\Log\\Logger', ['dummy'], [], '', false);
 
-        $this->mockedJob = $this->getAccessibleMock('Cyberhouse\\NewsImporticsxml\\Jobs\\ImportJob', array('import'),
-            array(), '', false);
+        $this->mockedJob = $this->getAccessibleMock('Cyberhouse\\NewsImporticsxml\\Jobs\\ImportJob', ['import'],
+            [], '', false);
         $this->mockedJob->_set('logger', $logger);
     }
 
@@ -40,7 +39,7 @@ class ImportJobTest extends UnitTestCase
         $configuration->setFormat('xml');
         $this->mockedJob->_set('configuration', $configuration);
 
-        $xmlMapper = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Mapper\XmlMapper', array('map'));
+        $xmlMapper = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Mapper\XmlMapper', ['map']);
         $this->mockedJob->_set('xmlMapper', $xmlMapper);
 
         $xmlMapper->expects($this->once())->method('map');
@@ -57,7 +56,7 @@ class ImportJobTest extends UnitTestCase
         $configuration->setFormat('ics');
         $this->mockedJob->_set('configuration', $configuration);
 
-        $icsMapper = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Mapper\IcsMapper', array('map'));
+        $icsMapper = $this->getAccessibleMock('Cyberhouse\NewsImporticsxml\Mapper\IcsMapper', ['map']);
         $this->mockedJob->_set('icsMapper', $icsMapper);
 
         $icsMapper->expects($this->once())->method('map');

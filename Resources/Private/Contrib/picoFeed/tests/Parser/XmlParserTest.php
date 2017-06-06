@@ -5,7 +5,6 @@ use DOMDocument;
 
 use PHPUnit_Framework_TestCase;
 
-
 class XmlParserTest extends PHPUnit_Framework_TestCase
 {
     public function testEmpty()

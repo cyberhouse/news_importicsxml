@@ -17,7 +17,6 @@ namespace Cyberhouse\NewsImporticsxml\Mapper;
 use Cyberhouse\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use PicoFeed\Parser\Item;
 use PicoFeed\Reader\Reader;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class XmlMapper extends AbstractMapper implements MapperInterface
@@ -29,7 +28,7 @@ class XmlMapper extends AbstractMapper implements MapperInterface
      */
     public function map(TaskConfiguration $configuration)
     {
-        $data = array();
+        $data = [];
 
         $reader = new Reader();
         $resource = $reader->discover($configuration->getPath());
@@ -44,7 +43,7 @@ class XmlMapper extends AbstractMapper implements MapperInterface
 
         foreach ($items as $item) {
             /** @var Item $item */
-            $data[] = array(
+            $data[] = [
                 'import_source' => $this->getImportSource(),
                 'import_id' => $item->getId(),
                 'crdate' => $GLOBALS['EXEC_TIME'],
@@ -56,16 +55,16 @@ class XmlMapper extends AbstractMapper implements MapperInterface
                 'media' => $this->getRemoteFile($item->getEnclosureUrl(), $item->getEnclosureType(), $item->getId()),
                 'datetime' => $item->getDate()->getTimestamp(),
                 'categories' => $this->getCategories($item->xml, $configuration),
-                '_dynamicData' => array(
+                '_dynamicData' => [
                     'reference' => $item,
-                    'news_importicsxml' => array(
+                    'news_importicsxml' => [
                         'importDate' => date('d.m.Y h:i:s', $GLOBALS['EXEC_TIME']),
                         'feed' => $configuration->getPath(),
                         'url' => $item->getUrl(),
                         'guid' => $item->getTag('guid'),
-                    )
-                ),
-            );
+                    ]
+                ],
+            ];
         }
 
         return $data;
@@ -82,7 +81,6 @@ class XmlMapper extends AbstractMapper implements MapperInterface
 
         $media = [];
         if (!empty($url) && isset($extensions[$mimeType])) {
-
             $file = 'uploads/tx_newsimporticsxml/' . $id . '_' . md5($url) . '.' . $extensions[$mimeType];
             if (is_file(PATH_site . $file)) {
                 $status = true;
@@ -108,7 +106,7 @@ class XmlMapper extends AbstractMapper implements MapperInterface
      */
     protected function getCategories(\SimpleXMLElement $xml, TaskConfiguration $configuration)
     {
-        $categoryIds = $categoryTitles = array();
+        $categoryIds = $categoryTitles = [];
         $categories = $xml->category;
         if ($categories) {
             foreach ($categories as $cat) {
@@ -126,7 +124,6 @@ class XmlMapper extends AbstractMapper implements MapperInterface
                     } else {
                         $categoryIds[] = $categoryMapping[$title];
                     }
-
                 }
             }
         }
@@ -140,8 +137,8 @@ class XmlMapper extends AbstractMapper implements MapperInterface
      */
     protected function cleanup($content)
     {
-        $search = array('<br />', '<br>', '<br/>', LF . LF);
-        $replace = array(LF, LF, LF, LF);
+        $search = ['<br />', '<br>', '<br/>', LF . LF];
+        $replace = [LF, LF, LF, LF];
         $out = str_replace($search, $replace, $content);
         return $out;
     }
@@ -153,5 +150,4 @@ class XmlMapper extends AbstractMapper implements MapperInterface
     {
         return 'newsimporticsxml_xml';
     }
-
 }

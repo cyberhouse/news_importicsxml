@@ -2,15 +2,14 @@
 
 namespace PicoFeed\Syndication;
 
-use DomDocument;
 use DomAttr;
+use DomDocument;
 use DomElement;
 
 /**
  * Rss 2.0 writer class
  *
  * @author  Frederic Guillot
- * @package Syndication
  */
 class Rss20 extends Writer
 {
@@ -20,11 +19,11 @@ class Rss20 extends Writer
      * @access private
      * @var array
      */
-    private $required_feed_properties = array(
+    private $required_feed_properties = [
         'title',
         'site_url',
         'feed_url',
-    );
+    ];
 
     /**
      * List of required properties for each item
@@ -32,10 +31,10 @@ class Rss20 extends Writer
      * @access private
      * @var array
      */
-    private $required_item_properties = array(
+    private $required_item_properties = [
         'title',
         'url',
-    );
+    ];
 
     /**
      * Get the Rss 2.0 document
@@ -89,7 +88,9 @@ class Rss20 extends Writer
         $channel->appendChild($link);
 
         // <webMaster/>
-        if (isset($this->author)) $this->addAuthor($channel, 'webMaster', $this->author);
+        if (isset($this->author)) {
+            $this->addAuthor($channel, 'webMaster', $this->author);
+        }
 
         // <item/>
         foreach ($this->items as $item) {
@@ -102,8 +103,7 @@ class Rss20 extends Writer
 
         if ($filename) {
             $this->dom->save($filename);
-        }
-        else {
+        } else {
             return $this->dom->saveXML();
         }
     }
@@ -135,8 +135,7 @@ class Rss20 extends Writer
             $guid->setAttribute('isPermaLink', 'false');
             $guid->appendChild($this->dom->createTextNode($item['id']));
             $entry->appendChild($guid);
-        }
-        else {
+        } else {
             $guid = $this->dom->createElement('guid');
             $guid->setAttribute('isPermaLink', 'true');
             $guid->appendChild($this->dom->createTextNode($item['url']));
@@ -173,7 +172,7 @@ class Rss20 extends Writer
      *
      * @access public
      * @param  DomElement   $xml     XML node
-     * @param  integer      $value   Timestamp
+     * @param  int      $value   Timestamp
      */
     public function addPubDate(DomElement $xml, $value = 0)
     {
@@ -195,8 +194,12 @@ class Rss20 extends Writer
     {
         $value = '';
 
-        if (isset($values['email'])) $value .= $values['email'];
-        if ($value && isset($values['name'])) $value .= ' ('.$values['name'].')';
+        if (isset($values['email'])) {
+            $value .= $values['email'];
+        }
+        if ($value && isset($values['name'])) {
+            $value .= ' (' . $values['name'] . ')';
+        }
 
         if ($value) {
             $author = $this->dom->createElement($tag);

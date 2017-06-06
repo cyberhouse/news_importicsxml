@@ -1,8 +1,8 @@
 <?php
-return array(
-    'filter' => array(
-        '%.*%' => array(
-            '%alt="(.+)" */>%' => "/><br/>$1"
-        )
-    )
-);
+return [
+    'filter' => [
+        '%.*%' => [
+            '%alt="(.+)" */>%' => '/><br/>$1'
+        ]
+    ]
+];

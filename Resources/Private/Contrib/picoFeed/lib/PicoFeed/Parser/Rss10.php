@@ -8,7 +8,6 @@ use SimpleXMLElement;
  * RSS 1.0 parser
  *
  * @author  Frederic Guillot
- * @package Parser
  */
 class Rss10 extends Rss20
 {

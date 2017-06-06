@@ -6,7 +6,6 @@ namespace PicoFeed\Filter;
  * Filter class
  *
  * @author  Frederic Guillot
- * @package Filter
  */
 class Filter
 {
@@ -64,13 +63,11 @@ class Filter
         }
 
         do {
-
             $pos = strpos($data, '<?xml-stylesheet ');
 
             if ($pos !== false) {
                 $data = ltrim(substr($data, strpos($data, '?>') + 2));
             }
-
         } while ($pos !== false && $pos < 200);
 
         return $data;
@@ -86,7 +83,7 @@ class Filter
      */
     public static function stripHeadTags($data)
     {
-        return preg_replace('@<head[^>]*?>.*?</head>@siu','', $data );
+        return preg_replace('@<head[^>]*?>.*?</head>@siu', '', $data);
     }
 
     /**
@@ -116,13 +113,13 @@ class Filter
      */
     public static function normalizeData($data)
     {
-        $entities = array(
+        $entities = [
             '/(&#)(\d+);/m', // decimal encoded
             '/(&#x)([a-f0-9]+);/mi', // hex encoded
-        );
+        ];
 
         // strip invalid XML 1.0 characters which are encoded as entities
-        $data = preg_replace_callback($entities, function($matches) {
+        $data = preg_replace_callback($entities, function ($matches) {
             $code_point = $matches[2];
 
             // convert hex entity to decimal
@@ -141,7 +138,7 @@ class Filter
                 || $code_point > 1114111
             ) {
                 return '';
-            };
+            }
 
             return $matches[0];
         }, $data);

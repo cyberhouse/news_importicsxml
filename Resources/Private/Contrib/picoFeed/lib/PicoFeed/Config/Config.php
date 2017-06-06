@@ -6,7 +6,6 @@ namespace PicoFeed\Config;
  * Config class
  *
  * @author  Frederic Guillot
- * @package picofeed
  *
  * @method  \PicoFeed\Config\Config setClientTimeout(integer $value)
  * @method  \PicoFeed\Config\Config setClientUserAgent(string $value)
@@ -35,19 +34,19 @@ namespace PicoFeed\Config;
  * @method  \PicoFeed\Config\Config setFilterImageProxyCallback($closure)
  * @method  \PicoFeed\Config\Config setFilterImageProxyProtocol($value)
  *
- * @method  integer    getClientTimeout()
+ * @method  int    getClientTimeout()
  * @method  string     getClientUserAgent()
- * @method  integer    getMaxRedirections()
- * @method  integer    getMaxBodySize()
+ * @method  int    getMaxRedirections()
+ * @method  int    getMaxBodySize()
  * @method  string     getProxyHostname()
- * @method  integer    getProxyPort()
+ * @method  int    getProxyPort()
  * @method  string     getProxyUsername()
  * @method  string     getProxyPassword()
  * @method  string     getGrabberRulesFolder()
- * @method  integer    getGrabberTimeout()
+ * @method  int    getGrabberTimeout()
  * @method  string     getGrabberUserAgent()
  * @method  string     getParserHashAlgo()
- * @method  boolean    getContentFiltering(bool $default_value)
+ * @method  bool    getContentFiltering(bool $default_value)
  * @method  string     getTimezone()
  * @method  array      getFilterIframeWhitelist(array $default_value)
  * @method  array      getFilterIntegerAttributes(array $default_value)
@@ -70,7 +69,7 @@ class Config
      * @access private
      * @var array
      */
-    private $container = array();
+    private $container = [];
 
     /**
      * Magic method to have any kind of setters or getters
@@ -80,7 +79,7 @@ class Config
      * @param  array    $arguments   Method arguments
      * @return mixed
      */
-    public function __call($name , array $arguments)
+    public function __call($name, array $arguments)
     {
         $name = strtolower($name);
         $prefix = substr($name, 0, 3);
@@ -89,8 +88,7 @@ class Config
         if ($prefix === 'set' && isset($arguments[0])) {
             $this->container[$parameter] = $arguments[0];
             return $this;
-        }
-        else if ($prefix === 'get') {
+        } elseif ($prefix === 'get') {
             $default_value = isset($arguments[0]) ? $arguments[0] : null;
             return isset($this->container[$parameter]) ? $this->container[$parameter] : $default_value;
         }

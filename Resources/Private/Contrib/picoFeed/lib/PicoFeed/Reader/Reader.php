@@ -3,9 +3,9 @@
 namespace PicoFeed\Reader;
 
 use DOMXPath;
-use PicoFeed\Config\Config;
 use PicoFeed\Client\Client;
 use PicoFeed\Client\Url;
+use PicoFeed\Config\Config;
 use PicoFeed\Logging\Logger;
 use PicoFeed\Parser\XmlParser;
 
@@ -13,7 +13,6 @@ use PicoFeed\Parser\XmlParser;
  * Reader class
  *
  * @author  Frederic Guillot
- * @package Reader
  */
 class Reader
 {
@@ -23,13 +22,13 @@ class Reader
      * @access private
      * @var array
      */
-    private $formats = array(
+    private $formats = [
         'Atom' => '//feed',
         'Rss20' => '//rss[@version="2.0"]',
         'Rss92' => '//rss[@version="0.92"]',
         'Rss91' => '//rss[@version="0.91"]',
         'Rss10' => '//rdf',
-    );
+    ];
 
     /**
      * Config class instance
@@ -115,27 +114,24 @@ class Reader
      */
     public function find($url, $html)
     {
-        Logger::setMessage(get_called_class().': Try to discover subscriptions');
+        Logger::setMessage(get_called_class() . ': Try to discover subscriptions');
 
         $dom = XmlParser::getHtmlDocument($html);
         $xpath = new DOMXPath($dom);
-        $links = array();
+        $links = [];
 
-        $queries = array(
+        $queries = [
             '//link[@type="application/rss+xml"]',
             '//link[@type="application/atom+xml"]',
-        );
+        ];
 
         foreach ($queries as $query) {
-
             $nodes = $xpath->query($query);
 
             foreach ($nodes as $node) {
-
                 $link = $node->getAttribute('href');
 
                 if (! empty($link)) {
-
                     $feedUrl = new Url($link);
                     $siteUrl = new Url($url);
 
@@ -144,7 +140,7 @@ class Reader
             }
         }
 
-        Logger::setMessage(get_called_class().': '.implode(', ', $links));
+        Logger::setMessage(get_called_class() . ': ' . implode(', ', $links));
 
         return $links;
     }
@@ -166,7 +162,7 @@ class Reader
             throw new UnsupportedFeedFormatException('Unable to detect feed format');
         }
 
-        $className = '\PicoFeed\Parser\\'.$format;
+        $className = '\PicoFeed\Parser\\' . $format;
 
         $parser = new $className($content, $encoding, $url);
         $parser->setHashAlgo($this->config->getParserHashAlgo());
@@ -209,7 +205,7 @@ class Reader
     public function prependScheme($url)
     {
         if (! preg_match('%^https?://%', $url)) {
-           $url = 'http://' . $url;
+            $url = 'http://' . $url;
         }
 
         return $url;

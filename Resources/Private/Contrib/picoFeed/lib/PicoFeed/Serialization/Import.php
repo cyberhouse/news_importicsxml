@@ -2,16 +2,15 @@
 
 namespace PicoFeed\Serialization;
 
-use SimpleXmlElement;
-use StdClass;
 use PicoFeed\Logging\Logger;
 use PicoFeed\Parser\XmlParser;
+use SimpleXmlElement;
+use StdClass;
 
 /**
  * OPML Import
  *
  * @author  Frederic Guillot
- * @package Serialization
  */
 class Import
 {
@@ -29,7 +28,7 @@ class Import
      * @access private
      * @var array
      */
-    private $items = array();
+    private $items = [];
 
     /**
      * Constructor
@@ -50,17 +49,17 @@ class Import
      */
     public function execute()
     {
-        Logger::setMessage(get_called_class().': start importation');
+        Logger::setMessage(get_called_class() . ': start importation');
 
         $xml = XmlParser::getSimpleXml(trim($this->content));
 
         if ($xml === false || $xml->getName() !== 'opml' || ! isset($xml->body)) {
-            Logger::setMessage(get_called_class().': OPML tag not found or malformed XML document');
+            Logger::setMessage(get_called_class() . ': OPML tag not found or malformed XML document');
             return false;
         }
 
         $this->parseEntries($xml->body);
-        Logger::setMessage(get_called_class().': '.count($this->items).' subscriptions found');
+        Logger::setMessage(get_called_class() . ': ' . count($this->items) . ' subscriptions found');
 
         return $this->items;
     }
@@ -74,14 +73,10 @@ class Import
     public function parseEntries($tree)
     {
         if (isset($tree->outline)) {
-
             foreach ($tree->outline as $item) {
-
                 if (isset($item->outline)) {
                     $this->parseEntries($item);
-                }
-                else if ((isset($item['text']) || isset($item['title'])) && isset($item['xmlUrl'])) {
-
+                } elseif ((isset($item['text']) || isset($item['title'])) && isset($item['xmlUrl'])) {
                     $entry = new StdClass;
                     $entry->category = $this->findCategory($tree);
                     $entry->title = $this->findTitle($item);

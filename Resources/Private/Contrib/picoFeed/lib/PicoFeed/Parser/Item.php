@@ -6,7 +6,6 @@ namespace PicoFeed\Parser;
  * Feed Item
  *
  * @author  Frederic Guillot
- * @package Parser
  */
 class Item
 {
@@ -16,7 +15,7 @@ class Item
      * @access public
      * @var public
      */
-    public $rtl = array(
+    public $rtl = [
         'ar',  // Arabic (ar-**)
         'fa',  // Farsi (fa-**)
         'ur',  // Urdu (ur-**)
@@ -25,7 +24,7 @@ class Item
         'dv',  // Divehi (dv-**)
         'he',  // Hebrew (he-**)
         'yi',  // Yiddish (yi-**)
-    );
+    ];
 
     /**
      * Item id
@@ -113,7 +112,7 @@ class Item
      * @access public
      * @var array
      */
-    public $namespaces = array();
+    public $namespaces = [];
 
     /**
      * Get specific XML tag or attribute value
@@ -127,7 +126,7 @@ class Item
     {
         // Get namespaced value
         if (strpos($tag, ':') !== false) {
-            list(,$tag) = explode(':', $tag);
+            list(, $tag) = explode(':', $tag);
             return XmlParser::getNamespaceValue($this->xml, $this->namespaces, $tag, $attribute);
         }
 
@@ -150,13 +149,13 @@ class Item
     {
         $output = '';
 
-        foreach (array('id', 'title', 'url', 'language', 'author', 'enclosure_url', 'enclosure_type') as $property) {
-            $output .= 'Item::'.$property.' = '.$this->$property.PHP_EOL;
+        foreach (['id', 'title', 'url', 'language', 'author', 'enclosure_url', 'enclosure_type'] as $property) {
+            $output .= 'Item::' . $property . ' = ' . $this->$property . PHP_EOL;
         }
 
-        $output .= 'Item::date = '.$this->date->format(DATE_RFC822).PHP_EOL;
-        $output .= 'Item::isRTL() = '.($this->isRTL() ? 'true' : 'false').PHP_EOL;
-        $output .= 'Item::content = '.strlen($this->content).' bytes'.PHP_EOL;
+        $output .= 'Item::date = ' . $this->date->format(DATE_RFC822) . PHP_EOL;
+        $output .= 'Item::isRTL() = ' . ($this->isRTL() ? 'true' : 'false') . PHP_EOL;
+        $output .= 'Item::content = ' . strlen($this->content) . ' bytes' . PHP_EOL;
 
         return $output;
     }

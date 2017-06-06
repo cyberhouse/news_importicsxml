@@ -2,15 +2,14 @@
 
 namespace PicoFeed\Syndication;
 
+use DomAttr;
 use DomDocument;
 use DomElement;
-use DomAttr;
 
 /**
  * Atom writer class
  *
  * @author  Frederic Guillot
- * @package Syndication
  */
 class Atom extends Writer
 {
@@ -20,11 +19,11 @@ class Atom extends Writer
      * @access private
      * @var array
      */
-    private $required_feed_properties = array(
+    private $required_feed_properties = [
         'title',
         'site_url',
         'feed_url',
-    );
+    ];
 
     /**
      * List of required properties for each item
@@ -32,10 +31,10 @@ class Atom extends Writer
      * @access private
      * @var array
      */
-    private $required_item_properties = array(
+    private $required_item_properties = [
         'title',
         'url',
-    );
+    ];
 
     /**
      * Get the Atom document
@@ -80,7 +79,9 @@ class Atom extends Writer
         $this->addLink($feed, $this->feed_url, 'self', 'application/atom+xml');
 
         // <author/>
-        if (isset($this->author)) $this->addAuthor($feed, $this->author);
+        if (isset($this->author)) {
+            $this->addAuthor($feed, $this->author);
+        }
 
         // <entry/>
         foreach ($this->items as $item) {
@@ -92,8 +93,7 @@ class Atom extends Writer
 
         if ($filename) {
             $this->dom->save($filename);
-        }
-        else {
+        } else {
             return $this->dom->saveXML();
         }
     }
@@ -176,7 +176,7 @@ class Atom extends Writer
      *
      * @access public
      * @param  DomElement   $xml     XML node
-     * @param  integer      $value   Timestamp
+     * @param  int      $value   Timestamp
      */
     public function addUpdated(DomElement $xml, $value = 0)
     {

@@ -92,5 +92,4 @@ class ImportTask extends AbstractTask
         $languageService = $GLOBALS['LANG'];
         return $languageService->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:' . $key);
     }
-
 }

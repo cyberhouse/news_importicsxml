@@ -9,13 +9,12 @@ use PicoFeed\Parser\XmlParser;
  * Rule Parser
  *
  * @author  Frederic Guillot
- * @package Scraper
  */
 class RuleParser implements ParserInterface
 {
     private $dom;
     private $xpath;
-    private $rules = array();
+    private $rules = [];
 
     /**
      * Constructor
@@ -27,7 +26,7 @@ class RuleParser implements ParserInterface
     public function __construct($html, array $rules)
     {
         $this->rules = $rules;
-        $this->dom = XmlParser::getHtmlDocument('<?xml version="1.0" encoding="UTF-8">'.$html);
+        $this->dom = XmlParser::getHtmlDocument('<?xml version="1.0" encoding="UTF-8">' . $html);
         $this->xpath = new DOMXPath($this->dom);
     }
 
@@ -51,9 +50,7 @@ class RuleParser implements ParserInterface
     public function stripTags()
     {
         if (isset($this->rules['strip']) && is_array($this->rules['strip'])) {
-
             foreach ($this->rules['strip'] as $pattern) {
-
                 $nodes = $this->xpath->query($pattern);
 
                 if ($nodes !== false && $nodes->length > 0) {
@@ -75,9 +72,7 @@ class RuleParser implements ParserInterface
         $content = '';
 
         if (isset($this->rules['body']) && is_array($this->rules['body'])) {
-
             foreach ($this->rules['body'] as $pattern) {
-
                 $nodes = $this->xpath->query($pattern);
 
                 if ($nodes !== false && $nodes->length > 0) {

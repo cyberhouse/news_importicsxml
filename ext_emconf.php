@@ -1,6 +1,6 @@
 <?php
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'Import of ICS & XML to EXT:news',
     'description' => 'Import ICS & XML files via scheduler',
     'category' => 'backend',
@@ -13,12 +13,12 @@ $EM_CONF[$_EXTKEY] = array(
     'author_company' => 'ringer.it',
     'version' => '1.1.0',
     'constraints' =>
-        array(
-            'depends' => array(
+        [
+            'depends' => [
                 'typo3' => '6.2.0-8.5.99',
                 'news' => '3.2.0-5.5.99'
-            ),
-            'conflicts' => array(),
-            'suggests' => array(),
-        )
-);
+            ],
+            'conflicts' => [],
+            'suggests' => [],
+        ]
+];

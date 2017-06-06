@@ -26,5 +26,4 @@ class AbstractMapper
     {
         $this->logger = GeneralUtility::makeInstance('TYPO3\CMS\Core\Log\LogManager')->getLogger(__CLASS__);
     }
-
 }

@@ -23,5 +23,4 @@ class News extends \GeorgRinger\News\Domain\Model\News
     {
         $this->newsImportData = $newsImportData;
     }
-
 }

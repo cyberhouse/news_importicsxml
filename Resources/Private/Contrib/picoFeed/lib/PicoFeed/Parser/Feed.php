@@ -6,7 +6,6 @@ namespace PicoFeed\Parser;
  * Feed
  *
  * @author  Frederic Guillot
- * @package Parser
  */
 class Feed
 {
@@ -16,7 +15,7 @@ class Feed
      * @access public
      * @var array
      */
-    public $items = array();
+    public $items = [];
 
     /**
      * Feed id
@@ -100,16 +99,16 @@ class Feed
     {
         $output = '';
 
-        foreach (array('id', 'title', 'feed_url', 'site_url', 'language', 'description', 'logo') as $property) {
-            $output .= 'Feed::'.$property.' = '.$this->$property.PHP_EOL;
+        foreach (['id', 'title', 'feed_url', 'site_url', 'language', 'description', 'logo'] as $property) {
+            $output .= 'Feed::' . $property . ' = ' . $this->$property . PHP_EOL;
         }
 
-        $output .= 'Feed::date = '.$this->date->format(DATE_RFC822).PHP_EOL;
-        $output .= 'Feed::isRTL() = '.($this->isRTL() ? 'true' : 'false').PHP_EOL;
-        $output .= 'Feed::items = '.count($this->items).' items'.PHP_EOL;
+        $output .= 'Feed::date = ' . $this->date->format(DATE_RFC822) . PHP_EOL;
+        $output .= 'Feed::isRTL() = ' . ($this->isRTL() ? 'true' : 'false') . PHP_EOL;
+        $output .= 'Feed::items = ' . count($this->items) . ' items' . PHP_EOL;
 
         foreach ($this->items as $item) {
-            $output .= '----'.PHP_EOL;
+            $output .= '----' . PHP_EOL;
             $output .= $item;
         }
 

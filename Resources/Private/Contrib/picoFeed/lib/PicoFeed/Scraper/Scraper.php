@@ -15,7 +15,6 @@ use PicoFeed\Parser\XmlParser;
  * Scraper class
  *
  * @author  Frederic Guillot
- * @package Scraper
  */
 class Scraper
 {
@@ -55,7 +54,7 @@ class Scraper
      * Flag to enable candidates parsing
      *
      * @access private
-     * @var boolean
+     * @var bool
      */
     private $enableCandidateParser = true;
 
@@ -143,7 +142,7 @@ class Scraper
      * Return true if the scraper found relevant content
      *
      * @access public
-     * @return boolean
+     * @return bool
      */
     public function hasRelevantContent()
     {
@@ -202,7 +201,7 @@ class Scraper
      * Download the HTML content
      *
      * @access public
-     * @return boolean
+     * @return bool
      */
     public function download()
     {
@@ -214,7 +213,6 @@ class Scraper
             $this->encoding = '';
 
             try {
-
                 $client = Client::getInstance();
                 $client->setConfig($this->config);
                 $client->setTimeout($this->config->getGrabberTimeout());
@@ -226,9 +224,8 @@ class Scraper
                 $this->encoding = $client->getEncoding();
 
                 return true;
-            }
-            catch (ClientException $e) {
-                Logger::setMessage(get_called_class().': '.$e->getMessage());
+            } catch (ClientException $e) {
+                Logger::setMessage(get_called_class() . ': ' . $e->getMessage());
             }
         }
 
@@ -251,7 +248,7 @@ class Scraper
 
             if ($parser !== null) {
                 $this->content = $parser->execute();
-                Logger::setMessage(get_called_class().': Content length: '.strlen($this->content).' bytes');
+                Logger::setMessage(get_called_class() . ': Content length: ' . strlen($this->content) . ' bytes');
             }
         }
     }
@@ -260,14 +257,14 @@ class Scraper
      * Returns true if the parsing must be skipped
      *
      * @access public
-     * @return boolean
+     * @return bool
      */
     public function skipProcessing()
     {
-        $handlers = array(
+        $handlers = [
             'detectStreamingVideos',
             'detectPdfFiles',
-        );
+        ];
 
         foreach ($handlers as $handler) {
             if ($this->$handler()) {
@@ -276,7 +273,7 @@ class Scraper
         }
 
         if (empty($this->html)) {
-            Logger::setMessage(get_called_class().': Raw HTML is empty');
+            Logger::setMessage(get_called_class() . ': Raw HTML is empty');
             return true;
         }
 
@@ -295,22 +292,19 @@ class Scraper
         $rules = $ruleLoader->getRules($this->url);
 
         if (! empty($rules['grabber'])) {
-
-            Logger::setMessage(get_called_class().': Parse content with rules');
+            Logger::setMessage(get_called_class() . ': Parse content with rules');
 
             foreach ($rules['grabber'] as $pattern => $rule) {
-
                 $url = new Url($this->url);
                 $sub_url = $url->getFullPath();
 
                 if (preg_match($pattern, $sub_url)) {
-                    Logger::setMessage(get_called_class().': Matched url '.$sub_url);
+                    Logger::setMessage(get_called_class() . ': Matched url ' . $sub_url);
                     return new RuleParser($this->html, $rule);
                 }
             }
-        }
-        else if ($this->enableCandidateParser) {
-            Logger::setMessage(get_called_class().': Parse content with candidates');
+        } elseif ($this->enableCandidateParser) {
+            Logger::setMessage(get_called_class() . ': Parse content with candidates');
             return new CandidateParser($this->html);
         }
 
@@ -329,19 +323,19 @@ class Scraper
         $this->html = Encoding::convert($this->html, $html_encoding ?: $this->encoding);
         $this->html = Filter::stripHeadTags($this->html);
 
-        Logger::setMessage(get_called_class().': HTTP Encoding "'.$this->encoding.'" ; HTML Encoding "'.$html_encoding.'"');
+        Logger::setMessage(get_called_class() . ': HTTP Encoding "' . $this->encoding . '" ; HTML Encoding "' . $html_encoding . '"');
     }
 
     /**
      * Return the Youtube embed player and skip processing
      *
      * @access public
-     * @return boolean
+     * @return bool
      */
     public function detectStreamingVideos()
     {
         if (preg_match("#(?<=v=|v\/|vi=|vi\/|youtu.be\/)[a-zA-Z0-9_-]{11}#", $this->url, $matches)) {
-            $this->content = '<iframe width="560" height="315" src="//www.youtube.com/embed/'.$matches[0].'" frameborder="0"></iframe>';
+            $this->content = '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $matches[0] . '" frameborder="0"></iframe>';
             return true;
         }
 
@@ -352,7 +346,7 @@ class Scraper
      * Skip processing for PDF documents
      *
      * @access public
-     * @return boolean
+     * @return bool
      */
     public function detectPdfFiles()
     {
