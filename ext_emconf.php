@@ -2,7 +2,7 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Import of ICS & XML to EXT:news',
-    'description' => 'Import ICS & XML files via scheduler',
+    'description' => 'Versatile news import from ICS + XML (local files or remote URLs) including images and category mapping',
     'category' => 'backend',
     'author' => 'Georg Ringer',
     'author_email' => 'georg.ringer@GeorgRinger.at',

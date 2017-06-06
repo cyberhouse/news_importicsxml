@@ -16,7 +16,7 @@
 		}
 	],
 	"type": "typo3-cms-extension",
-	"description": "Versatile news import from ICS + XML",
+	"description": "Versatile news import from ICS + XML (local files or remote URLs) including images and category mapping",
 	"homepage": "http://ringer.it",
 	"license": [
 		"GPL-2.0+"
