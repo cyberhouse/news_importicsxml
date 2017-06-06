@@ -106,7 +106,6 @@ Create a custom extension and adopt the code snippets to your needs:
 		/**
 		 * @param array $importData
 		 * @param \GeorgRinger\News\Domain\Model\News $news
-		 * @return void
 		 */
 		public function postHydrate(array $importData, $news) {
 			if (is_array($importData['_dynamicData'])) {

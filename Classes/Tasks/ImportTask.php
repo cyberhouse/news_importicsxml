@@ -11,6 +11,8 @@ namespace GeorgRinger\NewsImporticsxml\Tasks;
 use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use GeorgRinger\NewsImporticsxml\Jobs\ImportJob;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Lang\LanguageService;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**
@@ -37,10 +39,9 @@ class ImportTask extends AbstractTask
     public function execute()
     {
         $success = true;
-        /** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
-        $objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        /** @var ObjectManager $objectManager */
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 
-        /** @var \GeorgRinger\NewsImporticsxml\Jobs\ImportJob $importJob */
         $importJob = $objectManager->get(ImportJob::class, $this->createConfiguration());
         $importJob->run();
 
@@ -81,7 +82,7 @@ class ImportTask extends AbstractTask
      */
     protected function translate($key)
     {
-        /** @var \TYPO3\CMS\Lang\LanguageService $languageService */
+        /** @var LanguageService $languageService */
         $languageService = $GLOBALS['LANG'];
         return $languageService->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:' . $key);
     }

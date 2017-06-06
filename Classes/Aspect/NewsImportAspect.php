@@ -2,13 +2,17 @@
 
 namespace GeorgRinger\NewsImporticsxml\Aspect;
 
-use GeorgRinger\NewsImporticsxml\Domain\Model\News;
-
 /**
  * This file is part of the "news_importicsxml" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
+ */
+
+use GeorgRinger\NewsImporticsxml\Domain\Model\News;
+
+/**
+ * Persist dynamic data of import
  */
 class NewsImportAspect
 {

@@ -8,13 +8,14 @@ namespace GeorgRinger\NewsImporticsxml\Mapper;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
+use TYPO3\CMS\Core\Log\Logger;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class AbstractMapper
 {
 
-    /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+    /** @var $logger Logger */
     protected $logger;
 
     public function __construct()

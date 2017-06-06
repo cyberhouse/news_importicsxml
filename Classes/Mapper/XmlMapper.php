@@ -10,6 +10,7 @@ namespace GeorgRinger\NewsImporticsxml\Mapper;
 use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use PicoFeed\Parser\Item;
 use PicoFeed\Reader\Reader;
+use SimpleXMLElement;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class XmlMapper extends AbstractMapper implements MapperInterface
@@ -93,11 +94,11 @@ class XmlMapper extends AbstractMapper implements MapperInterface
     }
 
     /**
-     * @param \SimpleXMLElement $xml
+     * @param SimpleXMLElement $xml
      * @param TaskConfiguration $configuration
      * @return array
      */
-    protected function getCategories(\SimpleXMLElement $xml, TaskConfiguration $configuration)
+    protected function getCategories(SimpleXMLElement $xml, TaskConfiguration $configuration)
     {
         $categoryIds = $categoryTitles = [];
         $categories = $xml->category;

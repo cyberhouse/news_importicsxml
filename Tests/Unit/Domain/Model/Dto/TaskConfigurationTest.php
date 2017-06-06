@@ -27,8 +27,6 @@ class TaskConfigurationTest extends UnitTestCase
 
     /**
      * Setup
-     *
-     * @return void
      */
     protected function setUp()
     {

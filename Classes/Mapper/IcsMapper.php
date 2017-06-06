@@ -29,7 +29,7 @@ class IcsMapper extends AbstractMapper implements MapperInterface
         $data = [];
         $path = $this->getFileContent($configuration);
 
-        GeneralUtility::requireOnce(ExtensionManagementUtility::extPath('news_importicsxml') . 'Resources/Private/Contrib/Ical.php');
+        require_once(ExtensionManagementUtility::extPath('news_importicsxml') . 'Resources/Private/Contrib/Ical.php');
         $iCalService = new ICal($path);
         $events = $iCalService->events();
 
@@ -94,7 +94,7 @@ class IcsMapper extends AbstractMapper implements MapperInterface
     {
         $path = $configuration->getPath();
         if (GeneralUtility::isFirstPartOfStr($path, 'http://') || GeneralUtility::isFirstPartOfStr($path, 'https://')) {
-            $content = $this->apiCall($path);
+            $content = $this->getContentOfFile($path);
 
             $temporaryCopyPath = PATH_site . 'typo3temp/' . md5($path . $GLOBALS['EXEC_TIME']);
             GeneralUtility::writeFileToTypo3tempDir($temporaryCopyPath, $content);
@@ -110,7 +110,7 @@ class IcsMapper extends AbstractMapper implements MapperInterface
         return $temporaryCopyPath;
     }
 
-    protected function apiCall($url)
+    protected function getContentOfFile($url)
     {
         $response = GeneralUtility::getUrl($url);
 

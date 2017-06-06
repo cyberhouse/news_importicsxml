@@ -10,6 +10,9 @@ namespace GeorgRinger\NewsImporticsxml\Domain\Model\Dto;
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/**
+ * Configuration of the import task
+ */
 class TaskConfiguration
 {
 
@@ -25,7 +28,7 @@ class TaskConfiguration
     /** @var string */
     protected $format;
 
-    /** @var string */
+    /** @var int */
     protected $pid;
 
     /**
@@ -93,7 +96,7 @@ class TaskConfiguration
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getPid()
     {
@@ -101,7 +104,7 @@ class TaskConfiguration
     }
 
     /**
-     * @param string $pid
+     * @param int $pid
      */
     public function setPid($pid)
     {
