@@ -1,12 +1,12 @@
 TYPO3 CMS Extension "news_importicsxml"
 =======================================
-This extensions provides an import interface for ``xml`` and ``ics`` files which can either be located on the same server or reached via URL.
+This extensions provides an import interface for `xml` and `ics` files which can either be located on the same server or reached via URL.
 The import is done by the scheduler.
 
 **Requirements**
 
-- TYPO3 CMS 6.2 LTS
-- EXT:news 3.2.0+
+- TYPO3 CMS 7.6, 8.7 LTS
+- EXT:news 6.0.0+
 
 **Sponsors**
 
@@ -26,6 +26,17 @@ Screenshots
 .. figure:: Resources/Public/Documentation/screenshot-import_ics.png
 		:alt: Metadata of an imported ICS item
 
+Installation
+------------
+
+**Installation using Composer**
+
+The recommended way to install the extension is by using composer. In your composer based TYPO3 project root, just do `composer require georgringer/news-importicsxml`.
+
+**Installation as extension from TYPO3 Extension Repository (TER)**
+
+Download and install the extension with the extension manager module.
+
 Configuration
 -------------
 After installing the extension, switch to the module **scheduler** and create a new task **Import news**.
@@ -37,7 +48,7 @@ Select either *XML* or *ICS* to import an ICS file or an XML file.
 
 Path
 """"
-Define a local path like ``fileadmin/data.xml`` or any URL like ``http://typo3.org/xml-feeds/rss.xml``.
+Define a local path like `fileadmin/data.xml` or any URL like `https://typo3.org/xml-feeds/rss.xml`.
 
 Page ID
 """""""
@@ -79,7 +90,7 @@ Further information
 
 Debugging
 ---------
-This extensions used the logging API of TYPO3 CMS. You can find some basic information in the log files (default **typo3temp/logs/typo3.log**).
+This extensions used the logging API of TYPO3 CMS. You can find some basic information in the log files (default `typo3temp/var/logs/typo3_****.log`).
 
 Extending the import
 --------------------
