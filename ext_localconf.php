@@ -12,9 +12,9 @@ call_user_func(
         ];
 
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\GeorgRinger\NewsImporticsxml\Tasks\ImportTask::class] = [
-            'extension' => $_EXTKEY,
-            'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xlf:task.name',
-            'description' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xlf:task.description',
+            'extension' => $extKey,
+            'title' => 'LLL:EXT:' . $extKey . '/Resources/Private/Language/locallang.xlf:task.name',
+            'description' => 'LLL:EXT:' . $extKey . '/Resources/Private/Language/locallang.xlf:task.description',
             'additionalFields' => \GeorgRinger\NewsImporticsxml\Tasks\ImportTaskAdditionalFieldProvider::class
         ];
 
@@ -24,7 +24,7 @@ call_user_func(
             \GeorgRinger\NewsImporticsxml\Aspect\NewsImportAspect::class,
             'postHydrate'
         );
-        $GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['classes']['Domain/Model/News'][] = $_EXTKEY;
+        $GLOBALS['TYPO3_CONF_VARS']['EXT']['news']['classes']['Domain/Model/News'][] = $extKey;
 
         spl_autoload_register(function ($class) {
             if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($class, 'PicoFeed')) {
