@@ -23,7 +23,7 @@
 	],
 	"require": {
 		"georgringer/news": "^6.0",
-		"typo3/cms-core": "^7.6.13,^8.6"
+		"typo3/cms-core": "^7.6.13 || >=8.5.0 <9"
 	},
 	"autoload": {
 		"psr-4": {
