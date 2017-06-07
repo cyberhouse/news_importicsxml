@@ -37,7 +37,8 @@ class XmlMapper extends AbstractMapper implements MapperInterface
 
         foreach ($items as $item) {
             /** @var Item $item */
-            $data[] = [
+
+            $singleItem = [
                 'import_source' => $this->getImportSource(),
                 'import_id' => $item->getId(),
                 'crdate' => $GLOBALS['EXEC_TIME'],
@@ -59,6 +60,12 @@ class XmlMapper extends AbstractMapper implements MapperInterface
                     ]
                 ],
             ];
+            if ($configuration->isPersistAsExternalUrl()) {
+                $singleItem['type'] = 2;
+                $singleItem['externalurl'] = $item->getUrl();
+            }
+
+            $data[] = $singleItem;
         }
 
         return $data;

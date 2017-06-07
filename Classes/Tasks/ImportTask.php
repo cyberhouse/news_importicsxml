@@ -36,6 +36,9 @@ class ImportTask extends AbstractTask
     /** @var int */
     public $pid;
 
+    /** @var int */
+    public $persistAsExternalUrl;
+
     public function execute()
     {
         $success = true;
@@ -72,6 +75,7 @@ class ImportTask extends AbstractTask
         $configuration->setMapping($this->mapping);
         $configuration->setFormat($this->format);
         $configuration->setPid($this->pid);
+        $configuration->setPersistAsExternalUrl($this->persistAsExternalUrl);
 
         return $configuration;
     }

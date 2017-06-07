@@ -31,7 +31,8 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
             'path' => ['type' => 'input'],
             'pid' => ['type' => 'input'],
             'mapping' => ['type' => 'textarea'],
-            'email' => ['type' => 'input', 'default' => $GLOBALS['BE_USER']->user['email']],
+//            'email' => ['type' => 'input', 'default' => $GLOBALS['BE_USER']->user['email']],
+            'persistAsExternalUrl' => ['type' => 'checkbox'],
         ];
 
         foreach ($fields as $field => $configuration) {
@@ -50,6 +51,10 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
             switch ($configuration['type']) {
                 case 'input':
                     $html = '<input class="form-control" type="text" name="tx_scheduler[' . $field . ']" id="' . $field . '" value="' . $value . '" size="30" />';
+                    break;
+                case 'checkbox':
+                    $checked = $value === '1' ? 'checked' : '';
+                    $html = '<input class="checkbox" type="checkbox" name="tx_scheduler[' . $field . ']" id="' . $field . '" value="1" ' . $checked .' />';
                     break;
                 case 'textarea':
                     $html = '<textarea class="form-control" name="tx_scheduler[' . $field . ']" id="' . $field . '">' . $value . '</textarea>';
@@ -98,6 +103,7 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
         $task->mapping = $submittedData['mapping'];
         $task->format = $submittedData['format'];
         $task->pid = $submittedData['pid'];
+        $task->persistAsExternalUrl = $submittedData['persistAsExternalUrl'];
     }
 
     /**

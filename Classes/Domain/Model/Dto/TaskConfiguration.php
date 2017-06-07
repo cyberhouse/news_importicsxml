@@ -31,6 +31,9 @@ class TaskConfiguration
     /** @var int */
     protected $pid;
 
+    /** @var bool */
+    protected $persistAsExternalUrl = false;
+
     /**
      * @return string
      */
@@ -109,6 +112,22 @@ class TaskConfiguration
     public function setPid($pid)
     {
         $this->pid = $pid;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPersistAsExternalUrl(): bool
+    {
+        return $this->persistAsExternalUrl;
+    }
+
+    /**
+     * @param bool $persistAsExternalUrl
+     */
+    public function setPersistAsExternalUrl(bool $persistAsExternalUrl)
+    {
+        $this->persistAsExternalUrl = $persistAsExternalUrl;
     }
 
     /**

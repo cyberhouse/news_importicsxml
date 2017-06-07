@@ -42,6 +42,9 @@
 			<trans-unit id="pid" xml:space="preserve">
 				<source>Page ID</source>
 			</trans-unit>
+			<trans-unit id="persistAsExternalUrl" xml:space="preserve">
+				<source>Persist article with type external page</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

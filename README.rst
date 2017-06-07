@@ -86,6 +86,10 @@ Add an email address which will get notified after each run.
 
 **Important**: This feature is not yet implemented!
 
+Persist article with type external page
+"""""""""""""""""""""""""""""""""""""""
+If set, the news article is saved with the type "External Url".
+
 Further information
 ^^^^^^^^^^^^^^^^^^^
 
