@@ -37,7 +37,6 @@ class XmlMapper extends AbstractMapper implements MapperInterface
 
         foreach ($items as $item) {
             /** @var Item $item */
-
             $singleItem = [
                 'import_source' => $this->getImportSource(),
                 'import_id' => $item->getId(),

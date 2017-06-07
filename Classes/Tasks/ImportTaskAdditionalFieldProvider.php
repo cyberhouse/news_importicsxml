@@ -54,7 +54,7 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
                     break;
                 case 'checkbox':
                     $checked = $value === '1' ? 'checked' : '';
-                    $html = '<input class="checkbox" type="checkbox" name="tx_scheduler[' . $field . ']" id="' . $field . '" value="1" ' . $checked .' />';
+                    $html = '<input class="checkbox" type="checkbox" name="tx_scheduler[' . $field . ']" id="' . $field . '" value="1" ' . $checked . ' />';
                     break;
                 case 'textarea':
                     $html = '<textarea class="form-control" name="tx_scheduler[' . $field . ']" id="' . $field . '">' . $value . '</textarea>';
