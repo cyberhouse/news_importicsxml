@@ -24,11 +24,7 @@ class NewsImportAspect
     {
         /** @var News $news */
         if (is_array($importData['_dynamicData']) && is_array($importData['_dynamicData']['news_importicsxml'])) {
-            $metaData = [];
-            foreach ($importData['_dynamicData']['news_importicsxml'] as $key => $value) {
-                $metaData[] = $key . ': ' . $value;
-            }
-            $news->setNewsImportData(implode(LF, $metaData));
+            $news->setNewsImportData(json_encode($importData['_dynamicData']['news_importicsxml']));
         }
     }
 }
