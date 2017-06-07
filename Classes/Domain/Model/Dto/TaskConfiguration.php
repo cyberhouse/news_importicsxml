@@ -117,7 +117,7 @@ class TaskConfiguration
     /**
      * @return bool
      */
-    public function isPersistAsExternalUrl(): bool
+    public function isPersistAsExternalUrl()
     {
         return $this->persistAsExternalUrl;
     }
@@ -125,9 +125,9 @@ class TaskConfiguration
     /**
      * @param bool $persistAsExternalUrl
      */
-    public function setPersistAsExternalUrl(bool $persistAsExternalUrl)
+    public function setPersistAsExternalUrl($persistAsExternalUrl)
     {
-        $this->persistAsExternalUrl = $persistAsExternalUrl;
+        $this->persistAsExternalUrl = (bool)$persistAsExternalUrl;
     }
 
     /**
