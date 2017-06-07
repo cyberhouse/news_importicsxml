@@ -11,7 +11,7 @@ $EM_CONF[$_EXTKEY] = [
     'createDirs' => '',
     'clearCacheOnLoad' => true,
     'author_company' => 'ringer.it',
-    'version' => '2.0.0',
+    'version' => '2.0.2',
     'constraints' =>
         [
             'depends' => [
