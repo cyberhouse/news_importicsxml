@@ -11,7 +11,8 @@ $fields = [
             'type' => 'text',
             'cols' => 60,
             'rows' => 20,
-            'renderType' => 'json',
+            'readOnly' => true,
+            '_renderType' => 'json',
         ]
     ]
 ];
