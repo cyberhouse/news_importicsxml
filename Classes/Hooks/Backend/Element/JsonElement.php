@@ -9,13 +9,11 @@ namespace GeorgRinger\NewsImporticsxml\Hooks\Backend\Element;
  * LICENSE.txt file that was distributed with this source code.
  */
 use TYPO3\CMS\Backend\Form\AbstractNode;
-use TYPO3\CMS\Backend\Form\NodeFactory;
 use TYPO3\CMS\Backend\Form\NodeInterface;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 
 class JsonElement extends AbstractNode implements NodeInterface
 {
-
     public function render()
     {
         $parameterArray = $this->data['parameterArray'];

@@ -5,12 +5,11 @@ if (!defined('TYPO3_MODE')) {
 
 call_user_func(
     function ($extKey) {
-
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1496812651] = array(
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1496812651] = [
             'nodeName' => 'json',
             'priority' => 40,
             'class' => \GeorgRinger\NewsImporticsxml\Hooks\Backend\Element\JsonElement::class
-        );
+        ];
 
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\GeorgRinger\NewsImporticsxml\Tasks\ImportTask::class] = [
             'extension' => $_EXTKEY,
@@ -34,7 +33,6 @@ call_user_func(
                 require_once($path);
             }
         });
-
     },
     $_EXTKEY
 );
