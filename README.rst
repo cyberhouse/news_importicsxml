@@ -10,7 +10,8 @@ The import is done by the scheduler.
 
 **Sponsors**
 
-- TUM (Technical University of Munich) http://tum.de/
+- Webconsulting https://webconsulting.at/
+- TUM (Technical University of Munich) https://www.tum.de/
 - Hochschule Darmstadt - University of Applied Sciences https://www.h-da.de/
 
 Screenshots
@@ -127,3 +128,5 @@ Create a custom extension and adopt the code snippets to your needs:
 			}
 		}
 	}
+
+
