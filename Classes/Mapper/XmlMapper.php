@@ -63,6 +63,10 @@ class XmlMapper extends AbstractMapper implements MapperInterface
                 $singleItem['type'] = 2;
                 $singleItem['externalurl'] = $item->getUrl();
             }
+			if ($configuration->isPersistAsInternalUrl()) {
+                $singleItem['type'] = 0;
+                $singleItem['externalurl'] = $item->getUrl();
+            }
 
             $data[] = $singleItem;
         }
