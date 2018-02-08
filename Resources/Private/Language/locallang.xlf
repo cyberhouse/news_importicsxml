@@ -42,8 +42,20 @@
 			<trans-unit id="pid" xml:space="preserve">
 				<source>Page ID</source>
 			</trans-unit>
+			<trans-unit id="persist" xml:space="preserve">
+				<source>Persist article?</source>
+			</trans-unit>
+			<trans-unit id="persist.persistAsExternalUrl" xml:space="preserve">
+				<source>with type external page</source>
+			</trans-unit>
+			<trans-unit id="persist.persistAsInternalUrl" xml:space="preserve">
+				<source>with type internal page</source>
+			</trans-unit>
 			<trans-unit id="persistAsExternalUrl" xml:space="preserve">
 				<source>Persist article with type external page</source>
+			</trans-unit>
+			<trans-unit id="persistAsInternalUrl" xml:space="preserve">
+				<source>Persist article with type internal page</source>
 			</trans-unit>
 		</body>
 	</file>
