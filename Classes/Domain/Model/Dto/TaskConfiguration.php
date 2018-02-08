@@ -33,7 +33,9 @@ class TaskConfiguration
 
     /** @var bool */
     protected $persistAsExternalUrl = false;
-
+	
+	/** @var bool */
+    protected $persistAsNormalUrl = false;
     /**
      * @return string
      */
@@ -128,6 +130,22 @@ class TaskConfiguration
     public function setPersistAsExternalUrl($persistAsExternalUrl)
     {
         $this->persistAsExternalUrl = (bool)$persistAsExternalUrl;
+    }
+	
+	    /**
+     * @return bool
+     */
+    public function isPersistAsNormalUrl()
+    {
+        return $this->persistAsNormalUrl;
+    }
+
+    /**
+     * @param bool $persistAsNormalUrl
+     */
+    public function setPersistAsNormalUrl($persistAsNormalUrl)
+    {
+        $this->persistAsNormalUrl = (bool)$persistAsNormalUrl;
     }
 
     /**
