@@ -42,7 +42,7 @@ class XmlMapper extends AbstractMapper implements MapperInterface
                 'import_id' => $item->getId(),
                 'crdate' => $GLOBALS['EXEC_TIME'],
                 'cruser_id' => $GLOBALS['BE_USER']->user['uid'],
-                'type' => 1,
+                'type' => 0,
                 'pid' => $configuration->getPid(),
                 'title' => $item->getTitle(),
                 'bodytext' => $this->cleanup($item->getContent()),
