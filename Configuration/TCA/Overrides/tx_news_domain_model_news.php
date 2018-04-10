@@ -12,7 +12,7 @@ $fields = [
             'cols' => 60,
             'rows' => 20,
             'readOnly' => true,
-            '_renderType' => 'json',
+            'renderType' => 'json',
         ]
     ]
 ];

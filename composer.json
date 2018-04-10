@@ -1,42 +1,42 @@
 {
-	"name": "georgringer/news-importicsxml",
-	"keywords": [
-		"TYPO3",
-		"extension",
-		"news",
-		"import",
-		"ics",
-		"xml"
-	],
-	"authors": [
-		{
-			"name": "Georg Ringer",
-			"role": "Developer",
-			"homepage": "http://ringer.it"
-		}
-	],
-	"type": "typo3-cms-extension",
-	"description": "Versatile news import from ICS + XML (local files or remote URLs) including images and category mapping",
-	"homepage": "http://ringer.it",
-	"license": [
-		"GPL-2.0+"
-	],
-	"require": {
-		"georgringer/news": "^6.0",
-		"typo3/cms-core": "^7.6.13 || >=8.5.0 <9"
-	},
-	"autoload": {
-		"psr-4": {
-			"GeorgRinger\\NewsImporticsxml\\": "Classes"
-		}
-	},
-	"autoload-dev": {
-		"psr-4": {
-			"GeorgRinger\\NewsImporticsxml\\Tests\\": "Tests"
-		}
-	},
-	"replace": {
-		"news_importicsxml": "self.version",
-		"typo3-ter/news-importicsxml": "self.version"
-	}
+  "name": "georgringer/news-importicsxml",
+  "keywords": [
+    "TYPO3",
+    "extension",
+    "news",
+    "import",
+    "ics",
+    "xml"
+  ],
+  "authors": [
+    {
+      "name": "Georg Ringer",
+      "role": "Developer",
+      "homepage": "http://ringer.it"
+    }
+  ],
+  "type": "typo3-cms-extension",
+  "description": "Versatile news import from ICS + XML (local files or remote URLs) including images and category mapping",
+  "homepage": "http://ringer.it",
+  "license": [
+    "GPL-2.0-or-later"
+  ],
+  "require": {
+    "georgringer/news": "^6.0 || ^7.0",
+    "typo3/cms-core": "^8.7 || ^9.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "GeorgRinger\\NewsImporticsxml\\": "Classes"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "GeorgRinger\\NewsImporticsxml\\Tests\\": "Tests"
+    }
+  },
+  "replace": {
+    "news_importicsxml": "self.version",
+    "typo3-ter/news-importicsxml": "self.version"
+  }
 }
