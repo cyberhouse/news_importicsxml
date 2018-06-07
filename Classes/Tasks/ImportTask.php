@@ -8,6 +8,7 @@ namespace GeorgRinger\NewsImporticsxml\Tasks;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
+
 use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use GeorgRinger\NewsImporticsxml\Jobs\ImportJob;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -42,7 +43,6 @@ class ImportTask extends AbstractTask
     public function execute()
     {
         $success = true;
-        /** @var ObjectManager $objectManager */
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 
         $importJob = $objectManager->get(ImportJob::class, $this->createConfiguration());
@@ -67,7 +67,7 @@ class ImportTask extends AbstractTask
     /**
      * @return TaskConfiguration
      */
-    protected function createConfiguration()
+    protected function createConfiguration(): TaskConfiguration
     {
         $configuration = new TaskConfiguration();
         $configuration->setEmail($this->email);
@@ -84,7 +84,7 @@ class ImportTask extends AbstractTask
      * @param string $key
      * @return string
      */
-    protected function translate($key)
+    protected function translate(string $key): string
     {
         /** @var LanguageService $languageService */
         $languageService = $GLOBALS['LANG'];

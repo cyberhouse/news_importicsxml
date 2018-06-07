@@ -1,4 +1,5 @@
 <?php
+
 namespace GeorgRinger\NewsImporticsxml\Jobs;
 
 /**
@@ -7,6 +8,7 @@ namespace GeorgRinger\NewsImporticsxml\Jobs;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
+
 use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use TYPO3\CMS\Core\Log\Logger;
 use TYPO3\CMS\Core\Log\LogManager;
@@ -83,7 +85,7 @@ class ImportJob
             default:
                 $message = sprintf('Format "%s" is not supported!', $this->configuration->getFormat());
                 $this->logger->critical($message);
-                throw new UnexpectedValueException($message);
+                throw new UnexpectedValueException($message, 1527601575);
         }
 
         $this->import($data);

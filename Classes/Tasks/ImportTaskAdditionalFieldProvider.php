@@ -1,4 +1,5 @@
 <?php
+
 namespace GeorgRinger\NewsImporticsxml\Tasks;
 
 use TYPO3\CMS\Core\Messaging\FlashMessage;
@@ -82,13 +83,30 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
     }
 
     /**
-     * @param array $submittedData
+     * @param array $data
      * @param SchedulerModuleController $parentObject
      * @return bool
      */
-    public function validateAdditionalFields(array &$submittedData, SchedulerModuleController $parentObject)
+    public function validateAdditionalFields(array &$data, SchedulerModuleController $parentObject)
     {
-        return $this->validate($submittedData, $parentObject);
+        $result = true;
+        if (!empty($data['email']) && !GeneralUtility::validEmail($data['email'])) {
+            $parentObject->addMessage($this->translate('msg.noEmail'), FlashMessage::ERROR);
+            $result = false;
+        }
+        if (empty($data['path'])) {
+            $parentObject->addMessage($this->translate('error.noValidPath'), FlashMessage::ERROR);
+            $result = false;
+        }
+        if (empty($data['format'])) {
+            $parentObject->addMessage($this->translate('error.noFormat'), FlashMessage::ERROR);
+            $result = false;
+        }
+        if ((int)($data['pid']) === 0) {
+            $parentObject->addMessage($this->translate('error.pid'), FlashMessage::ERROR);
+            $result = false;
+        }
+        return $result;
     }
 
     /**
@@ -112,37 +130,10 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
      * @param string $key
      * @return string
      */
-    protected function translate($key)
+    protected function translate(string $key): string
     {
         /** @var LanguageService $languageService */
         $languageService = $GLOBALS['LANG'];
         return $languageService->sL('LLL:EXT:news_importicsxml/Resources/Private/Language/locallang.xlf:' . $key);
-    }
-
-    /**
-     * @param array $data
-     * @param SchedulerModuleController $parentObject
-     * @return bool
-     */
-    protected function validate(array $data, SchedulerModuleController $parentObject)
-    {
-        $result = true;
-        if (!empty($data['email']) && !GeneralUtility::validEmail($data['email'])) {
-            $parentObject->addMessage($this->translate('msg.noEmail'), FlashMessage::ERROR);
-            $result = false;
-        }
-        if (empty($data['path'])) {
-            $parentObject->addMessage($this->translate('error.noValidPath'), FlashMessage::ERROR);
-            $result = false;
-        }
-        if (empty($data['format'])) {
-            $parentObject->addMessage($this->translate('error.noFormat'), FlashMessage::ERROR);
-            $result = false;
-        }
-        if ((int)($data['pid']) === 0) {
-            $parentObject->addMessage($this->translate('error.pid'), FlashMessage::ERROR);
-            $result = false;
-        }
-        return $result;
     }
 }

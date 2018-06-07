@@ -8,6 +8,7 @@ namespace GeorgRinger\NewsImporticsxml\Mapper;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
+
 use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use ICal;
 use RuntimeException;
@@ -29,11 +30,18 @@ class IcsMapper extends AbstractMapper implements MapperInterface
         $data = [];
         $path = $this->getFileContent($configuration);
 
+        $idCount = [];
+
         require_once(ExtensionManagementUtility::extPath('news_importicsxml') . 'Resources/Private/Contrib/Ical.php');
         $iCalService = new ICal($path);
         $events = $iCalService->events();
 
         foreach ($events as $event) {
+            if (!isset($idCount[$event['UID']])) {
+                $idCount[$event['UID']] = 1;
+            } else {
+                $idCount[$event['UID']]++;
+            }
             $datetime = $iCalService->iCalDateToUnixTimestamp($event['DTSTART']);
             if ($datetime === false) {
                 $datetime = $iCalService->iCalDateToUnixTimestamp($event['DTSTAMP']);
@@ -41,19 +49,23 @@ class IcsMapper extends AbstractMapper implements MapperInterface
 
             $data[] = [
                 'import_source' => $this->getImportSource(),
-                'import_id' => md5($event['UID']),
+                'import_id' => $event['UID'] . '-'. $idCount[$event['UID']],
                 'crdate' => $GLOBALS['EXEC_TIME'],
                 'cruser_id' => $GLOBALS['BE_USER']->user['uid'],
+                'type' => 0,
                 'pid' => $configuration->getPid(),
                 'title' => $this->cleanup($event['SUMMARY']),
                 'bodytext' => $this->cleanup($event['DESCRIPTION']),
                 'datetime' => $datetime,
+                'categories' => $this->getCategories((array)$event['CATEGORIES_array'], $configuration),
                 '_dynamicData' => [
                     'location' => $event['LOCATION'],
                     'datetime_end' => $iCalService->iCalDateToUnixTimestamp($event['DTEND']),
                     'news_importicsxml' => [
                         'importDate' => date('d.m.Y h:i:s', $GLOBALS['EXEC_TIME']),
                         'feed' => $configuration->getPath(),
+                        'UID' => $event['UID'],
+                        'VARIANT' => $idCount[$event['UID']],
                         'LOCATION' => $event['LOCATION'],
                         'DTSTART' => $event['DTSTART'],
                         'DTSTAMP' => $event['DTSTAMP'],
@@ -72,6 +84,32 @@ class IcsMapper extends AbstractMapper implements MapperInterface
         }
 
         return $data;
+    }
+
+    /**
+     * @param array $categoryTitles
+     * @param TaskConfiguration $configuration
+     * @return array
+     */
+    protected function getCategories(array $categoryTitles, TaskConfiguration $configuration): array
+    {
+        $categoryIds = [];
+        if (!empty($categoryTitles)) {
+            if (!$configuration->getMapping()) {
+                $this->logger->info('Categories found during import but no mapping assigned in the task!');
+            } else {
+                $categoryMapping = $configuration->getMappingConfigured();
+                foreach ($categoryTitles as $title) {
+                    if (!isset($categoryMapping[$title])) {
+                        $this->logger->warning(sprintf('Category mapping is missing for category "%s"', $title));
+                    } else {
+                        $categoryIds[] = $categoryMapping[$title];
+                    }
+                }
+            }
+        }
+
+        return $categoryIds;
     }
 
     /**
