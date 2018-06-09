@@ -5,8 +5,8 @@ The import is done by the scheduler.
 
 **Requirements**
 
-- TYPO3 CMS 7.6, 8.7 LTS
-- EXT:news 6.0.0+
+- TYPO3 CMS 8.7 LTS
+- EXT:news 7.0.0+
 
 **Sponsors**
 
@@ -26,6 +26,11 @@ Screenshots
 
 .. figure:: Resources/Public/Documentation/screenshot-import-ics.png
 		:alt: Metadata of an imported ics item
+
+Important information for Upgrade from 6.0 to 7.0
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The auto-generated ID for identifying an imported source has been changed for ICS files.
+If you import existing items again, those will be duplicated one time.
 
 Installation
 ------------
@@ -55,7 +60,7 @@ Page ID
 """""""
 Define a page id where the new records will be saved.
 
-Category mapping (XML only)
+Category mapping
 """""""""""""""""""""""""""
 A category mapping can be used to add categories to the news records based on categories found in the feed.
 
@@ -71,6 +76,44 @@ A typical feed item can look like this: ::
 		<category>Information</category>
 		<pubDate>Tue, 02 Jun 2015 16:54:00 +0200</pubDate>
 	</item>
+
+An ICS entry with a category can look like this: ::
+
+	BEGIN:VCALENDAR
+	PRODID:QIS-LSF HIS eG
+	VERSION:2.0
+	BEGIN:VTIMEZONE
+	TZID:Europe/Berlin
+	X-LIC-LOCATION:Europe/Berlin
+	BEGIN:DAYLIGHT
+	TZOFFSETFROM:+0100
+	TZOFFSETTO:+0200
+	TZNAME:CEST
+	DTSTART:19700329T020000
+	RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3
+	END:DAYLIGHT
+	BEGIN:STANDARD
+	TZOFFSETFROM:+0200
+	TZOFFSETTO:+0100
+	TZNAME:CET
+	DTSTART:19701025T030000
+	RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10
+	END:STANDARD
+	END:VTIMEZONE
+	METHOD:PUBLISH
+	BEGIN:VEVENT
+	DTSTART;TZID=Europe/Berlin:20171016T141500
+	DTEND;TZID=Europe/Berlin:20171016T154500
+	RRULE:FREQ=WEEKLY;UNTIL=20171211T235900Z;INTERVAL=2;BYDAY=MO
+	EXDATE;TZID=Europe/Berlin:
+	LOCATION:C12 - C12 / 024
+	DTSTAMP:20180216T113640Z
+	UID:52965155936
+	DESCRIPTION:
+	SUMMARY:MK.1890a - Finite Berechnungsverfahren  Praktikum (A-Zug) (Eufinger)
+	CATEGORIES:Praktikum
+	END:VEVENT
+	END:VCALENDAR
 
 A possible category mapping would look like this: ::
 
