@@ -22,6 +22,10 @@ class XmlMapper extends AbstractMapper implements MapperInterface
      */
     public function map(TaskConfiguration $configuration)
     {
+        if ($configuration->getCleanBeforeImport()) {
+            $this->removeImportedRecordsFromPid($configuration->getPid(), $this->getImportSource());
+        }
+
         $data = [];
 
         $reader = new Reader();

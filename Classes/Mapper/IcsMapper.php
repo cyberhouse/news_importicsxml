@@ -27,6 +27,10 @@ class IcsMapper extends AbstractMapper implements MapperInterface
      */
     public function map(TaskConfiguration $configuration)
     {
+        if ($configuration->getCleanBeforeImport()) {
+            $this->removeImportedRecordsFromPid($configuration->getPid(), $this->getImportSource());
+        }
+
         $data = [];
         $path = $this->getFileContent($configuration);
 

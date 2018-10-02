@@ -45,6 +45,9 @@
 			<trans-unit id="persistAsExternalUrl" xml:space="preserve">
 				<source>Persist article with type external page</source>
 			</trans-unit>
+			<trans-unit id="cleanBeforeImport" xml:space="preserve">
+				<source>Remove *ALL* imported records on same pid before importing</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

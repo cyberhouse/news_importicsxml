@@ -99,4 +99,5 @@ class ImportJob
         $this->logger->info(sprintf('Starting import of %s records', count($data)));
         $this->newsImportService->import($data);
     }
+
 }

@@ -34,6 +34,9 @@ class TaskConfiguration
     /** @var bool */
     protected $persistAsExternalUrl = false;
 
+    /** @var bool */
+    protected $cleanBeforeImport = false;
+
     /**
      * @return string
      */
@@ -128,6 +131,22 @@ class TaskConfiguration
     public function setPersistAsExternalUrl($persistAsExternalUrl)
     {
         $this->persistAsExternalUrl = (bool)$persistAsExternalUrl;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCleanBeforeImport()
+    {
+        return $this->cleanBeforeImport;
+    }
+
+    /**
+     * @param bool $cleanBeforeImport
+     */
+    public function setCleanBeforeImport($cleanBeforeImport)
+    {
+        $this->cleanBeforeImport = $cleanBeforeImport;
     }
 
     /**
