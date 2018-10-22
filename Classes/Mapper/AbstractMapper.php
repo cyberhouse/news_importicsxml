@@ -29,12 +29,8 @@ class AbstractMapper
     {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('tx_news_domain_model_news');
-        $connection->update(
+        $connection->delete(
             'tx_news_domain_model_news',
-            [
-                'deleted' => 1,
-                'tstamp' => $GLOBALS['EXEC_TIME'],
-            ],
             [
                 'deleted' => 0,
                 'pid' => $pid,
