@@ -2,6 +2,10 @@
 
 namespace GeorgRinger\NewsImporticsxml\Jobs;
 
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use GeorgRinger\NewsImporticsxml\Mapper\XmlMapper;
+use GeorgRinger\NewsImporticsxml\Mapper\IcsMapper;
+use GeorgRinger\News\Domain\Service\NewsImportService;
 /**
  * This file is part of the "news_importicsxml" Extension for TYPO3 CMS.
  *
@@ -33,25 +37,21 @@ class ImportJob
 
     /**
      * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-     * @inject
      */
     protected $objectManager;
 
     /**
      * @var \GeorgRinger\NewsImporticsxml\Mapper\XmlMapper
-     * @inject
      */
     protected $xmlMapper;
 
     /**
      * @var \GeorgRinger\NewsImporticsxml\Mapper\IcsMapper
-     * @inject
      */
     protected $icsMapper;
 
     /**
      * @var \GeorgRinger\News\Domain\Service\NewsImportService
-     * @inject
      */
     protected $newsImportService;
 
@@ -98,6 +98,26 @@ class ImportJob
     {
         $this->logger->info(sprintf('Starting import of %s records', count($data)));
         $this->newsImportService->import($data);
+    }
+
+    public function injectObjectManager(ObjectManagerInterface $objectManager): void
+    {
+        $this->objectManager = $objectManager;
+    }
+
+    public function injectXmlMapper(XmlMapper $xmlMapper): void
+    {
+        $this->xmlMapper = $xmlMapper;
+    }
+
+    public function injectIcsMapper(IcsMapper $icsMapper): void
+    {
+        $this->icsMapper = $icsMapper;
+    }
+
+    public function injectNewsImportService(NewsImportService $newsImportService): void
+    {
+        $this->newsImportService = $newsImportService;
     }
 
 }

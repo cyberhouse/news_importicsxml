@@ -1,6 +1,7 @@
 <?php
 namespace GeorgRinger\NewsImporticsxml\Mapper;
 
+use TYPO3\CMS\Core\Core\Environment;
 /**
  * This file is part of the "news_importicsxml" Extension for TYPO3 CMS.
  *
@@ -87,11 +88,11 @@ class XmlMapper extends AbstractMapper implements MapperInterface
         $media = [];
         if (!empty($url) && isset($extensions[$mimeType])) {
             $file = 'uploads/tx_newsimporticsxml/' . $id . '_' . md5($url) . '.' . $extensions[$mimeType];
-            if (is_file(PATH_site . $file)) {
+            if (is_file(Environment::getPublicPath() . $file)) {
                 $status = true;
             } else {
                 $content = GeneralUtility::getUrl($url);
-                $status = GeneralUtility::writeFile(PATH_site . $file, $content);
+                $status = GeneralUtility::writeFile(Environment::getPublicPath() . $file, $content);
             }
 
             if ($status) {

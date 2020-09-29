@@ -2,6 +2,7 @@
 
 namespace GeorgRinger\NewsImporticsxml\Mapper;
 
+use TYPO3\CMS\Core\Core\Environment;
 /**
  * This file is part of the "news_importicsxml" Extension for TYPO3 CMS.
  *
@@ -138,11 +139,11 @@ class IcsMapper extends AbstractMapper implements MapperInterface
         if (GeneralUtility::isFirstPartOfStr($path, 'http://') || GeneralUtility::isFirstPartOfStr($path, 'https://')) {
             $content = $this->getContentOfFile($path);
 
-            $temporaryCopyPath = PATH_site . 'typo3temp/' . md5($path . $GLOBALS['EXEC_TIME']);
+            $temporaryCopyPath = Environment::getPublicPath() . 'typo3temp/' . md5($path . $GLOBALS['EXEC_TIME']);
             GeneralUtility::writeFileToTypo3tempDir($temporaryCopyPath, $content);
             $this->pathIsModified = true;
         } else {
-            $temporaryCopyPath = PATH_site . $configuration->getPath();
+            $temporaryCopyPath = Environment::getPublicPath() . $configuration->getPath();
         }
 
         if (!is_file($temporaryCopyPath)) {
