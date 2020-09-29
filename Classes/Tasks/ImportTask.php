@@ -11,9 +11,9 @@ namespace GeorgRinger\NewsImporticsxml\Tasks;
 
 use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 use GeorgRinger\NewsImporticsxml\Jobs\ImportJob;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Lang\LanguageService;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**
@@ -45,7 +45,6 @@ class ImportTask extends AbstractTask
 
     public function execute()
     {
-        $success = true;
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 
         $importJob = $objectManager->get(ImportJob::class, $this->createConfiguration());
@@ -77,7 +76,7 @@ class ImportTask extends AbstractTask
         $configuration->setPath($this->path);
         $configuration->setMapping($this->mapping);
         $configuration->setFormat($this->format);
-        $configuration->setPid($this->pid);
+        $configuration->setPid((int)$this->pid);
         $configuration->setPersistAsExternalUrl($this->persistAsExternalUrl);
         $configuration->setCleanBeforeImport((bool)$this->cleanBeforeImport);
 

@@ -5,8 +5,8 @@ The import is done by the scheduler.
 
 **Requirements**
 
-- TYPO3 CMS 8.7 LTS
-- EXT:news 7.0.0+
+- TYPO3 CMS 9.5 LTS
+- EXT:news 8.0.0+
 
 **Sponsors**
 

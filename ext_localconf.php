@@ -4,7 +4,7 @@ if (!defined('TYPO3_MODE')) {
 }
 
 call_user_func(
-    function ($extKey) {
+    static function ($extKey) {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1496812651] = [
             'nodeName' => 'json',
             'priority' => 40,
@@ -34,5 +34,5 @@ call_user_func(
             }
         });
     },
-    $_EXTKEY
+    'news_importicsxml'
 );

@@ -1,13 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace GeorgRinger\NewsImporticsxml\Tasks;
 
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Lang\LanguageService;
-use TYPO3\CMS\Scheduler\AdditionalFieldProviderInterface;
+use TYPO3\CMS\Scheduler\AbstractAdditionalFieldProvider;
 use TYPO3\CMS\Scheduler\Controller\SchedulerModuleController;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
+use TYPO3\CMS\Scheduler\Task\Enumeration\Action;
 
 /**
  * This file is part of the "news_importicsxml" Extension for TYPO3 CMS.
@@ -15,7 +17,7 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
-class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterface
+class ImportTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvider
 {
 
     /**
@@ -36,19 +38,19 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
             'persistAsExternalUrl' => ['type' => 'checkbox'],
             'cleanBeforeImport' => ['type' => 'checkbox'],
         ];
-
+        $currentAction = $parentObject->getCurrentAction();
         foreach ($fields as $field => $configuration) {
             if (empty($taskInfo[$field])) {
-                if ($parentObject->CMD === 'add' && isset($configuration['default'])) {
+                if ($currentAction->equals(Action::ADD) && isset($configuration['default'])) {
                     $taskInfo[$field] = $configuration['default'];
-                } elseif ($parentObject->CMD === 'edit') {
+                } elseif ($currentAction->equals(Action::EDIT)) {
                     $taskInfo[$field] = $task->$field;
                 } else {
                     $taskInfo[$field] = '';
                 }
             }
 
-            $value = htmlspecialchars($taskInfo[$field]);
+            $value = htmlspecialchars((string)$taskInfo[$field]);
             $html = '';
             switch ($configuration['type']) {
                 case 'input':
@@ -92,19 +94,19 @@ class ImportTaskAdditionalFieldProvider implements AdditionalFieldProviderInterf
     {
         $result = true;
         if (!empty($data['email']) && !GeneralUtility::validEmail($data['email'])) {
-            $parentObject->addMessage($this->translate('msg.noEmail'), FlashMessage::ERROR);
+            $this->addMessage($this->translate('msg.noEmail'), FlashMessage::ERROR);
             $result = false;
         }
         if (empty($data['path'])) {
-            $parentObject->addMessage($this->translate('error.noValidPath'), FlashMessage::ERROR);
+            $this->addMessage($this->translate('error.noValidPath'), FlashMessage::ERROR);
             $result = false;
         }
         if (empty($data['format'])) {
-            $parentObject->addMessage($this->translate('error.noFormat'), FlashMessage::ERROR);
+            $this->addMessage($this->translate('error.noFormat'), FlashMessage::ERROR);
             $result = false;
         }
         if ((int)($data['pid']) === 0) {
-            $parentObject->addMessage($this->translate('error.pid'), FlashMessage::ERROR);
+            $this->addMessage($this->translate('error.pid'), FlashMessage::ERROR);
             $result = false;
         }
         return $result;

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace GeorgRinger\NewsImporticsxml\Mapper;
 
 /**
@@ -7,6 +9,7 @@ namespace GeorgRinger\NewsImporticsxml\Mapper;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
+
 use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
 
 interface MapperInterface
@@ -23,5 +26,5 @@ interface MapperInterface
      *
      * @return string
      */
-    public function getImportSource();
+    public function getImportSource(): string;
 }

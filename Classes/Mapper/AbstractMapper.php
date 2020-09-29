@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace GeorgRinger\NewsImporticsxml\Mapper;
 
 /**
@@ -25,7 +25,7 @@ class AbstractMapper
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
-    protected function removeImportedRecordsFromPid(int $pid, string $importSource)
+    protected function removeImportedRecordsFromPid(int $pid, string $importSource): void
     {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('tx_news_domain_model_news');

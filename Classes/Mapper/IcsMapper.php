@@ -1,21 +1,21 @@
 <?php
+declare(strict_types=1);
 
 namespace GeorgRinger\NewsImporticsxml\Mapper;
 
+use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use ICal;
+use RuntimeException;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * This file is part of the "news_importicsxml" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
-
-use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
-use ICal;
-use RuntimeException;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 class IcsMapper extends AbstractMapper implements MapperInterface
 {
 
@@ -42,10 +42,11 @@ class IcsMapper extends AbstractMapper implements MapperInterface
         $events = $iCalService->events();
 
         foreach ($events as $event) {
-            if (!isset($idCount[$event['UID']])) {
-                $idCount[$event['UID']] = 1;
+            $id = strlen($event['UID']) < 90 ? $event['UID'] : md5($event['UID']);
+            if (!isset($idCount[$id])) {
+                $idCount[$id] = 1;
             } else {
-                $idCount[$event['UID']]++;
+                $idCount[$id]++;
             }
             $datetime = $iCalService->iCalDateToUnixTimestamp($event['DTSTART']);
             if ($datetime === false) {
@@ -54,13 +55,14 @@ class IcsMapper extends AbstractMapper implements MapperInterface
 
             $data[] = [
                 'import_source' => $this->getImportSource(),
-                'import_id' => $event['UID'] . '-'. $idCount[$event['UID']],
+                'import_id' => $id . '-' . $idCount[$event['UID']],
                 'crdate' => $GLOBALS['EXEC_TIME'],
                 'cruser_id' => $GLOBALS['BE_USER']->user['uid'],
                 'type' => 0,
+                'hidden' => 0,
                 'pid' => $configuration->getPid(),
-                'title' => $this->cleanup($event['SUMMARY']),
-                'bodytext' => $this->cleanup($event['DESCRIPTION']),
+                'title' => $this->cleanup((string)$event['SUMMARY']),
+                'bodytext' => $this->cleanup((string)$event['DESCRIPTION']),
                 'datetime' => $datetime,
                 'categories' => $this->getCategories((array)$event['CATEGORIES_array'], $configuration),
                 '_dynamicData' => [
@@ -121,17 +123,17 @@ class IcsMapper extends AbstractMapper implements MapperInterface
      * @param string $content
      * @return string
      */
-    protected function cleanup($content)
+    protected function cleanup(string $content): string
     {
-        $search = ['\\,'];
-        $replace = [','];
+        $search = ['\\,', '\\n'];
+        $replace = [',', chr(10)];
 
         return str_replace($search, $replace, $content);
     }
 
     /**
      * @param TaskConfiguration $configuration
-     * @return array
+     * @return string
      */
     protected function getFileContent(TaskConfiguration $configuration)
     {
@@ -139,7 +141,7 @@ class IcsMapper extends AbstractMapper implements MapperInterface
         if (GeneralUtility::isFirstPartOfStr($path, 'http://') || GeneralUtility::isFirstPartOfStr($path, 'https://')) {
             $content = $this->getContentOfFile($path);
 
-            $temporaryCopyPath = Environment::getPublicPath() . 'typo3temp/' . md5($path . $GLOBALS['EXEC_TIME']);
+            $temporaryCopyPath = Environment::getPublicPath() . '/typo3temp/' . md5($path . $GLOBALS['EXEC_TIME']);
             GeneralUtility::writeFileToTypo3tempDir($temporaryCopyPath, $content);
             $this->pathIsModified = true;
         } else {
@@ -168,7 +170,7 @@ class IcsMapper extends AbstractMapper implements MapperInterface
     /**
      * @return string
      */
-    public function getImportSource()
+    public function getImportSource(): string
     {
         return 'newsimporticsxml_ics';
     }

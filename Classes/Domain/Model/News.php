@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace GeorgRinger\NewsImporticsxml\Domain\Model;
 
 /**
@@ -17,7 +17,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     /**
      * @return string
      */
-    public function getNewsImportData()
+    public function getNewsImportData(): string
     {
         return $this->newsImportData;
     }
@@ -25,7 +25,7 @@ class News extends \GeorgRinger\News\Domain\Model\News
     /**
      * @param string $newsImportData
      */
-    public function setNewsImportData($newsImportData)
+    public function setNewsImportData(string $newsImportData): void
     {
         $this->newsImportData = $newsImportData;
     }

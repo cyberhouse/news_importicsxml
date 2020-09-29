@@ -1,19 +1,21 @@
 <?php
+declare(strict_types=1);
+
 namespace GeorgRinger\NewsImporticsxml\Mapper;
 
+use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use PicoFeed\Parser\Item;
+use PicoFeed\Reader\Reader;
+use SimpleXMLElement;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * This file is part of the "news_importicsxml" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  */
-use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
-use PicoFeed\Parser\Item;
-use PicoFeed\Reader\Reader;
-use SimpleXMLElement;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 class XmlMapper extends AbstractMapper implements MapperInterface
 {
 
@@ -41,10 +43,11 @@ class XmlMapper extends AbstractMapper implements MapperInterface
         $items = $parser->execute()->getItems();
 
         foreach ($items as $item) {
+            $id = strlen($item->getId()) > 100 ? md5($item->getId()) : $item->getId();
             /** @var Item $item */
             $singleItem = [
                 'import_source' => $this->getImportSource(),
-                'import_id' => $item->getId(),
+                'import_id' => $id,
                 'crdate' => $GLOBALS['EXEC_TIME'],
                 'cruser_id' => $GLOBALS['BE_USER']->user['uid'],
                 'type' => 0,
@@ -141,18 +144,17 @@ class XmlMapper extends AbstractMapper implements MapperInterface
      * @param string $content
      * @return string
      */
-    protected function cleanup($content)
+    protected function cleanup($content): string
     {
         $search = ['<br />', '<br>', '<br/>', LF . LF];
         $replace = [LF, LF, LF, LF];
-        $out = str_replace($search, $replace, $content);
-        return $out;
+        return str_replace($search, $replace, $content);
     }
 
     /**
      * @return string
      */
-    public function getImportSource()
+    public function getImportSource(): string
     {
         return 'newsimporticsxml_xml';
     }

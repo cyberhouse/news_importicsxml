@@ -12,7 +12,7 @@
     {
       "name": "Georg Ringer",
       "role": "Developer",
-      "homepage": "http://ringer.it"
+      "homepage": "https://ringer.it"
     }
   ],
   "type": "typo3-cms-extension",
@@ -22,9 +22,9 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "georgringer/news": "^6.0 || ^7.0",
-    "typo3/cms-scheduler": "^8.7 || ^9.2",
-    "typo3/cms-core": "^8.7 || ^9.2"
+    "georgringer/news": "^8",
+    "typo3/cms-scheduler": "^9.5 || ^10.4",
+    "typo3/cms-core": "^9.5 || ^10.4"
   },
   "autoload": {
     "psr-4": {
@@ -37,7 +37,6 @@
     }
   },
   "replace": {
-    "news_importicsxml": "self.version",
     "typo3-ter/news-importicsxml": "self.version"
   }
 }
