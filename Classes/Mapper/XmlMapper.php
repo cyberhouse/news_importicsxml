@@ -91,11 +91,11 @@ class XmlMapper extends AbstractMapper implements MapperInterface
         $media = [];
         if (!empty($url) && isset($extensions[$mimeType])) {
             $file = 'uploads/tx_newsimporticsxml/' . $id . '_' . md5($url) . '.' . $extensions[$mimeType];
-            if (is_file(Environment::getPublicPath() . $file)) {
+            if (is_file(Environment::getPublicPath() . '/' . $file)) {
                 $status = true;
             } else {
                 $content = GeneralUtility::getUrl($url);
-                $status = GeneralUtility::writeFile(Environment::getPublicPath() . $file, $content);
+                $status = GeneralUtility::writeFile(Environment::getPublicPath() . '/' . $file, $content);
             }
 
             if ($status) {

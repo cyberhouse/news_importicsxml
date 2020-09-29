@@ -145,7 +145,7 @@ class IcsMapper extends AbstractMapper implements MapperInterface
             GeneralUtility::writeFileToTypo3tempDir($temporaryCopyPath, $content);
             $this->pathIsModified = true;
         } else {
-            $temporaryCopyPath = Environment::getPublicPath() . $configuration->getPath();
+            $temporaryCopyPath = Environment::getPublicPath() . '/' . $configuration->getPath();
         }
 
         if (!is_file($temporaryCopyPath)) {
