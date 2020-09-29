@@ -38,5 +38,10 @@
   },
   "replace": {
     "typo3-ter/news-importicsxml": "self.version"
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "news_importicsxml"
+    }
   }
 }
