@@ -10,6 +10,7 @@ namespace GeorgRinger\NewsImporticsxml\Mapper;
  */
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Core\Log\Logger;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -20,9 +21,15 @@ class AbstractMapper
     /** @var $logger Logger */
     protected $logger;
 
+    /** @var SlugHelper */
+    protected $slugHelper;
+
     public function __construct()
     {
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+        $fieldConfig = $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['path_segment']['config'];
+        $this->slugHelper = GeneralUtility::makeInstance(SlugHelper::class, 'tx_news_domain_model_news', 'path_segment', $fieldConfig);
+
     }
 
     protected function removeImportedRecordsFromPid(int $pid, string $importSource): void

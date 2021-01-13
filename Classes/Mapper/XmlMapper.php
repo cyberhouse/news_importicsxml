@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace GeorgRinger\NewsImporticsxml\Mapper;
 
 use GeorgRinger\NewsImporticsxml\Domain\Model\Dto\TaskConfiguration;
+use PicoFeed\Config\Config;
 use PicoFeed\Parser\Item;
 use PicoFeed\Reader\Reader;
 use SimpleXMLElement;
@@ -45,6 +46,7 @@ class XmlMapper extends AbstractMapper implements MapperInterface
         foreach ($items as $item) {
             $id = strlen($item->getId()) > 100 ? md5($item->getId()) : $item->getId();
             /** @var Item $item */
+
             $singleItem = [
                 'import_source' => $this->getImportSource(),
                 'import_id' => $id,
@@ -71,6 +73,9 @@ class XmlMapper extends AbstractMapper implements MapperInterface
             if ($configuration->isPersistAsExternalUrl()) {
                 $singleItem['type'] = 2;
                 $singleItem['externalurl'] = $item->getUrl();
+            }
+            if ($configuration->isSetSlug()) {
+                $singleItem['path_segment'] = $this->slugHelper->generate($singleItem, $configuration->getPid());
             }
 
             $data[] = $singleItem;

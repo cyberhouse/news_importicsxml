@@ -53,7 +53,7 @@ class IcsMapper extends AbstractMapper implements MapperInterface
                 $datetime = $iCalService->iCalDateToUnixTimestamp($event['DTSTAMP']);
             }
 
-            $data[] = [
+            $singleItem = [
                 'import_source' => $this->getImportSource(),
                 'import_id' => $id . '-' . $idCount[$event['UID']],
                 'crdate' => $GLOBALS['EXEC_TIME'],
@@ -85,6 +85,11 @@ class IcsMapper extends AbstractMapper implements MapperInterface
                     ]
                 ],
             ];
+
+            if ($configuration->isSetSlug()) {
+                $singleItem['path_segment'] = $this->slugHelper->generate($singleItem, $configuration->getPid());
+            }
+            $data[] = $singleItem;
         }
 
         if ($this->pathIsModified) {

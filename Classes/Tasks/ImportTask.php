@@ -43,6 +43,9 @@ class ImportTask extends AbstractTask
     /** @var int */
     public $cleanBeforeImport;
 
+    /** @var int */
+    public $setSlug;
+
     public function execute()
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
@@ -79,6 +82,7 @@ class ImportTask extends AbstractTask
         $configuration->setPid((int)$this->pid);
         $configuration->setPersistAsExternalUrl($this->persistAsExternalUrl);
         $configuration->setCleanBeforeImport((bool)$this->cleanBeforeImport);
+        $configuration->setSetSlug((bool)$this->setSlug);
 
         return $configuration;
     }

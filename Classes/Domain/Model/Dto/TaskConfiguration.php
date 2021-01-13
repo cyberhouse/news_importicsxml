@@ -37,6 +37,9 @@ class TaskConfiguration
     /** @var bool */
     protected $cleanBeforeImport = false;
 
+    /** @var bool */
+    protected $setSlug = false;
+
     /**
      * @return string
      */
@@ -148,6 +151,25 @@ class TaskConfiguration
     {
         $this->cleanBeforeImport = $cleanBeforeImport;
     }
+
+    /**
+     * @return bool
+     */
+    public function isSetSlug()
+    {
+        return $this->setSlug;
+    }
+
+    /**
+     * @param bool $setSlug
+     * @return TaskConfiguration
+     */
+    public function setSetSlug(bool $setSlug)
+    {
+        $this->setSlug = $setSlug;
+    }
+
+
 
     /**
      * Split the configuration from multiline to array

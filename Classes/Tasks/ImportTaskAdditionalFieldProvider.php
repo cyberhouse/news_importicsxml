@@ -37,6 +37,7 @@ class ImportTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvider
 //            'email' => ['type' => 'input', 'default' => $GLOBALS['BE_USER']->user['email']],
             'persistAsExternalUrl' => ['type' => 'checkbox'],
             'cleanBeforeImport' => ['type' => 'checkbox'],
+            'setSlug' => ['type' => 'checkbox'],
         ];
         $currentAction = $parentObject->getCurrentAction();
         foreach ($fields as $field => $configuration) {
@@ -126,6 +127,7 @@ class ImportTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvider
         $task->pid = $submittedData['pid'];
         $task->persistAsExternalUrl = $submittedData['persistAsExternalUrl'];
         $task->cleanBeforeImport = $submittedData['cleanBeforeImport'];
+        $task->setSlug = $submittedData['setSlug'];
     }
 
     /**
