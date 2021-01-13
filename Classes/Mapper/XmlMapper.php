@@ -32,7 +32,9 @@ class XmlMapper extends AbstractMapper implements MapperInterface
 
         $data = [];
 
-        $reader = new Reader();
+        $readerConfig = new Config();
+        $readerConfig->setContentFiltering(false);
+        $reader = new Reader($readerConfig);
         $resource = $reader->discover($configuration->getPath());
 
         $parser = $reader->getParser(
