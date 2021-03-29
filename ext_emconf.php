@@ -9,7 +9,7 @@ $EM_CONF['news_importicsxml'] = [
     'state' => 'beta',
     'clearCacheOnLoad' => true,
     'author_company' => 'ringer.it',
-    'version' => '4.0.0',
+    'version' => '5.0.0',
     'constraints' =>
         [
             'depends' => [
