@@ -22,9 +22,9 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "georgringer/news": "^8",
-    "typo3/cms-scheduler": "^9.5 || ^10.4",
-    "typo3/cms-core": "^10.4 || ^11.1"
+    "georgringer/news": "^8 || 9",
+    "typo3/cms-scheduler": "10.4 || ^11.5",
+    "typo3/cms-core": "^10.4 || ^11.5"
   },
   "autoload": {
     "psr-4": {
