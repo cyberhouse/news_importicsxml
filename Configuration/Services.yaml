@@ -6,3 +6,8 @@ services:
 
   GeorgRinger\NewsImporticsxml\:
     resource: '../Classes/*'
+
+  GeorgRinger\NewsImporticsxml\Command\ImportCommand:
+    tags:
+      - name: 'console.command'
+        command: 'news:importicsxml'

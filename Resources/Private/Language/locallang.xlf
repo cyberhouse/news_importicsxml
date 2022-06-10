@@ -28,7 +28,7 @@
 				<source>Email for notifications</source>
 			</trans-unit>
 			<trans-unit id="format" xml:space="preserve">
-				<source>Format</source>
+				<source>Format, can either be XML or ICS</source>
 			</trans-unit>
 			<trans-unit id="format.xml" xml:space="preserve">
 				<source>XML</source>
