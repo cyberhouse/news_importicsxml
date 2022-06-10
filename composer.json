@@ -22,7 +22,7 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "georgringer/news": "^8.6 || ^9",
+    "georgringer/news": "^8.6 || ^9 || ^10",
     "typo3/cms-scheduler": "^10.4 || ^11.5",
     "typo3/cms-core": "^10.4 || ^11.5"
   },

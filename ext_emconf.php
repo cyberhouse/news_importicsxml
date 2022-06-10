@@ -9,7 +9,7 @@ $EM_CONF[$_EXTKEY] = [
     'state' => 'beta',
     'clearCacheOnLoad' => true,
     'author_company' => 'ringer.it',
-    'version' => '5.0.0',
+    'version' => '5.1.0',
     'constraints' =>
         [
             'depends' => [
