@@ -110,7 +110,7 @@ class XmlMapper extends AbstractMapper implements MapperInterface
                 }
                 if ($status) {
 
-                    if (in_array($extensions[$mimeType], ['gif', 'jpeg', 'jpg'], true)) {
+                    if (in_array($extensions[$mimeType], ['gif', 'jpeg', 'jpg', 'png'], true)) {
                         $singleItem['media'][] = [
                             'image' => $file,
                             'showinpreview' => true
