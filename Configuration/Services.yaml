@@ -11,3 +11,9 @@ services:
     tags:
       - name: 'console.command'
         command: 'news:importicsxml'
+
+  GeorgRinger\NewsImporticsxml\EventListener\NewsImportListener:
+    tags:
+      - name: event.listener
+        identifier: 'newsimporticsxml-newsimportlistener'
+        event: GeorgRinger\News\Event\NewsImportPostHydrateEvent
