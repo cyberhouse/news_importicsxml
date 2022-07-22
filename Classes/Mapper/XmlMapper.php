@@ -72,7 +72,7 @@ class XmlMapper extends AbstractMapper implements MapperInterface
                     ]
                 ],
             ];
-            $this->addRemoteFiles($singleItem, $item->xml);
+            $this->addRemoteFiles($singleItem, $item->xml, $id);
             if ($configuration->isPersistAsExternalUrl()) {
                 $singleItem['type'] = 2;
                 $singleItem['externalurl'] = $item->getUrl();
@@ -86,9 +86,10 @@ class XmlMapper extends AbstractMapper implements MapperInterface
         return $data;
     }
 
-    protected function addRemoteFiles(array &$singleItem, \SimpleXMLElement $xml)
+    protected function addRemoteFiles(array &$singleItem, \SimpleXMLElement $xml, string $id)
     {
         $extensions = [
+            'image/jpg' => 'jpg',
             'image/jpeg' => 'jpg',
             'image/gif' => 'gif',
             'image/png' => 'png',
