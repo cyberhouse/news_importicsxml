@@ -87,7 +87,7 @@ class IcsMapper extends AbstractMapper implements MapperInterface
             ];
 
             if ($configuration->isSetSlug()) {
-                $singleItem['path_segment'] = $this->slugHelper->generate($singleItem, $configuration->getPid());
+                $singleItem['path_segment'] = $this->generateSlug($singleItem, $configuration->getPid());
             }
             $data[] = $singleItem;
         }

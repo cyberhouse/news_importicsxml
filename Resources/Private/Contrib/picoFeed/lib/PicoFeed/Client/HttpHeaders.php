@@ -22,21 +22,25 @@ class HttpHeaders implements ArrayAccess
         }
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->headers[strtolower($offset)];
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->headers[strtolower($offset)] = $value;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->headers[strtolower($offset)]);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->headers[strtolower($offset)]);

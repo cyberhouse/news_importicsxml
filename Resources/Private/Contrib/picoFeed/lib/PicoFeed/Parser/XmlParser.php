@@ -63,7 +63,7 @@ class XmlParser
                 return false;
             }
         } else {
-            $entityLoaderDisabled = libxml_disable_entity_loader(true);
+            $entityLoaderDisabled = @libxml_disable_entity_loader(true);
         }
 
         libxml_use_internal_errors(true);
@@ -80,7 +80,7 @@ class XmlParser
         }
 
         if ($isRunningFpm === false) {
-            libxml_disable_entity_loader($entityLoaderDisabled);
+            @libxml_disable_entity_loader($entityLoaderDisabled);
         }
 
         return $dom;

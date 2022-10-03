@@ -53,7 +53,7 @@ class XmlMapper extends AbstractMapper implements MapperInterface
                 'import_source' => $this->getImportSource(),
                 'import_id' => $id,
                 'crdate' => $GLOBALS['EXEC_TIME'],
-                'cruser_id' => $GLOBALS['BE_USER']->user['uid'],
+                'cruser_id' => isset($GLOBALS['BE_USER'], $GLOBALS['BE_USER']->user) ? $GLOBALS['BE_USER']->user['uid'] : 0,
                 'type' => 0,
                 'hidden' => 0,
                 'pid' => $configuration->getPid(),
@@ -78,7 +78,7 @@ class XmlMapper extends AbstractMapper implements MapperInterface
                 $singleItem['externalurl'] = $item->getUrl();
             }
             if ($configuration->isSetSlug()) {
-                $singleItem['path_segment'] = $this->slugHelper->generate($singleItem, $configuration->getPid());
+                $singleItem['path_segment'] = $this->generateSlug($singleItem, $configuration->getPid());
             }
 
             $data[] = $singleItem;

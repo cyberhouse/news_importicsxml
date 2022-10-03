@@ -120,14 +120,14 @@ class ImportTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvider
     public function saveAdditionalFields(array $submittedData, AbstractTask $task)
     {
         /** @var ImportTask $task */
-        $task->email = $submittedData['email'];
-        $task->path = $submittedData['path'];
-        $task->mapping = $submittedData['mapping'];
-        $task->format = $submittedData['format'];
-        $task->pid = $submittedData['pid'];
-        $task->persistAsExternalUrl = $submittedData['persistAsExternalUrl'];
-        $task->cleanBeforeImport = $submittedData['cleanBeforeImport'];
-        $task->setSlug = $submittedData['setSlug'];
+        $task->email = $submittedData['email'] ?? '';
+        $task->path = $submittedData['path'] ?? '';
+        $task->mapping = $submittedData['mapping'] ?? '';
+        $task->format = $submittedData['format'] ?? '';
+        $task->pid = $submittedData['pid'] ?? 0;
+        $task->persistAsExternalUrl = $submittedData['persistAsExternalUrl'] ?? false;
+        $task->cleanBeforeImport = $submittedData['cleanBeforeImport'] ?? false;
+        $task->setSlug = $submittedData['setSlug'] ?? false;
     }
 
     /**

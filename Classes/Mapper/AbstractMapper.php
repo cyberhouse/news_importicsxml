@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace GeorgRinger\NewsImporticsxml\Mapper;
 
 /**
@@ -10,6 +11,7 @@ namespace GeorgRinger\NewsImporticsxml\Mapper;
  */
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\DataHandling\Model\RecordStateFactory;
 use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Core\Log\Logger;
 use TYPO3\CMS\Core\Log\LogManager;
@@ -29,7 +31,27 @@ class AbstractMapper
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
         $fieldConfig = $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['path_segment']['config'];
         $this->slugHelper = GeneralUtility::makeInstance(SlugHelper::class, 'tx_news_domain_model_news', 'path_segment', $fieldConfig);
+    }
 
+    protected function generateSlug(array $fullRecord, int $pid)
+    {
+        $value = $this->slugHelper->generate($fullRecord, $pid);
+
+        $state = RecordStateFactory::forName('tx_news_domain_model_news')
+            ->fromArray($fullRecord, $pid, 0);
+        $tcaFieldConf = $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['path_segment']['config'];
+        $evalCodesArray = GeneralUtility::trimExplode(',', $tcaFieldConf['eval'], true);
+        if (in_array('unique', $evalCodesArray, true)) {
+            $value = $this->slugHelper->buildSlugForUniqueInTable($value, $state);
+        }
+        if (in_array('uniqueInSite', $evalCodesArray, true)) {
+            $value = $this->slugHelper->buildSlugForUniqueInSite($value, $state);
+        }
+        if (in_array('uniqueInPid', $evalCodesArray, true)) {
+            $value = $this->slugHelper->buildSlugForUniqueInPid($value, $state);
+        }
+
+        return $value;
     }
 
     protected function removeImportedRecordsFromPid(int $pid, string $importSource): void
@@ -41,7 +63,7 @@ class AbstractMapper
             [
                 'deleted' => 0,
                 'pid' => $pid,
-                'import_source' => $importSource
+                'import_source' => $importSource,
             ]
         );
     }
